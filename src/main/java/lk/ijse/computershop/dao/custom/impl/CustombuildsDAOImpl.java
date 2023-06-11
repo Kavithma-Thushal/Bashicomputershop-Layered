@@ -1,40 +1,21 @@
 package lk.ijse.computershop.dao.custom.impl;
 
 import lk.ijse.computershop.dao.custom.CustombuildsDAO;
-import lk.ijse.computershop.dao.custom.impl.util.SQLUtil;
 import lk.ijse.computershop.entity.Custombuilds;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 public class CustombuildsDAOImpl implements CustombuildsDAO {
 
     @Override
-    public int save(Custombuilds entity) throws SQLException {
-        String sql = "INSERT INTO custombuilds(code, customerId, employeeId) VALUES(?, ? ,?)";
-        return SQLUtil.execute(sql, entity.getCode(), entity.getCustomerId(), entity.getEmployeeId());
+    public List<Custombuilds> loadAll() throws SQLException {
+        return null;
     }
 
     @Override
-    public String generateNextId() throws SQLException {
-        String sql = "SELECT code FROM custombuilds ORDER BY code DESC LIMIT 1";
-        ResultSet resultSet = SQLUtil.execute(sql);
-
-        if (resultSet.next()) {
-            return splitBuildCode(resultSet.getString(1));
-        }
-        return splitBuildCode(null);
-    }
-
-    private String splitBuildCode(String currentId) {
-        if (currentId != null) {
-            String[] strings = currentId.split("B");
-            int id = Integer.parseInt(strings[1]);
-            id++;
-            return "B" + String.format("%02d", id);
-        }
-        return "B01";
+    public int save(Custombuilds entity) throws SQLException {
+        return 0;
     }
 
     @Override
@@ -53,7 +34,7 @@ public class CustombuildsDAOImpl implements CustombuildsDAO {
     }
 
     @Override
-    public List<Custombuilds> loadAll() throws SQLException {
+    public String generateNextId() throws SQLException {
         return null;
     }
 }

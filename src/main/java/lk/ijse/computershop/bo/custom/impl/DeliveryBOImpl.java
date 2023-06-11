@@ -1,68 +1,47 @@
 package lk.ijse.computershop.bo.custom.impl;
 
 import lk.ijse.computershop.bo.custom.DeliveryBO;
-import lk.ijse.computershop.dao.DAOFactory;
-import lk.ijse.computershop.dao.custom.CustomerDAO;
-import lk.ijse.computershop.dao.custom.DeliveryDAO;
-import lk.ijse.computershop.dao.custom.EmployeeDAO;
-import lk.ijse.computershop.dao.custom.impl.OrdersDAOImpl;
 import lk.ijse.computershop.dto.CustomerDTO;
 import lk.ijse.computershop.dto.DeliveryDTO;
 import lk.ijse.computershop.dto.EmployeeDTO;
-import lk.ijse.computershop.entity.Customer;
-import lk.ijse.computershop.entity.Delivery;
-import lk.ijse.computershop.entity.Employee;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DeliveryBOImpl implements DeliveryBO {
 
-    private CustomerDAO customerDAO = DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
-    private EmployeeDAO employeeDAO = DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
-    private OrdersDAOImpl ordersDAO = DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.ORDERS);
-    private DeliveryDAO deliveryDAO = DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.DELIVERY);
-
     @Override
     public List<DeliveryDTO> loadAllDelivers() throws SQLException {
-        List<DeliveryDTO> deliveryList = new ArrayList<>();
-        List<Delivery> list = deliveryDAO.loadAll();
-        for (Delivery d : list) {
-            deliveryList.add(new DeliveryDTO(d.getCode(),d.getCustomerId(),d.getEmployeeId(),d.getOrderId(),d.getLocation(),d.getDate()));
-        }
-        return deliveryList;
+        return null;
     }
 
     @Override
     public String generateNextDeliverCode() throws SQLException {
-        return deliveryDAO.generateNextId();
+        return null;
     }
 
     @Override
     public List<String> loadCustomerIds() throws SQLException {
-        return customerDAO.loadCustomerIds();
-    }
-
-    @Override
-    public CustomerDTO searchByCustomerId(String customerId) throws SQLException {
-        Customer customer = customerDAO.searchByCustomerId(customerId);
-        return new CustomerDTO(customer.getId(), customer.getName(), customer.getNic(), customer.getEmail(), customer.getContact(), customer.getAddress());
+        return null;
     }
 
     @Override
     public List<String> loadEmployeeIds() throws SQLException {
-        return employeeDAO.loadEmployeeIds();
-    }
-
-    @Override
-    public EmployeeDTO searchByEmployeeId(String employeeId) throws SQLException {
-        Employee e=employeeDAO.searchByEmployeeId(employeeId);
-        return new EmployeeDTO(e.getId(),e.getName(),e.getContact(),e.getJobRole(),e.getUsername(),e.getPassword());
+        return null;
     }
 
     @Override
     public List<String> loadOrderIds() throws SQLException {
-        return ordersDAO.loadOrderIds();
+        return null;
+    }
+
+    @Override
+    public CustomerDTO searchByCustomerId(String customerId) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public EmployeeDTO searchByEmployeeId(String employeeId) throws SQLException {
+        return null;
     }
 }
