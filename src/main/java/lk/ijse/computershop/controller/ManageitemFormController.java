@@ -10,7 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import lk.ijse.computershop.dto.Item;
+import lk.ijse.computershop.dto.ItemDTO;
 import lk.ijse.computershop.dto.tm.ItemTM;
 import lk.ijse.computershop.model.ItemModel;
 import lk.ijse.computershop.util.Validation;
@@ -131,14 +131,14 @@ public class ManageitemFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<ItemTM> observableList = FXCollections.observableArrayList();
-            List<Item> itemList = ItemModel.getAll();
+            List<ItemDTO> itemDTOList = ItemModel.getAll();
 
-            for (Item item : itemList) {
+            for (ItemDTO itemDTO : itemDTOList) {
                 observableList.add(new ItemTM(
-                        item.getCode(),
-                        item.getDescription(),
-                        item.getUnitPrice(),
-                        item.getQtyOnHand()
+                        itemDTO.getCode(),
+                        itemDTO.getDescription(),
+                        itemDTO.getUnitPrice(),
+                        itemDTO.getQtyOnHand()
                 ));
             }
             tblItem.setItems(observableList);
@@ -150,9 +150,9 @@ public class ManageitemFormController implements Initializable {
     @FXML
     private void saveOnAction(ActionEvent event) {
         try {
-            Item item = null;
+            ItemDTO itemDTO = null;
             if (!txtDescription.getText().isEmpty() && !txtUnitPrice.getText().isEmpty() && !txtQtyOnHand.getText().isEmpty()) {
-                item = new Item(
+                itemDTO = new ItemDTO(
                         txtCode.getText(),
                         txtDescription.getText(),
                         Double.parseDouble(txtUnitPrice.getText()),
@@ -160,7 +160,7 @@ public class ManageitemFormController implements Initializable {
                 );
             }
 
-            if (ItemModel.save(item) > 0) {
+            if (ItemModel.save(itemDTO) > 0) {
                 new Alert(Alert.AlertType.INFORMATION, "Saved Successfully...!").show();
                 getAll();
                 clearAllTxt();
@@ -175,12 +175,12 @@ public class ManageitemFormController implements Initializable {
     @FXML
     private void searchOnAction(ActionEvent event) {
         try {
-            Item item = ItemModel.search(txtSearch.getText());
-            if (item != null) {
-                txtCode.setText(item.getCode());
-                txtDescription.setText(item.getDescription());
-                txtUnitPrice.setText(String.valueOf(item.getUnitPrice()));
-                txtQtyOnHand.setText(String.valueOf(item.getQtyOnHand()));
+            ItemDTO itemDTO = ItemModel.search(txtSearch.getText());
+            if (itemDTO != null) {
+                txtCode.setText(itemDTO.getCode());
+                txtDescription.setText(itemDTO.getDescription());
+                txtUnitPrice.setText(String.valueOf(itemDTO.getUnitPrice()));
+                txtQtyOnHand.setText(String.valueOf(itemDTO.getQtyOnHand()));
 
                 btnSave.setDisable(true);
                 btnUpdate.setDisable(false);
@@ -200,14 +200,14 @@ public class ManageitemFormController implements Initializable {
     @FXML
     private void updateOnAction(ActionEvent event) {
         try {
-            Item item = new Item(
+            ItemDTO itemDTO = new ItemDTO(
                     txtCode.getText(),
                     txtDescription.getText(),
                     Double.parseDouble(txtUnitPrice.getText()),
                     Integer.parseInt(txtQtyOnHand.getText())
             );
 
-            if (ItemModel.update(item) > 0) {
+            if (ItemModel.update(itemDTO) > 0) {
                 new Alert(Alert.AlertType.INFORMATION, "Updated Successfully...!").show();
                 getAll();
                 clearAllTxt();

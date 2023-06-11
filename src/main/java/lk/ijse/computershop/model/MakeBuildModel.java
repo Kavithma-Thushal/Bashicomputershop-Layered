@@ -1,7 +1,7 @@
 package lk.ijse.computershop.model;
 
 import lk.ijse.computershop.db.DBConnection;
-import lk.ijse.computershop.dto.Custombuilds;
+import lk.ijse.computershop.dto.CustombuildsDTO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MakeBuildModel {
 
-    public static boolean makeBuild(String buildCode, String customerId, String employeeId, List<Custombuilds> buildList) throws SQLException {
+    public static boolean makeBuild(String buildCode, String customerId, String employeeId, List<CustombuildsDTO> buildList) throws SQLException {
         Connection connection = null;
         try {
             connection = DBConnection.getInstance().getConnection();

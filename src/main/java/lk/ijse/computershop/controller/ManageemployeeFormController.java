@@ -10,7 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import lk.ijse.computershop.dto.Employee;
+import lk.ijse.computershop.dto.EmployeeDTO;
 import lk.ijse.computershop.dto.tm.EmployeeTM;
 import lk.ijse.computershop.model.EmployeeModel;
 import lk.ijse.computershop.util.Validation;
@@ -147,16 +147,16 @@ public class ManageemployeeFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<EmployeeTM> observableList = FXCollections.observableArrayList();
-            List<Employee> employeeList = EmployeeModel.getAll();
+            List<EmployeeDTO> employeeDTOList = EmployeeModel.getAll();
 
-            for (Employee employee : employeeList) {
+            for (EmployeeDTO employeeDTO : employeeDTOList) {
                 observableList.add(new EmployeeTM(
-                        employee.getId(),
-                        employee.getName(),
-                        employee.getContact(),
-                        employee.getJobRole(),
-                        employee.getUsername(),
-                        employee.getPassword()
+                        employeeDTO.getId(),
+                        employeeDTO.getName(),
+                        employeeDTO.getContact(),
+                        employeeDTO.getJobRole(),
+                        employeeDTO.getUsername(),
+                        employeeDTO.getPassword()
                 ));
             }
             tblEmployee.setItems(observableList);
@@ -168,9 +168,9 @@ public class ManageemployeeFormController implements Initializable {
     @FXML
     private void saveOnAction(ActionEvent event) {
         try {
-            Employee employee = null;
+            EmployeeDTO employeeDTO = null;
             if (!txtName.getText().isEmpty() && !txtContact.getText().isEmpty() && !txtJobRole.getText().isEmpty() && !txtUsername.getText().isEmpty() && !txtPassword.getText().isEmpty()) {
-                employee = new Employee(
+                employeeDTO = new EmployeeDTO(
                         txtId.getText(),
                         txtName.getText(),
                         txtContact.getText(),
@@ -180,7 +180,7 @@ public class ManageemployeeFormController implements Initializable {
                 );
             }
 
-            if (EmployeeModel.save(employee) > 0) {
+            if (EmployeeModel.save(employeeDTO) > 0) {
 
                 new Alert(Alert.AlertType.INFORMATION, "Saved Successfully...!").show();
                 getAll();
@@ -197,14 +197,14 @@ public class ManageemployeeFormController implements Initializable {
     @FXML
     private void searchOnAction(ActionEvent event) {
         try {
-            Employee employee = EmployeeModel.search(txtSearch.getText());
-            if (employee != null) {
-                txtId.setText(employee.getId());
-                txtName.setText(employee.getName());
-                txtContact.setText(employee.getContact());
-                txtJobRole.setText(employee.getJobRole());
-                txtUsername.setText(employee.getUsername());
-                txtPassword.setText(employee.getPassword());
+            EmployeeDTO employeeDTO = EmployeeModel.search(txtSearch.getText());
+            if (employeeDTO != null) {
+                txtId.setText(employeeDTO.getId());
+                txtName.setText(employeeDTO.getName());
+                txtContact.setText(employeeDTO.getContact());
+                txtJobRole.setText(employeeDTO.getJobRole());
+                txtUsername.setText(employeeDTO.getUsername());
+                txtPassword.setText(employeeDTO.getPassword());
 
                 btnSave.setDisable(true);
                 btnUpdate.setDisable(false);
@@ -224,7 +224,7 @@ public class ManageemployeeFormController implements Initializable {
     @FXML
     private void updateOnAction(ActionEvent event) {
         try {
-            Employee employee = new Employee(
+            EmployeeDTO employeeDTO = new EmployeeDTO(
                     txtId.getText(),
                     txtName.getText(),
                     txtContact.getText(),
@@ -233,7 +233,7 @@ public class ManageemployeeFormController implements Initializable {
                     txtPassword.getText()
             );
 
-            if (EmployeeModel.update(employee) > 0) {
+            if (EmployeeModel.update(employeeDTO) > 0) {
                 new Alert(Alert.AlertType.INFORMATION, "Updated Successfully...!").show();
                 getAll();
                 clearAllTxt();

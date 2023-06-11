@@ -1,6 +1,6 @@
 package lk.ijse.computershop.model;
 
-import lk.ijse.computershop.dto.Customer;
+import lk.ijse.computershop.dto.CustomerDTO;
 import lk.ijse.computershop.util.CrudUtil;
 
 import java.sql.ResultSet;
@@ -10,26 +10,26 @@ import java.util.List;
 
 public class CustomerModel {
 
-    public static int save(Customer customer) throws SQLException {
+    public static int save(CustomerDTO customerDTO) throws SQLException {
         String sql = "INSERT INTO customer VALUES (?,?,?,?,?,?)";
 
         return CrudUtil.execute(
                 sql,
-                customer.getId(),
-                customer.getName(),
-                customer.getNic(),
-                customer.getEmail(),
-                customer.getContact(),
-                customer.getAddress()
+                customerDTO.getId(),
+                customerDTO.getName(),
+                customerDTO.getNic(),
+                customerDTO.getEmail(),
+                customerDTO.getContact(),
+                customerDTO.getAddress()
         );
     }
 
-    public static Customer search(String id) throws SQLException {
+    public static CustomerDTO search(String id) throws SQLException {
         String sql = "SELECT * FROM customer WHERE id=?";
 
         ResultSet resultSet = CrudUtil.execute(sql, id);
         if (resultSet.next()) {
-            return new Customer(
+            return new CustomerDTO(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
@@ -41,17 +41,17 @@ public class CustomerModel {
         return null;
     }
 
-    public static int update(Customer customer) throws SQLException {
+    public static int update(CustomerDTO customerDTO) throws SQLException {
         String sql = "UPDATE customer SET name=? , nic=? , email=? , contact=? , address=? WHERE id=?";
 
         return CrudUtil.execute(
                 sql,
-                customer.getName(),
-                customer.getNic(),
-                customer.getEmail(),
-                customer.getContact(),
-                customer.getAddress(),
-                customer.getId()
+                customerDTO.getName(),
+                customerDTO.getNic(),
+                customerDTO.getEmail(),
+                customerDTO.getContact(),
+                customerDTO.getAddress(),
+                customerDTO.getId()
         );
     }
 
@@ -60,14 +60,14 @@ public class CustomerModel {
         return CrudUtil.execute(sql, id);
     }
 
-    public static List<Customer> getAll() throws SQLException {
+    public static List<CustomerDTO> getAll() throws SQLException {
 
-        List<Customer> customerList = new ArrayList<>();
+        List<CustomerDTO> customerDTOList = new ArrayList<>();
         String sql = "SELECT * FROM customer";
         ResultSet resultSet = CrudUtil.execute(sql);
 
         while (resultSet.next()) {
-            Customer customer = new Customer(
+            CustomerDTO customerDTO = new CustomerDTO(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
@@ -75,9 +75,9 @@ public class CustomerModel {
                     resultSet.getString(5),
                     resultSet.getString(6)
             );
-            customerList.add(customer);
+            customerDTOList.add(customerDTO);
         }
-        return customerList;
+        return customerDTOList;
     }
 
     public static String getNextCustomerId() throws SQLException {
@@ -111,12 +111,12 @@ public class CustomerModel {
         return data;
     }
 
-    public static Customer searchById(String customerId) throws SQLException {
+    public static CustomerDTO searchById(String customerId) throws SQLException {
         String sql = "SELECT * FROM Customer WHERE id = ?";
         ResultSet resultSet = CrudUtil.execute(sql, customerId);
 
         if (resultSet.next()) {
-            return new Customer(
+            return new CustomerDTO(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),

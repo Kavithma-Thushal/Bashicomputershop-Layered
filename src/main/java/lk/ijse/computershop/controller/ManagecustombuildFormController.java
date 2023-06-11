@@ -9,10 +9,10 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.computershop.db.DBConnection;
-import lk.ijse.computershop.dto.Custombuilds;
-import lk.ijse.computershop.dto.Customer;
-import lk.ijse.computershop.dto.Employee;
-import lk.ijse.computershop.dto.Item;
+import lk.ijse.computershop.dto.CustombuildsDTO;
+import lk.ijse.computershop.dto.CustomerDTO;
+import lk.ijse.computershop.dto.EmployeeDTO;
+import lk.ijse.computershop.dto.ItemDTO;
 import lk.ijse.computershop.dto.tm.CustombuildsTM;
 import lk.ijse.computershop.model.*;
 import net.sf.jasperreports.engine.*;
@@ -151,8 +151,8 @@ public class ManagecustombuildFormController implements Initializable {
         cmbCustomerId.setDisable(true);
 
         try {
-            Customer customer = CustomerModel.searchById(customerId);
-            txtCustomerName.setText(customer.getName());
+            CustomerDTO customerDTO = CustomerModel.searchById(customerId);
+            txtCustomerName.setText(customerDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
         }
@@ -164,8 +164,8 @@ public class ManagecustombuildFormController implements Initializable {
         cmbEmployeeId.setDisable(true);
 
         try {
-            Employee employee = EmployeeModel.searchById(employeeId);
-            txtEmployeeName.setText(employee.getName());
+            EmployeeDTO employeeDTO = EmployeeModel.searchById(employeeId);
+            txtEmployeeName.setText(employeeDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
         }
@@ -176,18 +176,18 @@ public class ManagecustombuildFormController implements Initializable {
         String itemCode = cmbItemCode.getValue();
 
         try {
-            Item item = ItemModel.searchById(itemCode);
-            fillItemFields(item);
+            ItemDTO itemDTO = ItemModel.searchById(itemCode);
+            fillItemFields(itemDTO);
 
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
         }
     }
 
-    private void fillItemFields(Item item) {
-        txtDescription.setText(item.getDescription());
-        txtUnitPrice.setText(String.valueOf(item.getUnitPrice()));
-        txtQtyOnHand.setText(String.valueOf(item.getQtyOnHand()));
+    private void fillItemFields(ItemDTO itemDTO) {
+        txtDescription.setText(itemDTO.getDescription());
+        txtUnitPrice.setText(String.valueOf(itemDTO.getUnitPrice()));
+        txtQtyOnHand.setText(String.valueOf(itemDTO.getQtyOnHand()));
     }
 
     @FXML
@@ -317,22 +317,22 @@ public class ManagecustombuildFormController implements Initializable {
         String customerId = cmbCustomerId.getValue();
         String employeeId = cmbEmployeeId.getValue();
 
-        List<Custombuilds> custombuildsList = new ArrayList<>();
+        List<CustombuildsDTO> custombuildsDTOList = new ArrayList<>();
 
         for (int i = 0; i < tblCustomBuild.getItems().size(); i++) {
             CustombuildsTM custombuildsTM = observableList.get(i);
 
-            Custombuilds custombuildsDetails = new Custombuilds(
+            CustombuildsDTO custombuildsDTODetails = new CustombuildsDTO(
                     custombuildsTM.getCode(),
                     custombuildsTM.getQty(),
                     custombuildsTM.getTotal()
             );
-            custombuildsList.add(custombuildsDetails);
+            custombuildsDTOList.add(custombuildsDTODetails);
         }
 
         boolean isPlaced = false;
         try {
-            isPlaced = MakeBuildModel.makeBuild(buildCode, customerId, employeeId, custombuildsList);
+            isPlaced = MakeBuildModel.makeBuild(buildCode, customerId, employeeId, custombuildsDTOList);
             if (isPlaced) {
                 Alert makeBuildAlert=new Alert(Alert.AlertType.INFORMATION, "your build is in progress...!");
                 makeBuildAlert.show();

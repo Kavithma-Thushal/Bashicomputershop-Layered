@@ -1,8 +1,8 @@
 package lk.ijse.computershop.model;
 
-import lk.ijse.computershop.dto.Custombuilds;
-import lk.ijse.computershop.dto.Item;
-import lk.ijse.computershop.dto.Order;
+import lk.ijse.computershop.dto.CustombuildsDTO;
+import lk.ijse.computershop.dto.ItemDTO;
+import lk.ijse.computershop.dto.OrderDTO;
 import lk.ijse.computershop.util.CrudUtil;
 
 import java.sql.ResultSet;
@@ -12,23 +12,23 @@ import java.util.List;
 
 public class ItemModel {
 
-    public static int save(Item item) throws SQLException {
+    public static int save(ItemDTO itemDTO) throws SQLException {
         String sql = "INSERT INTO item VALUES (?,?,?,?)";
         return CrudUtil.execute(
                 sql,
-                item.getCode(),
-                item.getDescription(),
-                item.getUnitPrice(),
-                item.getQtyOnHand()
+                itemDTO.getCode(),
+                itemDTO.getDescription(),
+                itemDTO.getUnitPrice(),
+                itemDTO.getQtyOnHand()
         );
     }
 
-    public static Item search(String code) throws SQLException {
+    public static ItemDTO search(String code) throws SQLException {
         String sql = "SELECT * FROM item WHERE code=?";
 
         ResultSet resultSet = CrudUtil.execute(sql, code);
         if (resultSet.next()) {
-            return new Item(
+            return new ItemDTO(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getDouble(3),
@@ -38,15 +38,15 @@ public class ItemModel {
         return null;
     }
 
-    public static int update(Item item) throws SQLException {
+    public static int update(ItemDTO itemDTO) throws SQLException {
         String sql = "UPDATE item SET description=? , unitPrice=? , qtyOnHand=? WHERE code=?";
 
         return CrudUtil.execute(
                 sql,
-                item.getDescription(),
-                item.getUnitPrice(),
-                item.getQtyOnHand(),
-                item.getCode()
+                itemDTO.getDescription(),
+                itemDTO.getUnitPrice(),
+                itemDTO.getQtyOnHand(),
+                itemDTO.getCode()
         );
     }
 
@@ -55,22 +55,22 @@ public class ItemModel {
         return CrudUtil.execute(sql, code);
     }
 
-    public static List<Item> getAll() throws SQLException {
+    public static List<ItemDTO> getAll() throws SQLException {
 
-        List<Item> itemList = new ArrayList<>();
+        List<ItemDTO> itemDTOList = new ArrayList<>();
         String sql = "SELECT * FROM item";
         ResultSet resultSet = CrudUtil.execute(sql);
 
         while (resultSet.next()) {
-            Item item = new Item(
+            ItemDTO itemDTO = new ItemDTO(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getDouble(3),
                     resultSet.getInt(4)
             );
-            itemList.add(item);
+            itemDTOList.add(itemDTO);
         }
-        return itemList;
+        return itemDTOList;
     }
 
     public static String getNextItemCode() throws SQLException {
@@ -104,12 +104,12 @@ public class ItemModel {
         return data;
     }
 
-    public static Item searchById(String itemCode) throws SQLException {
+    public static ItemDTO searchById(String itemCode) throws SQLException {
         String sql = "SELECT * FROM item WHERE code = ?";
         ResultSet resultSet = CrudUtil.execute(sql, itemCode);
 
         if (resultSet.next()) {
-            return new Item(
+            return new ItemDTO(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getDouble(3),
@@ -120,32 +120,32 @@ public class ItemModel {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////    Orders
-    public static boolean updateQty(List<Order> orderList) throws SQLException {
-        for (Order orderDetails : orderList) {
-            if (!updateQty(orderDetails)) {
+    public static boolean updateQty(List<OrderDTO> orderDTOList) throws SQLException {
+        for (OrderDTO orderDTODetails : orderDTOList) {
+            if (!updateQty(orderDTODetails)) {
                 return false;
             }
         }
         return true;
     }
 
-    private static boolean updateQty(Order orderDetails) throws SQLException {
+    private static boolean updateQty(OrderDTO orderDTODetails) throws SQLException {
         String sql = "UPDATE item SET qtyOnHand = (qtyOnHand - ?) WHERE code = ?";
-        Integer affectedRows = CrudUtil.execute(sql, orderDetails.getQty(), orderDetails.getCode());
+        Integer affectedRows = CrudUtil.execute(sql, orderDTODetails.getQty(), orderDTODetails.getCode());
         return affectedRows > 0;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////    Custom Build
-    public static boolean updateBuildQty(List<Custombuilds> buildsList) throws SQLException {
-        for (Custombuilds custombuilds : buildsList) {
-            if (!updateBuildQty(custombuilds)) {
+    public static boolean updateBuildQty(List<CustombuildsDTO> buildsList) throws SQLException {
+        for (CustombuildsDTO custombuildsDTO : buildsList) {
+            if (!updateBuildQty(custombuildsDTO)) {
                 return false;
             }
         }
         return true;
     }
 
-    private static boolean updateBuildQty(Custombuilds buildsList) throws SQLException {
+    private static boolean updateBuildQty(CustombuildsDTO buildsList) throws SQLException {
         String sql = "UPDATE item SET qtyOnHand = (qtyOnHand - ?) WHERE code = ?";
         Integer affectedRows = CrudUtil.execute(sql, buildsList.getQty(), buildsList.getCode());
         return affectedRows > 0;

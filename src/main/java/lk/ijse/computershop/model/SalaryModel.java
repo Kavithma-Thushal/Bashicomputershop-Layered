@@ -1,6 +1,6 @@
 package lk.ijse.computershop.model;
 
-import lk.ijse.computershop.dto.Salary;
+import lk.ijse.computershop.dto.SalaryDTO;
 import lk.ijse.computershop.util.CrudUtil;
 
 import java.sql.ResultSet;
@@ -10,22 +10,22 @@ import java.util.List;
 
 public class SalaryModel {
 
-    public static List<Salary> getAll() throws SQLException {
+    public static List<SalaryDTO> getAll() throws SQLException {
 
-        List<Salary> salaryList = new ArrayList<>();
+        List<SalaryDTO> salaryDTOList = new ArrayList<>();
         String sql = "SELECT * FROM salary";
         ResultSet resultSet = CrudUtil.execute(sql);
 
         while (resultSet.next()) {
-            Salary salary= new Salary(
+            SalaryDTO salaryDTO = new SalaryDTO(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getDouble(3),
                     resultSet.getString(4)
             );
-            salaryList.add(salary);
+            salaryDTOList.add(salaryDTO);
         }
-        return salaryList;
+        return salaryDTOList;
     }
 
     public static String getNextSalaryCode() throws SQLException {

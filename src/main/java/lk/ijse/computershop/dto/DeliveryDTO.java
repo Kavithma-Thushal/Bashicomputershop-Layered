@@ -5,9 +5,11 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Salary {
+public class DeliveryDTO {
     private String code;
-    private String employeeName;
-    private Double amount;
+    private String customerId;
+    private String employeeId;
+    private String orderId;
+    private String location;
     private String date;
 }

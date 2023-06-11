@@ -9,9 +9,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import lk.ijse.computershop.dto.Customer;
-import lk.ijse.computershop.dto.Employee;
-import lk.ijse.computershop.dto.Repair;
+import lk.ijse.computershop.dto.CustomerDTO;
+import lk.ijse.computershop.dto.EmployeeDTO;
+import lk.ijse.computershop.dto.RepairDTO;
 import lk.ijse.computershop.dto.tm.RepairTM;
 import lk.ijse.computershop.model.CustomerModel;
 import lk.ijse.computershop.model.EmployeeModel;
@@ -124,16 +124,16 @@ public class ManagerepairFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<RepairTM> observableList = FXCollections.observableArrayList();
-            List<Repair> repairList = RepairModel.getAll();
+            List<RepairDTO> repairDTOList = RepairModel.getAll();
 
-            for (Repair repair : repairList) {
+            for (RepairDTO repairDTO : repairDTOList) {
                 RepairTM repairTM = new RepairTM(
-                        repair.getCode(),
-                        repair.getCustomerId(),
-                        repair.getEmployeeId(),
-                        repair.getDetails(),
-                        repair.getGettingDate(),
-                        repair.getAcceptingDate()
+                        repairDTO.getCode(),
+                        repairDTO.getCustomerId(),
+                        repairDTO.getEmployeeId(),
+                        repairDTO.getDetails(),
+                        repairDTO.getGettingDate(),
+                        repairDTO.getAcceptingDate()
                 );
                 observableList.add(repairTM);
             }
@@ -191,8 +191,8 @@ public class ManagerepairFormController implements Initializable {
         cmbCustomerId.setDisable(true);
 
         try {
-            Customer customer = CustomerModel.searchById(customerId);
-            txtCustomerName.setText(customer.getName());
+            CustomerDTO customerDTO = CustomerModel.searchById(customerId);
+            txtCustomerName.setText(customerDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
         }
@@ -204,8 +204,8 @@ public class ManagerepairFormController implements Initializable {
         cmbEmployeeId.setDisable(true);
 
         try {
-            Employee employee = EmployeeModel.searchById(employeeId);
-            txtEmployeeName.setText(employee.getName());
+            EmployeeDTO employeeDTO = EmployeeModel.searchById(employeeId);
+            txtEmployeeName.setText(employeeDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
         }
@@ -214,14 +214,14 @@ public class ManagerepairFormController implements Initializable {
     @FXML
     private void searchOnAction(ActionEvent event) {
         try {
-            Repair repair = RepairModel.search(txtSearch.getText());
-            if (repair != null) {
-                txtRepairCode.setText(repair.getCode());
-                txtCustomerName.setText(repair.getCustomerId());
-                txtEmployeeName.setText(repair.getEmployeeId());
-                txtDetails.setText(repair.getDetails());
-                txtRepairDate.setText(repair.getGettingDate());
-                txtAcceptingDate.setText(repair.getAcceptingDate());
+            RepairDTO repairDTO = RepairModel.search(txtSearch.getText());
+            if (repairDTO != null) {
+                txtRepairCode.setText(repairDTO.getCode());
+                txtCustomerName.setText(repairDTO.getCustomerId());
+                txtEmployeeName.setText(repairDTO.getEmployeeId());
+                txtDetails.setText(repairDTO.getDetails());
+                txtRepairDate.setText(repairDTO.getGettingDate());
+                txtAcceptingDate.setText(repairDTO.getAcceptingDate());
             }
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "Please try again...!").show();

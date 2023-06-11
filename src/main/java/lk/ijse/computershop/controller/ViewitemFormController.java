@@ -10,7 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.computershop.dto.Item;
+import lk.ijse.computershop.dto.ItemDTO;
 import lk.ijse.computershop.dto.tm.ItemTM;
 import lk.ijse.computershop.model.ItemModel;
 
@@ -64,14 +64,14 @@ public class ViewitemFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<ItemTM> observableList = FXCollections.observableArrayList();
-            List<Item> itemList = ItemModel.getAll();
+            List<ItemDTO> itemDTOList = ItemModel.getAll();
 
-            for (Item item : itemList) {
+            for (ItemDTO itemDTO : itemDTOList) {
                 observableList.add(new ItemTM(
-                        item.getCode(),
-                        item.getDescription(),
-                        item.getUnitPrice(),
-                        item.getQtyOnHand()
+                        itemDTO.getCode(),
+                        itemDTO.getDescription(),
+                        itemDTO.getUnitPrice(),
+                        itemDTO.getQtyOnHand()
                 ));
             }
             tblItem.setItems(observableList);
@@ -83,12 +83,12 @@ public class ViewitemFormController implements Initializable {
     @FXML
     private void searchOnAction(ActionEvent event) {
         try {
-            Item item = ItemModel.search(txtSearch.getText());
-            if (item != null) {
-                txtCode.setText(item.getCode());
-                txtDescription.setText(item.getDescription());
-                txtUnitPrice.setText(String.valueOf(item.getUnitPrice()));
-                txtQtyOnHand.setText(String.valueOf(item.getQtyOnHand()));
+            ItemDTO itemDTO = ItemModel.search(txtSearch.getText());
+            if (itemDTO != null) {
+                txtCode.setText(itemDTO.getCode());
+                txtDescription.setText(itemDTO.getDescription());
+                txtUnitPrice.setText(String.valueOf(itemDTO.getUnitPrice()));
+                txtQtyOnHand.setText(String.valueOf(itemDTO.getQtyOnHand()));
             } else {
                 new Alert(Alert.AlertType.ERROR, "Invalid Input...!").show();
                 clearAllTxt();

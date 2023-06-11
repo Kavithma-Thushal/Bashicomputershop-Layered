@@ -1,6 +1,6 @@
 package lk.ijse.computershop.model;
 
-import lk.ijse.computershop.dto.Repair;
+import lk.ijse.computershop.dto.RepairDTO;
 import lk.ijse.computershop.util.CrudUtil;
 
 import java.sql.ResultSet;
@@ -10,14 +10,14 @@ import java.util.List;
 
 public class RepairModel {
 
-    public static List<Repair> getAll() throws SQLException {
+    public static List<RepairDTO> getAll() throws SQLException {
 
-        List<Repair> repairList = new ArrayList<>();
+        List<RepairDTO> repairDTOList = new ArrayList<>();
         String sql = "SELECT * FROM repairs";
         ResultSet resultSet = CrudUtil.execute(sql);
 
         while (resultSet.next()) {
-            Repair repair = new Repair(
+            RepairDTO repairDTO = new RepairDTO(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
@@ -25,19 +25,19 @@ public class RepairModel {
                     resultSet.getString(5),
                     resultSet.getString(6)
             );
-            repairList.add(repair);
+            repairDTOList.add(repairDTO);
         }
-        return repairList;
+        return repairDTOList;
     }
 
-    public static Repair search(String code) throws SQLException {
+    public static RepairDTO search(String code) throws SQLException {
 
         String sql = "SELECT * FROM repairs WHERE code=?";
 
         ResultSet resultSet = CrudUtil.execute(sql, code);
 
         if (resultSet.next()) {
-            return new Repair(
+            return new RepairDTO(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),

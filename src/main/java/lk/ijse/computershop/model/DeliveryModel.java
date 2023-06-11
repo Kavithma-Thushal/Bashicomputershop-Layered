@@ -1,6 +1,6 @@
 package lk.ijse.computershop.model;
 
-import lk.ijse.computershop.dto.Delivery;
+import lk.ijse.computershop.dto.DeliveryDTO;
 import lk.ijse.computershop.util.CrudUtil;
 
 import java.sql.ResultSet;
@@ -10,14 +10,14 @@ import java.util.List;
 
 public class DeliveryModel {
 
-    public static List<Delivery> getAll() throws SQLException {
+    public static List<DeliveryDTO> getAll() throws SQLException {
 
-        List<Delivery> deliveryList = new ArrayList<>();
+        List<DeliveryDTO> deliveryDTOList = new ArrayList<>();
         String sql = "SELECT * FROM delivery";
         ResultSet resultSet = CrudUtil.execute(sql);
 
         while (resultSet.next()) {
-            Delivery delivery = new Delivery(
+            DeliveryDTO deliveryDTO = new DeliveryDTO(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
@@ -25,9 +25,9 @@ public class DeliveryModel {
                     resultSet.getString(5),
                     resultSet.getString(6)
             );
-            deliveryList.add(delivery);
+            deliveryDTOList.add(deliveryDTO);
         }
-        return deliveryList;
+        return deliveryDTOList;
     }
 
     public static String getNextDeliveryCode() throws SQLException {

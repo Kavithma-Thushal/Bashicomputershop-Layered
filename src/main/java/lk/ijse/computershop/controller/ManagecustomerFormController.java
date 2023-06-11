@@ -10,7 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import lk.ijse.computershop.dto.Customer;
+import lk.ijse.computershop.dto.CustomerDTO;
 import lk.ijse.computershop.dto.tm.CustomerTM;
 import lk.ijse.computershop.model.CustomerModel;
 import lk.ijse.computershop.util.Validation;
@@ -147,16 +147,16 @@ public class ManagecustomerFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<CustomerTM> observableList = FXCollections.observableArrayList();
-            List<Customer> customerList = CustomerModel.getAll();
+            List<CustomerDTO> customerDTOList = CustomerModel.getAll();
 
-            for (Customer customer : customerList) {
+            for (CustomerDTO customerDTO : customerDTOList) {
                 CustomerTM customerTM = new CustomerTM(
-                        customer.getId(),
-                        customer.getName(),
-                        customer.getNic(),
-                        customer.getEmail(),
-                        customer.getContact(),
-                        customer.getAddress()
+                        customerDTO.getId(),
+                        customerDTO.getName(),
+                        customerDTO.getNic(),
+                        customerDTO.getEmail(),
+                        customerDTO.getContact(),
+                        customerDTO.getAddress()
                 );
                 observableList.add(customerTM);
             }
@@ -170,9 +170,9 @@ public class ManagecustomerFormController implements Initializable {
     @FXML
     private void saveOnAction(ActionEvent event) {
         try {
-            Customer customer = null;
+            CustomerDTO customerDTO = null;
             if (!txtName.getText().isEmpty() && !txtNic.getText().isEmpty() && !txtEmail.getText().isEmpty() && !txtContact.getText().isEmpty() && !txtAddress.getText().isEmpty()) {
-                customer = new Customer(
+                customerDTO = new CustomerDTO(
                         txtId.getText(),
                         txtName.getText(),
                         txtNic.getText(),
@@ -182,7 +182,7 @@ public class ManagecustomerFormController implements Initializable {
                 );
             }
 
-            if (CustomerModel.save(customer) > 0) {
+            if (CustomerModel.save(customerDTO) > 0) {
                 new Alert(Alert.AlertType.INFORMATION, "Saved Successfully...!").show();
                 //tblCustomer.refresh();
                 getAll();
@@ -199,14 +199,14 @@ public class ManagecustomerFormController implements Initializable {
     @FXML
     private void searchOnAction(ActionEvent event) {
         try {
-            Customer customer = CustomerModel.search(txtSearch.getText());
-            if (customer != null) {
-                txtId.setText(customer.getId());
-                txtName.setText(customer.getName());
-                txtNic.setText(customer.getNic());
-                txtEmail.setText(customer.getEmail());
-                txtContact.setText(customer.getContact());
-                txtAddress.setText(customer.getAddress());
+            CustomerDTO customerDTO = CustomerModel.search(txtSearch.getText());
+            if (customerDTO != null) {
+                txtId.setText(customerDTO.getId());
+                txtName.setText(customerDTO.getName());
+                txtNic.setText(customerDTO.getNic());
+                txtEmail.setText(customerDTO.getEmail());
+                txtContact.setText(customerDTO.getContact());
+                txtAddress.setText(customerDTO.getAddress());
 
                 btnSave.setDisable(true);
                 btnUpdate.setDisable(false);
@@ -226,7 +226,7 @@ public class ManagecustomerFormController implements Initializable {
     @FXML
     private void updateOnAction(ActionEvent event) {
         try {
-            Customer customer = new Customer(
+            CustomerDTO customerDTO = new CustomerDTO(
                     txtId.getText(),
                     txtName.getText(),
                     txtNic.getText(),
@@ -235,7 +235,7 @@ public class ManagecustomerFormController implements Initializable {
                     txtAddress.getText()
             );
 
-            if (CustomerModel.update(customer) > 0) {
+            if (CustomerModel.update(customerDTO) > 0) {
                 new Alert(Alert.AlertType.INFORMATION, "Updated Successfully...!").show();
                 getAll();
                 clearAllTxt();

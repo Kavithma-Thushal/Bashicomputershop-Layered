@@ -5,8 +5,9 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Order {
+public class SalaryDTO {
     private String code;
-    private Integer qty;
-    private Double total;
+    private String employeeName;
+    private Double amount;
+    private String date;
 }

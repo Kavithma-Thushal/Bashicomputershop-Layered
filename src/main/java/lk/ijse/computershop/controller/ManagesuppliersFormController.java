@@ -9,8 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import lk.ijse.computershop.dto.Item;
-import lk.ijse.computershop.dto.Supply;
+import lk.ijse.computershop.dto.ItemDTO;
+import lk.ijse.computershop.dto.SupplyDTO;
 import lk.ijse.computershop.dto.tm.SupplyTM;
 import lk.ijse.computershop.model.AddSupplyModel;
 import lk.ijse.computershop.model.ItemModel;
@@ -83,14 +83,14 @@ public class ManagesuppliersFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<SupplyTM> observableList = FXCollections.observableArrayList();
-            List<Supply> supplyList = SupplierModel.getAll();
+            List<SupplyDTO> supplyDTOList = SupplierModel.getAll();
 
-            for (Supply supply : supplyList) {
+            for (SupplyDTO supplyDTO : supplyDTOList) {
                 SupplyTM supplyTM = new SupplyTM(
-                        supply.getId(),
-                        supply.getName(),
-                        supply.getContact(),
-                        supply.getAddress()
+                        supplyDTO.getId(),
+                        supplyDTO.getName(),
+                        supplyDTO.getContact(),
+                        supplyDTO.getAddress()
                 );
                 observableList.add(supplyTM);
             }
@@ -171,8 +171,8 @@ public class ManagesuppliersFormController implements Initializable {
         String itemCode = cmbItemCode.getValue();
 
         try {
-            Item item = ItemModel.searchById(itemCode);
-            txtItemDescription.setText(item.getDescription());
+            ItemDTO itemDTO = ItemModel.searchById(itemCode);
+            txtItemDescription.setText(itemDTO.getDescription());
 
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();

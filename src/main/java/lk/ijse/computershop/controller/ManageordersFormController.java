@@ -9,9 +9,9 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.computershop.db.DBConnection;
-import lk.ijse.computershop.dto.Customer;
-import lk.ijse.computershop.dto.Item;
-import lk.ijse.computershop.dto.Order;
+import lk.ijse.computershop.dto.CustomerDTO;
+import lk.ijse.computershop.dto.ItemDTO;
+import lk.ijse.computershop.dto.OrderDTO;
 import lk.ijse.computershop.dto.tm.OrderTM;
 import lk.ijse.computershop.model.CustomerModel;
 import lk.ijse.computershop.model.ItemModel;
@@ -131,8 +131,8 @@ public class ManageordersFormController implements Initializable {
         cmbCustomerId.setDisable(true);
 
         try {
-            Customer customer = CustomerModel.searchById(customerId);
-            txtCustomerName.setText(customer.getName());
+            CustomerDTO customerDTO = CustomerModel.searchById(customerId);
+            txtCustomerName.setText(customerDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
         }
@@ -143,18 +143,18 @@ public class ManageordersFormController implements Initializable {
         String itemCode = cmbItemCode.getValue();
 
         try {
-            Item item = ItemModel.searchById(itemCode);
-            fillItemFields(item);
+            ItemDTO itemDTO = ItemModel.searchById(itemCode);
+            fillItemFields(itemDTO);
 
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
         }
     }
 
-    private void fillItemFields(Item item) {
-        txtDescription.setText(item.getDescription());
-        txtUnitPrice.setText(String.valueOf(item.getUnitPrice()));
-        txtQtyOnHand.setText(String.valueOf(item.getQtyOnHand()));
+    private void fillItemFields(ItemDTO itemDTO) {
+        txtDescription.setText(itemDTO.getDescription());
+        txtUnitPrice.setText(String.valueOf(itemDTO.getUnitPrice()));
+        txtQtyOnHand.setText(String.valueOf(itemDTO.getQtyOnHand()));
     }
 
     @FXML
@@ -258,22 +258,22 @@ public class ManageordersFormController implements Initializable {
         String orderId = txtOrderId.getText();
         String customerId = cmbCustomerId.getValue();
 
-        List<Order> orderList = new ArrayList<>();
+        List<OrderDTO> orderDTOList = new ArrayList<>();
 
         for (int i = 0; i < tblOrder.getItems().size(); i++) {
             OrderTM orderTM = observableList.get(i);
 
-            Order orderDetails = new Order(
+            OrderDTO orderDTODetails = new OrderDTO(
                     orderTM.getCode(),
                     orderTM.getQty(),
                     orderTM.getTotal()
             );
-            orderList.add(orderDetails);
+            orderDTOList.add(orderDTODetails);
         }
 
         boolean isPlaced = false;
         try {
-            isPlaced = PlaceOrderModel.placeOrder(orderId, customerId, orderList);
+            isPlaced = PlaceOrderModel.placeOrder(orderId, customerId, orderDTOList);
             if (isPlaced) {
                 Alert orderPlacedAlert = new Alert(Alert.AlertType.INFORMATION, "Order Placed...!");
                 orderPlacedAlert.show();

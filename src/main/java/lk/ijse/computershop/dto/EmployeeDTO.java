@@ -6,11 +6,11 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 
-public class Customer {
+public class EmployeeDTO {
     private String id;
     private String name;
-    private String nic;
-    private String email;
     private String contact;
-    private String address;
+    private String jobRole;
+    private String username;
+    private String password;
 }

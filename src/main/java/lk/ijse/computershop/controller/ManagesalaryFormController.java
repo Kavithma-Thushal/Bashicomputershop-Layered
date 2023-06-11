@@ -9,8 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import lk.ijse.computershop.dto.Employee;
-import lk.ijse.computershop.dto.Salary;
+import lk.ijse.computershop.dto.EmployeeDTO;
+import lk.ijse.computershop.dto.SalaryDTO;
 import lk.ijse.computershop.dto.tm.SalaryTM;
 import lk.ijse.computershop.model.EmployeeModel;
 import lk.ijse.computershop.model.SalaryModel;
@@ -116,14 +116,14 @@ public class ManagesalaryFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<SalaryTM> observableList = FXCollections.observableArrayList();
-            List<Salary> salaryList = SalaryModel.getAll();
+            List<SalaryDTO> salaryDTOList = SalaryModel.getAll();
 
-            for (Salary salary : salaryList) {
+            for (SalaryDTO salaryDTO : salaryDTOList) {
                 observableList.add(new SalaryTM(
-                        salary.getCode(),
-                        salary.getEmployeeName(),
-                        salary.getAmount(),
-                        salary.getDate()
+                        salaryDTO.getCode(),
+                        salaryDTO.getEmployeeName(),
+                        salaryDTO.getAmount(),
+                        salaryDTO.getDate()
                 ));
             }
             tblSalary.setItems(observableList);
@@ -152,8 +152,8 @@ public class ManagesalaryFormController implements Initializable {
         cmbEmployeeId.setDisable(true);
 
         try {
-            Employee employee = EmployeeModel.searchById(employeeId);
-            txtEmployeeName.setText(employee.getName());
+            EmployeeDTO employeeDTO = EmployeeModel.searchById(employeeId);
+            txtEmployeeName.setText(employeeDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
         }

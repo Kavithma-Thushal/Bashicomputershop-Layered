@@ -9,9 +9,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import lk.ijse.computershop.dto.Customer;
-import lk.ijse.computershop.dto.Delivery;
-import lk.ijse.computershop.dto.Employee;
+import lk.ijse.computershop.dto.CustomerDTO;
+import lk.ijse.computershop.dto.DeliveryDTO;
+import lk.ijse.computershop.dto.EmployeeDTO;
 import lk.ijse.computershop.dto.tm.DeliveryTM;
 import lk.ijse.computershop.model.CustomerModel;
 import lk.ijse.computershop.model.DeliveryModel;
@@ -124,16 +124,16 @@ public class ManagedeliveryFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<DeliveryTM> observableList = FXCollections.observableArrayList();
-            List<Delivery> deliveryList = DeliveryModel.getAll();
+            List<DeliveryDTO> deliveryDTOList = DeliveryModel.getAll();
 
-            for (Delivery delivery : deliveryList) {
+            for (DeliveryDTO deliveryDTO : deliveryDTOList) {
                 DeliveryTM deliveryTM = new DeliveryTM(
-                        delivery.getCode(),
-                        delivery.getCustomerId(),
-                        delivery.getEmployeeId(),
-                        delivery.getOrderId(),
-                        delivery.getLocation(),
-                        delivery.getDate()
+                        deliveryDTO.getCode(),
+                        deliveryDTO.getCustomerId(),
+                        deliveryDTO.getEmployeeId(),
+                        deliveryDTO.getOrderId(),
+                        deliveryDTO.getLocation(),
+                        deliveryDTO.getDate()
                 );
                 observableList.add(deliveryTM);
             }
@@ -205,8 +205,8 @@ public class ManagedeliveryFormController implements Initializable {
         cmbCustomerId.setDisable(true);
 
         try {
-            Customer customer = CustomerModel.searchById(customerId);
-            txtCustomerName.setText(customer.getName());
+            CustomerDTO customerDTO = CustomerModel.searchById(customerId);
+            txtCustomerName.setText(customerDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
         }
@@ -218,8 +218,8 @@ public class ManagedeliveryFormController implements Initializable {
         cmbEmployeeId.setDisable(true);
 
         try {
-            Employee employee = EmployeeModel.searchById(employeeId);
-            txtEmployeeName.setText(employee.getName());
+            EmployeeDTO employeeDTO = EmployeeModel.searchById(employeeId);
+            txtEmployeeName.setText(employeeDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
         }

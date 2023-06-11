@@ -1,6 +1,6 @@
 package lk.ijse.computershop.model;
 
-import lk.ijse.computershop.dto.Supply;
+import lk.ijse.computershop.dto.SupplyDTO;
 import lk.ijse.computershop.util.CrudUtil;
 
 import java.sql.ResultSet;
@@ -16,22 +16,22 @@ public class SupplierModel {
         return affectedRows > 0;
     }
 
-    public static List<Supply> getAll() throws SQLException {
+    public static List<SupplyDTO> getAll() throws SQLException {
 
-        List<Supply> supplyList = new ArrayList<>();
+        List<SupplyDTO> supplyDTOList = new ArrayList<>();
         String sql = "SELECT * FROM supplier";
         ResultSet resultSet = CrudUtil.execute(sql);
 
         while (resultSet.next()) {
-            Supply supply = new Supply(
+            SupplyDTO supplyDTO = new SupplyDTO(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getString(4)
             );
-            supplyList.add(supply);
+            supplyDTOList.add(supplyDTO);
         }
-        return supplyList;
+        return supplyDTOList;
     }
 
     public static String getNextSupplyId() throws SQLException {
