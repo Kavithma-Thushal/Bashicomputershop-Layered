@@ -9,12 +9,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import lk.ijse.computershop.bo.BoFactory;
+import lk.ijse.computershop.bo.custom.SupplierBO;
 import lk.ijse.computershop.dto.ItemDTO;
 import lk.ijse.computershop.dto.SupplierDTO;
 import lk.ijse.computershop.dto.tm.SupplyTM;
 import lk.ijse.computershop.model.AddSupplyModel;
 import lk.ijse.computershop.model.ItemModel;
-import lk.ijse.computershop.model.SupplierModel;
 import lk.ijse.computershop.util.Validation;
 
 import java.net.URL;
@@ -57,6 +58,8 @@ public class ManagesuppliersFormController implements Initializable {
     private Button btnAdd;
 
     private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
+    private SupplierBO supplierBO= BoFactory.getBoFactory().getBO(BoFactory.BOTypes.SUPPLIER);
+
     Pattern name = Pattern.compile("^([A-Z a-z]{4,40})$");
     Pattern address = Pattern.compile("^([A-Z a-z]{4,40})$");
     Pattern contact = Pattern.compile("^(07(0|1|2|4|5|6|7|8)|091)[0-9]{7}$");
@@ -83,7 +86,7 @@ public class ManagesuppliersFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<SupplyTM> observableList = FXCollections.observableArrayList();
-            List<SupplierDTO> supplierDTOList = SupplierModel.getAll();
+            List<SupplierDTO> supplierDTOList = supplierBO.loadAllSuppliers();
 
             for (SupplierDTO supplierDTO : supplierDTOList) {
                 SupplyTM supplyTM = new SupplyTM(
@@ -144,7 +147,7 @@ public class ManagesuppliersFormController implements Initializable {
 
     private void generateNextSupplyId() {
         try {
-            String id = SupplierModel.getNextSupplyId();
+            String id = supplierBO.generateNextSupplierId();
             txtSupplyId.setText(id);
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();

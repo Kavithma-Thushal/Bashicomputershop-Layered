@@ -1,6 +1,7 @@
 package lk.ijse.computershop.dao.custom.impl;
 
 import lk.ijse.computershop.dao.custom.SupplierDetailDAO;
+import lk.ijse.computershop.dao.custom.impl.util.SQLUtil;
 import lk.ijse.computershop.entity.Supplier_Details;
 
 import java.sql.SQLException;
@@ -14,8 +15,8 @@ public class SupplierDetailDAOImpl implements SupplierDetailDAO {
     }
 
     @Override
-    public int save(Supplier_Details entity) throws SQLException {
-        return 0;
+    public int save(Supplier_Details s) throws SQLException {
+        return SQLUtil.execute("INSERT INTO supplier_details VALUES(?, ?, ?, ?)", s.getSupplierId(), s.getItemCode(), s.getQty(), s.getDate());
     }
 
     @Override

@@ -17,5 +17,5 @@ public interface SupplierBO extends SuperBO {
 
     ItemDTO searchByItemCode(String itemCode) throws SQLException;
 
-    boolean addSupplier(String supplierId, String supplyDate, String name, String contact, String address, String itemCode, String supplyQty) throws SQLException;
+    boolean addSupplier(SupplierDTO supplierDTO) throws SQLException;
 }
