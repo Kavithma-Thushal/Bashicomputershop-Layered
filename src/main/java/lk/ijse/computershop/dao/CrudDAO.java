@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface CrudDAO<T> extends SuperDAO {
 
+    List<T> loadAll() throws SQLException;
+
     int save(T entity) throws SQLException;
 
     T search(String id) throws SQLException;
@@ -13,7 +15,5 @@ public interface CrudDAO<T> extends SuperDAO {
 
     int delete(String id) throws SQLException;
 
-    List<T> getAll() throws SQLException;
-
-    String getNextId() throws SQLException;
+    String generateNextId() throws SQLException;
 }

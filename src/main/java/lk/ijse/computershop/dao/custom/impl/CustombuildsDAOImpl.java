@@ -17,7 +17,7 @@ public class CustombuildsDAOImpl implements CustombuildsDAO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
+    public String generateNextId() throws SQLException {
         String sql = "SELECT code FROM custombuilds ORDER BY code DESC LIMIT 1";
         ResultSet resultSet = SQLUtil.execute(sql);
 
@@ -53,7 +53,7 @@ public class CustombuildsDAOImpl implements CustombuildsDAO {
     }
 
     @Override
-    public List<Custombuilds> getAll() throws SQLException {
+    public List<Custombuilds> loadAll() throws SQLException {
         return null;
     }
 }

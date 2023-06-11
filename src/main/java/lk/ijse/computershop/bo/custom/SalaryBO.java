@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface SalaryBO extends SuperBO {
-    List<SalaryDTO> getAll() throws SQLException;
+    List<SalaryDTO> loadAllSalary() throws SQLException;
 
-    String getNextId() throws SQLException;
+    String generateNextSalaryCode() throws SQLException;
 
     List<String> loadEmployeeIds() throws SQLException;
 

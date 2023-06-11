@@ -25,9 +25,9 @@ public class DeliveryBOImpl implements DeliveryBO {
     private DeliveryDAO deliveryDAO = DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.DELIVERY);
 
     @Override
-    public List<DeliveryDTO> getAll() throws SQLException {
+    public List<DeliveryDTO> loadAllDelivers() throws SQLException {
         List<DeliveryDTO> deliveryList = new ArrayList<>();
-        List<Delivery> list = deliveryDAO.getAll();
+        List<Delivery> list = deliveryDAO.loadAll();
         for (Delivery d : list) {
             deliveryList.add(new DeliveryDTO(d.getCode(),d.getCustomerId(),d.getEmployeeId(),d.getOrderId(),d.getLocation(),d.getDate()));
         }
@@ -35,18 +35,18 @@ public class DeliveryBOImpl implements DeliveryBO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
-        return deliveryDAO.getNextId();
+    public String generateNextDeliverCode() throws SQLException {
+        return deliveryDAO.generateNextId();
     }
 
     @Override
     public List<String> loadCustomerIds() throws SQLException {
-        return customerDAO.loadIds();
+        return customerDAO.loadCustomerIds();
     }
 
     @Override
     public CustomerDTO searchByCustomerId(String customerId) throws SQLException {
-        Customer customer = customerDAO.searchById(customerId);
+        Customer customer = customerDAO.searchByCustomerId(customerId);
         return new CustomerDTO(customer.getId(), customer.getName(), customer.getNic(), customer.getEmail(), customer.getContact(), customer.getAddress());
     }
 
@@ -57,12 +57,12 @@ public class DeliveryBOImpl implements DeliveryBO {
 
     @Override
     public EmployeeDTO searchByEmployeeId(String employeeId) throws SQLException {
-        Employee e=employeeDAO.searchById(employeeId);
+        Employee e=employeeDAO.searchByEmployeeId(employeeId);
         return new EmployeeDTO(e.getId(),e.getName(),e.getContact(),e.getJobRole(),e.getUsername(),e.getPassword());
     }
 
     @Override
     public List<String> loadOrderIds() throws SQLException {
-        return ordersDAO.loadIds();
+        return ordersDAO.loadOrderIds();
     }
 }

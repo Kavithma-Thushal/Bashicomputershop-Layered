@@ -9,13 +9,13 @@ import java.util.List;
 
 public interface SupplierBO extends SuperBO {
 
-    boolean addSupplier(String supplierId, String supplyDate, String name, String contact, String address, String itemCode, String supplyQty) throws SQLException;
+    List<SupplierDTO> loadAllSuppliers() throws SQLException;
 
-    List<SupplierDTO> getAll() throws SQLException;
-
-    String getNextId() throws SQLException;
+    String generateNextSupplierId() throws SQLException;
 
     List<String> loadItemCodes() throws SQLException;
 
     ItemDTO searchByItemCode(String itemCode) throws SQLException;
+
+    boolean addSupplier(String supplierId, String supplyDate, String name, String contact, String address, String itemCode, String supplyQty) throws SQLException;
 }

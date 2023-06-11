@@ -9,5 +9,5 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface BuildDetailsDAO extends CrudDAO<Build_Details> {
-    boolean saveBuild(String buildCode, List<CustombuildsDTO> buildsList, LocalDate date) throws SQLException;
+    boolean buildQuotation(String buildCode, List<CustombuildsDTO> buildsDTOList, LocalDate date) throws SQLException;
 }

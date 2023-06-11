@@ -8,19 +8,19 @@ import java.util.List;
 
 public interface ItemBO extends SuperBO {
 
-    int save(ItemDTO itemDTO) throws SQLException;
+    List<ItemDTO> loadAllItems() throws SQLException;
 
-    ItemDTO search(String code) throws SQLException;
+    int saveItem(ItemDTO itemDTO) throws SQLException;
 
-    int update(ItemDTO itemDTO) throws SQLException;
+    ItemDTO searchItem(String itemCode) throws SQLException;
 
-    int delete(String code) throws SQLException;
+    int updateItem(ItemDTO itemDTO) throws SQLException;
 
-    List<ItemDTO> getAll() throws SQLException;
+    int deleteItem(String itemCode) throws SQLException;
 
-    String getNextId() throws SQLException;
+    String generateNextItemCode() throws SQLException;
 
-    List<String> loadCodes() throws SQLException;
+    List<String> loadItemCodes() throws SQLException;
 
-    ItemDTO searchById(String itemCode) throws SQLException;
+    ItemDTO searchByItemCode(String itemCode) throws SQLException;
 }

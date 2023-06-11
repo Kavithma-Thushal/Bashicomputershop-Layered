@@ -10,10 +10,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface CustombuildsBO extends SuperBO {
-    /*Transaction*/
-    boolean makeBuild(String buildCode, String customerId, String employeeId, List<CustombuildsDTO> buildList) throws SQLException;
 
-    String getNextId() throws SQLException;
+    String generateNextBuildCode() throws SQLException;
 
     List<String> loadCustomerIds() throws SQLException;
 
@@ -26,4 +24,6 @@ public interface CustombuildsBO extends SuperBO {
     EmployeeDTO searchByEmployeeId(String employeeId) throws SQLException;
 
     ItemDTO searchByItemCodes(String itemCode) throws SQLException;
+
+    boolean buildQuotation(String buildCode, String customerId, String employeeId, List<CustombuildsDTO> buildDTOList) throws SQLException;
 }

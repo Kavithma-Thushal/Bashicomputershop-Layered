@@ -8,19 +8,19 @@ import java.util.List;
 
 public interface CustomerBO extends SuperBO {
 
-    int save(CustomerDTO customerDTO) throws SQLException;
+    List<CustomerDTO> loadAllCustomers() throws SQLException;
 
-    CustomerDTO search(String id) throws SQLException;
+    int saveCustomer(CustomerDTO customerDTO) throws SQLException;
 
-    int update(CustomerDTO customerDTO) throws SQLException;
+    CustomerDTO searchCustomer(String id) throws SQLException;
 
-    int delete(String id) throws SQLException;
+    int updateCustomer(CustomerDTO customerDTO) throws SQLException;
 
-    List<CustomerDTO> getAll() throws SQLException;
+    int deleteCustomer(String id) throws SQLException;
 
-    String getNextId() throws SQLException;
+    String generateNextCustomerId() throws SQLException;
 
-    List<String> loadIds() throws SQLException;
+    List<String> loadCustomerIds() throws SQLException;
 
-    CustomerDTO searchById(String customerId) throws SQLException;
+    CustomerDTO searchByCustomerId(String customerId) throws SQLException;
 }

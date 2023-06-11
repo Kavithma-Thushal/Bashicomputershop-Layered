@@ -18,7 +18,7 @@ public class SupplierDAOImpl implements SupplierDAO {
     }
 
     @Override
-    public List<Supplier> getAll() throws SQLException {
+    public List<Supplier> loadAll() throws SQLException {
 
         List<Supplier> suppliers = new ArrayList<>();
         String sql = "SELECT * FROM supplier";
@@ -37,7 +37,7 @@ public class SupplierDAOImpl implements SupplierDAO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
+    public String generateNextId() throws SQLException {
         String sql = "SELECT id FROM supplier ORDER BY id DESC LIMIT 1";
         ResultSet resultSet = SQLUtil.execute(sql);
 

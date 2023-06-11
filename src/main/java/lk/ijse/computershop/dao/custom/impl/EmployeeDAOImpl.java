@@ -67,7 +67,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public List<Employee> getAll() throws SQLException {
+    public List<Employee> loadAll() throws SQLException {
 
         List<Employee> employeeList = new ArrayList<>();
         String sql = "SELECT * FROM employee";
@@ -88,7 +88,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
+    public String generateNextId() throws SQLException {
         String sql = "SELECT id FROM employee ORDER BY id DESC LIMIT 1";
         ResultSet resultSet = SQLUtil.execute(sql);
 
@@ -109,7 +109,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public List<String> loadIds() throws SQLException {
+    public List<String> loadEmployeeIdsToRepair() throws SQLException {
         String sql = "SELECT id FROM employee WHERE   jobRole IN ('Technician','technician') ORDER BY id ASC";
         ResultSet resultSet = SQLUtil.execute(sql);
 
@@ -133,7 +133,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public Employee searchById(String employeeId) throws SQLException {
+    public Employee searchByEmployeeId(String employeeId) throws SQLException {
         String sql = "SELECT * FROM employee WHERE id = ?";
         ResultSet resultSet = SQLUtil.execute(sql, employeeId);
 

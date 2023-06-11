@@ -8,19 +8,19 @@ import java.util.List;
 
 public interface EmployeeBO extends SuperBO {
 
-    int save(EmployeeDTO employeeDTO) throws SQLException;
+    List<EmployeeDTO> loadAllEmployees() throws SQLException;
 
-    EmployeeDTO search(String id) throws SQLException;
+    int saveEmployee(EmployeeDTO employeeDTO) throws SQLException;
 
-    int update(EmployeeDTO employeeDTO) throws SQLException;
+    EmployeeDTO searchEmployee(String id) throws SQLException;
 
-    int delete(String id) throws SQLException;
+    int updateEmployee(EmployeeDTO employeeDTO) throws SQLException;
 
-    List<EmployeeDTO> getAll() throws SQLException;
+    int deletEmployeee(String id) throws SQLException;
 
-    String getNextId() throws SQLException;
+    String generateNextEmployeeId() throws SQLException;
 
     List<String> loadEmployeeIds() throws SQLException;
 
-    EmployeeDTO searchById(String employeeId) throws SQLException;
+    EmployeeDTO searchByEmployeeId(String employeeId) throws SQLException;
 }

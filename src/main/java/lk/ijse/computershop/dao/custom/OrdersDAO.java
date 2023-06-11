@@ -7,5 +7,5 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface OrdersDAO extends CrudDAO<Orders> {
-    List<String> loadIds() throws SQLException;
+    List<String> loadOrderIds() throws SQLException;
 }

@@ -66,7 +66,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public List<Customer> getAll() throws SQLException {
+    public List<Customer> loadAll() throws SQLException {
 
         List<Customer> customerList = new ArrayList<>();
         String sql = "SELECT * FROM customer";
@@ -87,7 +87,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
+    public String generateNextId() throws SQLException {
         String sql = "SELECT id FROM customer ORDER BY id DESC LIMIT 1";
         ResultSet resultSet = SQLUtil.execute(sql);
 
@@ -108,7 +108,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public List<String> loadIds() throws SQLException {
+    public List<String> loadCustomerIds() throws SQLException {
         String sql = "SELECT id FROM customer ORDER BY id ASC";
         ResultSet resultSet = SQLUtil.execute(sql);
 
@@ -120,7 +120,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public Customer searchById(String customerId) throws SQLException {
+    public Customer searchByCustomerId(String customerId) throws SQLException {
         String sql = "SELECT * FROM Customer WHERE id = ?";
         ResultSet resultSet = SQLUtil.execute(sql, customerId);
 

@@ -15,7 +15,7 @@ public class CustomerBOImpl implements CustomerBO {
     private CustomerDAO customerDAO = DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
 
     @Override
-    public int save(CustomerDTO customerDTO) throws SQLException {
+    public int saveCustomer(CustomerDTO customerDTO) throws SQLException {
         return customerDAO.save(new Customer(
                         customerDTO.getId(),
                         customerDTO.getName(),
@@ -28,13 +28,13 @@ public class CustomerBOImpl implements CustomerBO {
     }
 
     @Override
-    public CustomerDTO search(String id) throws SQLException {
+    public CustomerDTO searchCustomer(String id) throws SQLException {
         Customer customer = customerDAO.search(id);
         return new CustomerDTO(customer.getId(), customer.getName(), customer.getNic(), customer.getEmail(), customer.getContact(), customer.getAddress());
     }
 
     @Override
-    public int update(CustomerDTO customerDTO) throws SQLException {
+    public int updateCustomer(CustomerDTO customerDTO) throws SQLException {
         return customerDAO.update(new Customer(
                         customerDTO.getId(),
                         customerDTO.getName(),
@@ -47,14 +47,14 @@ public class CustomerBOImpl implements CustomerBO {
     }
 
     @Override
-    public int delete(String id) throws SQLException {
+    public int deleteCustomer(String id) throws SQLException {
         return customerDAO.delete(id);
     }
 
     @Override
-    public List<CustomerDTO> getAll() throws SQLException {
+    public List<CustomerDTO> loadAllCustomers() throws SQLException {
         List<CustomerDTO> customerDTOList = new ArrayList<>();
-        List<Customer> customers = customerDAO.getAll();
+        List<Customer> customers = customerDAO.loadAll();
         for (Customer c : customers) {
             customerDTOList.add(new CustomerDTO(c.getId(), c.getName(), c.getNic(), c.getEmail(), c.getContact(), c.getAddress()));
         }
@@ -62,18 +62,18 @@ public class CustomerBOImpl implements CustomerBO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
-        return customerDAO.getNextId();
+    public String generateNextCustomerId() throws SQLException {
+        return customerDAO.generateNextId();
     }
 
     @Override
-    public List<String> loadIds() throws SQLException {
-        return customerDAO.loadIds();
+    public List<String> loadCustomerIds() throws SQLException {
+        return customerDAO.loadCustomerIds();
     }
 
     @Override
-    public CustomerDTO searchById(String customerId) throws SQLException {
-        Customer customer = customerDAO.searchById(customerId);
+    public CustomerDTO searchByCustomerId(String customerId) throws SQLException {
+        Customer customer = customerDAO.searchByCustomerId(customerId);
         return new CustomerDTO(customer.getId(), customer.getName(), customer.getNic(), customer.getEmail(), customer.getContact(), customer.getAddress());
     }
 }

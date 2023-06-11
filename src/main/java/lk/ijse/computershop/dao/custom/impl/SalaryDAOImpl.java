@@ -12,7 +12,7 @@ import java.util.List;
 public class SalaryDAOImpl implements SalaryDAO {
 
     @Override
-    public List<Salary> getAll() throws SQLException {
+    public List<Salary> loadAll() throws SQLException {
 
         List<Salary> salaryList = new ArrayList<>();
         String sql = "SELECT * FROM salary";
@@ -31,7 +31,7 @@ public class SalaryDAOImpl implements SalaryDAO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
+    public String generateNextId() throws SQLException {
         String sql = "SELECT code FROM salary ORDER BY code DESC LIMIT 1";
         ResultSet resultSet = SQLUtil.execute(sql);
 

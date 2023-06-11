@@ -10,17 +10,17 @@ import java.util.List;
 
 public interface OrdersBO extends SuperBO {
 
-    List<String> loadIds() throws SQLException;
-
-    String getNextId() throws SQLException;
-
-    boolean placeOrder(String orderId, String customerId, List<OrderDTO> orderDTOList) throws SQLException;
+    List<String> loadOrderIds() throws SQLException;
 
     List<String> loadCustomerIds() throws SQLException;
 
-    CustomerDTO searchByCustomrtId(String customerId) throws SQLException;
-
     List<String> loadItemCodes() throws SQLException;
 
+    String generateNextOrderId() throws SQLException;
+
     ItemDTO searchByOrderId(String itemCode) throws SQLException;
+
+    CustomerDTO searchByCustomerId(String customerId) throws SQLException;
+
+    boolean placeOrder(String orderId, String customerId, List<OrderDTO> orderDTOList) throws SQLException;
 }

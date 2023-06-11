@@ -35,9 +35,9 @@ public class OrdersBOImpl implements OrdersBO {
 
             Integer isSaved = ordersDAO.save(new Orders(orderId, customerId));     //orders
             if (isSaved>0) {
-                boolean isOrdered = orderDetailsDAO.save(orderId, orderDTOList, LocalDate.now());      //order_details
+                boolean isOrdered = orderDetailsDAO.placeOrder(orderId, orderDTOList, LocalDate.now());      //order_details
                 if (isOrdered) {
-                    boolean isUpdated = itemDAO.updateQty(orderDTOList);     //items update
+                    boolean isUpdated = itemDAO.updateOrderQty(orderDTOList);     //items update
                     if (isUpdated) {
                         connection.commit();
                         return true;
@@ -54,33 +54,33 @@ public class OrdersBOImpl implements OrdersBO {
     }
 
     @Override
-    public List<String> loadIds() throws SQLException {
-        return ordersDAO.loadIds();
+    public List<String> loadOrderIds() throws SQLException {
+        return ordersDAO.loadOrderIds();
     }
 
     @Override
-    public String getNextId() throws SQLException {
-        return ordersDAO.getNextId();
+    public String generateNextOrderId() throws SQLException {
+        return ordersDAO.generateNextId();
     }
 
     @Override
     public List<String> loadCustomerIds() throws SQLException {
-        return customerDAO.loadIds();
+        return customerDAO.loadCustomerIds();
     }
 
     @Override
-    public CustomerDTO searchByCustomrtId(String customerId) throws SQLException {
-        Customer customer = customerDAO.searchById(customerId);
+    public CustomerDTO searchByCustomerId(String customerId) throws SQLException {
+        Customer customer = customerDAO.searchByCustomerId(customerId);
         return new CustomerDTO(customer.getId(), customer.getName(), customer.getNic(), customer.getEmail(), customer.getContact(), customer.getAddress());
     }
 
     @Override
     public List<String> loadItemCodes() throws SQLException {
-        return itemDAO.loadCodes();
+        return itemDAO.loadItemCodes();
     }
 
     @Override
     public ItemDTO searchByOrderId(String itemCode) throws SQLException {
-        return itemDAO.searchById(itemCode);
+        return itemDAO.searchByItemCode(itemCode);
     }
 }

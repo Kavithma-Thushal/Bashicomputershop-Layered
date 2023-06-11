@@ -13,8 +13,8 @@ import java.util.List;
 public class BuildDetailsDAOImpl implements BuildDetailsDAO {
 
     @Override
-    public boolean saveBuild(String buildCode, List<CustombuildsDTO> buildsList, LocalDate date) throws SQLException {
-        for (CustombuildsDTO custombuildsDTO : buildsList) {
+    public boolean buildQuotation(String buildCode, List<CustombuildsDTO> buildsDTOList, LocalDate date) throws SQLException {
+        for (CustombuildsDTO custombuildsDTO : buildsDTOList) {
             if (!saveBuild(buildCode, custombuildsDTO, LocalDate.now())) {
                 return false;
             }
@@ -49,12 +49,12 @@ public class BuildDetailsDAOImpl implements BuildDetailsDAO {
     }
 
     @Override
-    public List<Build_Details> getAll() throws SQLException {
+    public List<Build_Details> loadAll() throws SQLException {
         return null;
     }
 
     @Override
-    public String getNextId() throws SQLException {
+    public String generateNextId() throws SQLException {
         return null;
     }
 }

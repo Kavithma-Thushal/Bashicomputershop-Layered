@@ -13,7 +13,7 @@ import java.util.List;
 public class OrderDetailsDAOImpl implements OrderDetailsDAO {
 
     @Override
-    public boolean save(String orderId, List<OrderDTO> orderDTOList, LocalDate date) throws SQLException {
+    public boolean placeOrder(String orderId, List<OrderDTO> orderDTOList, LocalDate date) throws SQLException {
         for (OrderDTO orderDTODetails : orderDTOList) {
             if (!save(orderId, orderDTODetails, LocalDate.now())) {
                 return false;
@@ -49,12 +49,12 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
     }
 
     @Override
-    public List<Order_Details> getAll() throws SQLException {
+    public List<Order_Details> loadAll() throws SQLException {
         return null;
     }
 
     @Override
-    public String getNextId() throws SQLException {
+    public String generateNextId() throws SQLException {
         return null;
     }
 }

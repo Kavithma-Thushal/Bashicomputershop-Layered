@@ -51,9 +51,9 @@ public class SupplierBOImpl implements SupplierBO {
     }
 
     @Override
-    public List<SupplierDTO> getAll() throws SQLException {
+    public List<SupplierDTO> loadAllSuppliers() throws SQLException {
         List<SupplierDTO> supplierDTOS = new ArrayList<>();
-        List<Supplier> suppliers = supplierDAO.getAll();
+        List<Supplier> suppliers = supplierDAO.loadAll();
         for (Supplier s : suppliers) {
             supplierDTOS.add(new SupplierDTO(s.getId(),s.getName(),s.getContact(),s.getAddress()));
         }
@@ -61,17 +61,17 @@ public class SupplierBOImpl implements SupplierBO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
-        return supplierDAO.getNextId();
+    public String generateNextSupplierId() throws SQLException {
+        return supplierDAO.generateNextId();
     }
 
     @Override
     public List<String> loadItemCodes() throws SQLException {
-        return itemDAO.loadCodes();
+        return itemDAO.loadItemCodes();
     }
 
     @Override
     public ItemDTO searchByItemCode(String itemCode) throws SQLException {
-        return itemDAO.searchById(itemCode);
+        return itemDAO.searchByItemCode(itemCode);
     }
 }

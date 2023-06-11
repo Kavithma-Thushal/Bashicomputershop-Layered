@@ -62,7 +62,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public List<Item> getAll() throws SQLException {
+    public List<Item> loadAll() throws SQLException {
 
         List<Item> itemList = new ArrayList<>();
         String sql = "SELECT * FROM item";
@@ -81,7 +81,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
+    public String generateNextId() throws SQLException {
         String sql = "SELECT code FROM item ORDER BY code DESC LIMIT 1";
 
         ResultSet resultSet = SQLUtil.execute(sql);
@@ -102,7 +102,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public List<String> loadCodes() throws SQLException {
+    public List<String> loadItemCodes() throws SQLException {
         String sql = "SELECT code FROM item  ORDER BY code ASC";
         ResultSet resultSet = SQLUtil.execute(sql);
 
@@ -114,7 +114,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public ItemDTO searchById(String itemCode) throws SQLException {
+    public ItemDTO searchByItemCode(String itemCode) throws SQLException {
         String sql = "SELECT * FROM item WHERE code = ?";
         ResultSet resultSet = SQLUtil.execute(sql, itemCode);
 
@@ -131,7 +131,7 @@ public class ItemDAOImpl implements ItemDAO {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////    Orders
     @Override
-    public boolean updateQty(List<OrderDTO> orderDTOList) throws SQLException {
+    public boolean updateOrderQty(List<OrderDTO> orderDTOList) throws SQLException {
         for (OrderDTO orderDTODetails : orderDTOList) {
             if (!updateQty(orderDTODetails)) {
                 return false;
@@ -148,7 +148,7 @@ public class ItemDAOImpl implements ItemDAO {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////    Custom Build
     @Override
-    public boolean updateBuildQty(List<CustombuildsDTO> buildsList) throws SQLException {
+    public boolean updateCustombuildQty(List<CustombuildsDTO> buildsList) throws SQLException {
         for (CustombuildsDTO custombuildsDTO : buildsList) {
             if (!updateBuildQty(custombuildsDTO)) {
                 return false;

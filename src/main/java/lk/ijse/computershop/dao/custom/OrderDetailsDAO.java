@@ -9,5 +9,5 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface OrderDetailsDAO extends CrudDAO<Order_Details> {
-    boolean save(String orderId, List<OrderDTO> orderDTOList, LocalDate date) throws SQLException;
+    boolean placeOrder(String orderId, List<OrderDTO> orderDTOList, LocalDate date) throws SQLException;
 }

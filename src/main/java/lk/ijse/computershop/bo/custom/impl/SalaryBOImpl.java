@@ -19,9 +19,9 @@ public class SalaryBOImpl implements SalaryBO {
     private SalaryDAO salaryDAO = DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.SALARY);
 
     @Override
-    public List<SalaryDTO> getAll() throws SQLException {
+    public List<SalaryDTO> loadAllSalary() throws SQLException {
         List<SalaryDTO> salaryDTOS = new ArrayList<>();
-        List<Salary> salaries = salaryDAO.getAll();
+        List<Salary> salaries = salaryDAO.loadAll();
         for (Salary s : salaries) {
             salaryDTOS.add(new SalaryDTO(s.getCode(),s.getEmployeeId(),s.getAmount(),s.getDate()));
         }
@@ -29,8 +29,8 @@ public class SalaryBOImpl implements SalaryBO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
-        return salaryDAO.getNextId();
+    public String generateNextSalaryCode() throws SQLException {
+        return salaryDAO.generateNextId();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class SalaryBOImpl implements SalaryBO {
 
     @Override
     public EmployeeDTO searchByEmployeeId(String employeeId) throws SQLException {
-        Employee e=employeeDAO.searchById(employeeId);
+        Employee e=employeeDAO.searchByEmployeeId(employeeId);
         return new EmployeeDTO(e.getId(),e.getName(),e.getContact(),e.getJobRole(),e.getUsername(),e.getPassword());
     }
 }

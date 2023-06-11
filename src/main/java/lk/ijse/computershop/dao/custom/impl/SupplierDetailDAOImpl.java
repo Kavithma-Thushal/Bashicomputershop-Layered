@@ -31,12 +31,12 @@ public class SupplierDetailDAOImpl implements SupplierDetailDAO {
     }
 
     @Override
-    public List<Supplier_Details> getAll() throws SQLException {
+    public List<Supplier_Details> loadAll() throws SQLException {
         return null;
     }
 
     @Override
-    public String getNextId() throws SQLException {
+    public String generateNextId() throws SQLException {
         return null;
     }
 }

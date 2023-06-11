@@ -32,7 +32,7 @@ public class RepairDAOImpl implements RepairDAO {
     }
 
     @Override
-    public List<Repairs> getAll() throws SQLException {
+    public List<Repairs> loadAll() throws SQLException {
 
         List<Repairs> repairDTOList = new ArrayList<>();
         String sql = "SELECT * FROM repairs";
@@ -53,7 +53,7 @@ public class RepairDAOImpl implements RepairDAO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
+    public String generateNextId() throws SQLException {
         String sql = "SELECT code FROM repairs ORDER BY code DESC LIMIT 1";
         ResultSet resultSet = SQLUtil.execute(sql);
 

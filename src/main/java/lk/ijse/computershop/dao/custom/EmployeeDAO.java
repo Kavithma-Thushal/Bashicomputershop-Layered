@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface EmployeeDAO extends CrudDAO<Employee> {
 
-    List<String> loadIds() throws SQLException;
-
     List<String> loadEmployeeIds() throws SQLException;
 
-    Employee searchById(String employeeId) throws SQLException;
+    Employee searchByEmployeeId(String employeeId) throws SQLException;
+
+    List<String> loadEmployeeIdsToRepair() throws SQLException;
 }

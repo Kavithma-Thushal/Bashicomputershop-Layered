@@ -10,17 +10,17 @@ import java.util.List;
 
 public interface RepairBO extends SuperBO {
 
-    List<RepairDTO> getAll() throws SQLException;
+    List<RepairDTO> loadAllRepairs() throws SQLException;
 
-    RepairDTO search(String code) throws SQLException;
+    RepairDTO searchRepair(String code) throws SQLException;
 
-    String getNextId() throws SQLException;
+    String generateNextRepairCode() throws SQLException;
 
     List<String> loadCustomerIds() throws SQLException;
 
-    CustomerDTO searchByCustomertId(String customerId) throws SQLException;
-
     List<String> loadEmployeeIds() throws SQLException;
+
+    CustomerDTO searchByCustomerId(String customerId) throws SQLException;
 
     EmployeeDTO searchByEmployeeId(String employeeId) throws SQLException;
 }

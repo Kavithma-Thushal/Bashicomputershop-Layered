@@ -15,7 +15,7 @@ public class EmployeeBOImpl implements EmployeeBO {
     private EmployeeDAO employeeDAO = DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
 
     @Override
-    public int save(EmployeeDTO employeeDTO) throws SQLException {
+    public int saveEmployee(EmployeeDTO employeeDTO) throws SQLException {
         return employeeDAO.save(new Employee(
                         employeeDTO.getId(),
                         employeeDTO.getName(),
@@ -29,13 +29,13 @@ public class EmployeeBOImpl implements EmployeeBO {
     }
 
     @Override
-    public EmployeeDTO search(String id) throws SQLException {
+    public EmployeeDTO searchEmployee(String id) throws SQLException {
         Employee employee=employeeDAO.search(id);
         return new EmployeeDTO(employee.getId(),employee.getName(),employee.getContact(),employee.getJobRole(),employee.getUsername(),employee.getPassword());
     }
 
     @Override
-    public int update(EmployeeDTO employeeDTO) throws SQLException {
+    public int updateEmployee(EmployeeDTO employeeDTO) throws SQLException {
         return employeeDAO.update(new Employee(
                         employeeDTO.getId(),
                         employeeDTO.getName(),
@@ -48,14 +48,14 @@ public class EmployeeBOImpl implements EmployeeBO {
     }
 
     @Override
-    public int delete(String id) throws SQLException {
+    public int deletEmployeee(String id) throws SQLException {
         return employeeDAO.delete(id);
     }
 
     @Override
-    public List<EmployeeDTO> getAll() throws SQLException {
+    public List<EmployeeDTO> loadAllEmployees() throws SQLException {
         List<EmployeeDTO> employeeDTOList = new ArrayList<>();
-        List<Employee> employees = employeeDAO.getAll();
+        List<Employee> employees = employeeDAO.loadAll();
         for (Employee e : employees) {
             employeeDTOList.add(new EmployeeDTO(e.getId(),e.getName(),e.getContact(),e.getJobRole(),e.getUsername(),e.getPassword()));
         }
@@ -63,8 +63,8 @@ public class EmployeeBOImpl implements EmployeeBO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
-        return employeeDAO.getNextId();
+    public String generateNextEmployeeId() throws SQLException {
+        return employeeDAO.generateNextId();
     }
 
     @Override
@@ -73,8 +73,8 @@ public class EmployeeBOImpl implements EmployeeBO {
     }
 
     @Override
-    public EmployeeDTO searchById(String employeeId) throws SQLException {
-        Employee e=employeeDAO.searchById(employeeId);
+    public EmployeeDTO searchByEmployeeId(String employeeId) throws SQLException {
+        Employee e=employeeDAO.searchByEmployeeId(employeeId);
         return new EmployeeDTO(e.getId(),e.getName(),e.getContact(),e.getJobRole(),e.getUsername(),e.getPassword());
     }
 }

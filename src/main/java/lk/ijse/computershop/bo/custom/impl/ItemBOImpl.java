@@ -15,7 +15,7 @@ public class ItemBOImpl implements ItemBO {
     private ItemDAO itemDAO = DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.ITEM);
 
     @Override
-    public int save(ItemDTO itemDTO) throws SQLException {
+    public int saveItem(ItemDTO itemDTO) throws SQLException {
         return itemDAO.save(new Item(
                         itemDTO.getCode(),
                         itemDTO.getDescription(),
@@ -26,13 +26,13 @@ public class ItemBOImpl implements ItemBO {
     }
 
     @Override
-    public ItemDTO search(String code) throws SQLException {
-        Item item=itemDAO.search(code);
+    public ItemDTO searchItem(String itemCode) throws SQLException {
+        Item item=itemDAO.search(itemCode);
         return new ItemDTO(item.getCode(),item.getDescription(),item.getUnitPrice(),item.getQtyOnHand());
     }
 
     @Override
-    public int update(ItemDTO itemDTO) throws SQLException {
+    public int updateItem(ItemDTO itemDTO) throws SQLException {
         return itemDAO.update(new Item(
                         itemDTO.getCode(),
                         itemDTO.getDescription(),
@@ -43,14 +43,14 @@ public class ItemBOImpl implements ItemBO {
     }
 
     @Override
-    public int delete(String code) throws SQLException {
-        return itemDAO.delete(code);
+    public int deleteItem(String itemCode) throws SQLException {
+        return itemDAO.delete(itemCode);
     }
 
     @Override
-    public List<ItemDTO> getAll() throws SQLException {
+    public List<ItemDTO> loadAllItems() throws SQLException {
         List<ItemDTO> itemDTOList = new ArrayList<>();
-        List<Item> items = itemDAO.getAll();
+        List<Item> items = itemDAO.loadAll();
         for (Item i : items) {
             itemDTOList.add(new ItemDTO(i.getCode(),i.getDescription(),i.getUnitPrice(),i.getQtyOnHand()));
         }
@@ -58,17 +58,17 @@ public class ItemBOImpl implements ItemBO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
-        return itemDAO.getNextId();
+    public String generateNextItemCode() throws SQLException {
+        return itemDAO.generateNextId();
     }
 
     @Override
-    public List<String> loadCodes() throws SQLException {
-        return itemDAO.loadCodes();
+    public List<String> loadItemCodes() throws SQLException {
+        return itemDAO.loadItemCodes();
     }
 
     @Override
-    public ItemDTO searchById(String itemCode) throws SQLException {
-        return itemDAO.searchById(itemCode);
+    public ItemDTO searchByItemCode(String itemCode) throws SQLException {
+        return itemDAO.searchByItemCode(itemCode);
     }
 }

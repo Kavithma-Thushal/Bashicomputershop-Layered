@@ -18,7 +18,7 @@ public class OrdersDAOImpl implements OrdersDAO {
     }
 
     @Override
-    public List<String> loadIds() throws SQLException {
+    public List<String> loadOrderIds() throws SQLException {
         String sql = "SELECT orderId FROM orders ORDER BY orderId ASC";
         ResultSet resultSet = SQLUtil.execute(sql);
 
@@ -30,7 +30,7 @@ public class OrdersDAOImpl implements OrdersDAO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
+    public String generateNextId() throws SQLException {
         String sql = "SELECT orderId FROM Orders ORDER BY orderId DESC LIMIT 1";
         ResultSet resultSet = SQLUtil.execute(sql);
 
@@ -66,7 +66,7 @@ public class OrdersDAOImpl implements OrdersDAO {
     }
 
     @Override
-    public List<Orders> getAll() throws SQLException {
+    public List<Orders> loadAll() throws SQLException {
         return null;
     }
 }

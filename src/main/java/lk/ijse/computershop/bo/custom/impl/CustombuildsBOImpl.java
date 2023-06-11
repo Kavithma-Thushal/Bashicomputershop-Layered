@@ -27,7 +27,7 @@ public class CustombuildsBOImpl implements CustombuildsBO {
 
     /*Transaction*/
     @Override
-    public boolean makeBuild(String buildCode, String customerId, String employeeId, List<CustombuildsDTO> buildList) throws SQLException {
+    public boolean buildQuotation(String buildCode, String customerId, String employeeId, List<CustombuildsDTO> buildDTOList) throws SQLException {
         Connection connection = null;
         try {
             connection = DBConnection.getInstance().getConnection();
@@ -35,9 +35,9 @@ public class CustombuildsBOImpl implements CustombuildsBO {
 
             Integer isSaved = custombuildsDAO.save(new Custombuilds(buildCode, customerId, employeeId));     //orders
             if (isSaved>0) {
-                boolean isBuild = buildDetailsDAO.saveBuild(buildCode, buildList, LocalDate.now());      //order_details
+                boolean isBuild = buildDetailsDAO.buildQuotation(buildCode, buildDTOList, LocalDate.now());      //order_details
                 if (isBuild) {
-                    boolean isUpdated = itemDAO.updateBuildQty(buildList);     //items update
+                    boolean isUpdated = itemDAO.updateCustombuildQty(buildDTOList);     //items update
                     if (isUpdated) {
                         connection.commit();
                         return true;
@@ -54,13 +54,13 @@ public class CustombuildsBOImpl implements CustombuildsBO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
-        return custombuildsDAO.getNextId();
+    public String generateNextBuildCode() throws SQLException {
+        return custombuildsDAO.generateNextId();
     }
 
     @Override
     public List<String> loadCustomerIds() throws SQLException {
-        return customerDAO.loadIds();
+        return customerDAO.loadCustomerIds();
     }
 
     @Override
@@ -70,23 +70,23 @@ public class CustombuildsBOImpl implements CustombuildsBO {
 
     @Override
     public List<String> loadItemCodes() throws SQLException {
-        return itemDAO.loadCodes();
+        return itemDAO.loadItemCodes();
     }
 
     @Override
     public CustomerDTO searchByCustomerId(String customerId) throws SQLException {
-        Customer customer = customerDAO.searchById(customerId);
+        Customer customer = customerDAO.searchByCustomerId(customerId);
         return new CustomerDTO(customer.getId(), customer.getName(), customer.getNic(), customer.getEmail(), customer.getContact(), customer.getAddress());
     }
 
     @Override
     public EmployeeDTO searchByEmployeeId(String employeeId) throws SQLException {
-        Employee e=employeeDAO.searchById(employeeId);
+        Employee e=employeeDAO.searchByEmployeeId(employeeId);
         return new EmployeeDTO(e.getId(),e.getName(),e.getContact(),e.getJobRole(),e.getUsername(),e.getPassword());
     }
 
     @Override
     public ItemDTO searchByItemCodes(String itemCode) throws SQLException {
-        return itemDAO.searchById(itemCode);
+        return itemDAO.searchByItemCode(itemCode);
     }
 }

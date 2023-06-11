@@ -12,7 +12,7 @@ import java.util.List;
 public class DeliveryDAOImpl implements DeliveryDAO {
 
     @Override
-    public List<Delivery> getAll() throws SQLException {
+    public List<Delivery> loadAll() throws SQLException {
 
         List<Delivery> deliveryList = new ArrayList<>();
         String sql = "SELECT * FROM delivery";
@@ -33,7 +33,7 @@ public class DeliveryDAOImpl implements DeliveryDAO {
     }
 
     @Override
-    public String getNextId() throws SQLException {
+    public String generateNextId() throws SQLException {
         String sql = "SELECT code FROM delivery ORDER BY code DESC LIMIT 1";
         ResultSet resultSet = SQLUtil.execute(sql);
 
