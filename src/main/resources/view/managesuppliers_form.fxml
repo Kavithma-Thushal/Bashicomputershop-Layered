@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="638.0" prefWidth="1179.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.computershop.controller.ManagesuppliersFormController">
+    <children>
+        <ImageView fitHeight="670.0" fitWidth="1190.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../assets/img/customers.jpg" />
+            </image>
+        </ImageView>
+        <TextField fx:id="txtSupplyId" editable="false" focusTraversable="false" layoutX="45.0" layoutY="37.0" prefHeight="19.0" prefWidth="187.0">
+            <font>
+                <Font name="Times New Roman" size="17.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="txtSupplyName" layoutX="271.0" layoutY="37.0" onKeyReleased="#txtKeyRelease" prefHeight="0.0" prefWidth="187.0" promptText="Name">
+            <font>
+                <Font name="Times New Roman" size="17.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="txtSupplyDate" editable="false" focusTraversable="false" layoutX="45.0" layoutY="109.0" prefHeight="0.0" prefWidth="187.0">
+            <font>
+                <Font name="Times New Roman" size="17.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="txtSupplyAddress" focusTraversable="false" layoutX="498.0" layoutY="37.0" onKeyReleased="#txtKeyRelease" prefHeight="0.0" prefWidth="187.0" promptText="Address">
+            <font>
+                <Font name="Times New Roman" size="17.0" />
+            </font>
+        </TextField>
+        <Button fx:id="btnAdd" focusTraversable="false" layoutX="952.0" layoutY="37.0" mnemonicParsing="false" onAction="#supplierAddOnAction" prefHeight="0.0" prefWidth="187.0" style="-fx-background-color: lightblue;" text="Add">
+            <font>
+                <Font name="Times New Roman Bold" size="17.0" />
+            </font>
+        </Button>
+        <TableView fx:id="tblsupplier" focusTraversable="false" layoutX="44.0" layoutY="182.0" prefHeight="448.0" prefWidth="1096.0">
+            <columns>
+                <TableColumn fx:id="colSupplyId" prefWidth="274.0" resizable="false" text="Supply ID" />
+                <TableColumn fx:id="colName" prefWidth="274.0" resizable="false" text="Name" />
+                <TableColumn fx:id="colContact" prefWidth="274.0" resizable="false" text="Contact" />
+                <TableColumn fx:id="colAddress" prefWidth="272.0" resizable="false" text="Address" />
+            </columns>
+        </TableView>
+        <TextField fx:id="txtSupplyContact" focusTraversable="false" layoutX="271.0" layoutY="109.0" onKeyReleased="#txtKeyRelease" prefHeight="0.0" prefWidth="187.0" promptText="Contact">
+            <font>
+                <Font name="Times New Roman" size="17.0" />
+            </font>
+        </TextField>
+        <ComboBox fx:id="cmbItemCode" focusTraversable="false" layoutX="728.0" layoutY="37.0" onAction="#cmbItemCodeOnAction" prefHeight="31.0" prefWidth="187.0" promptText="Item Code" />
+        <TextField fx:id="txtQty" focusTraversable="false" layoutX="498.0" layoutY="109.0" onKeyReleased="#txtKeyRelease" prefHeight="0.0" prefWidth="187.0" promptText="Supply Quantity">
+            <font>
+                <Font name="Times New Roman" size="17.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="txtItemDescription" editable="false" focusTraversable="false" layoutX="728.0" layoutY="109.0" prefHeight="0.0" prefWidth="187.0">
+            <font>
+                <Font name="Times New Roman" size="17.0" />
+            </font>
+        </TextField>
+    </children>
+</AnchorPane>

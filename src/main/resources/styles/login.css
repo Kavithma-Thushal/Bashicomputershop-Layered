@@ -1,0 +1,36 @@
+.dashboard{
+    -fx-background-color:linear-gradient(to right,#3168df,rgba(235, 59, 90,1.0));
+}
+
+.lblTop{
+    -fx-background-color:linear-gradient(to right,#808080,#000000);
+}
+
+.loginDashboard{
+    -fx-background-color:linear-gradient(to right,#808080,#ffffff);
+}
+
+.loginCashierAdmin{
+    -fx-background-color:#808080;
+    -fx-background-radius: 25;
+    -fx-border-color: #5c5c5c;
+    -fx-border-width: 5;
+    -fx-border-radius: 25;
+}
+
+.about{
+    -fx-background-color:#5e88e3;
+    -fx-border-width: 5;
+    -fx-border-color: #4a74cf;
+}
+
+.lblabout{
+    -fx-background-color:#7599e7;
+    -fx-background-radius: 30;
+}
+
+.loginDetails{
+    -fx-background-color:#CCCCFF;
+    -fx-border-color: #7878cf;
+    -fx-border-width: 5;
+}
