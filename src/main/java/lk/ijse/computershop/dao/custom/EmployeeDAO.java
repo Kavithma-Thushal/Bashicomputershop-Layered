@@ -10,7 +10,5 @@ public interface EmployeeDAO extends CrudDAO<Employee> {
 
     List<String> loadEmployeeIds() throws SQLException;
 
-    Employee searchByEmployeeId(String employeeId) throws SQLException;
-
     List<String> loadEmployeeIdsToRepair() throws SQLException;
 }

@@ -10,9 +10,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.computershop.bo.BoFactory;
+import lk.ijse.computershop.bo.custom.EmployeeBO;
 import lk.ijse.computershop.dto.EmployeeDTO;
 import lk.ijse.computershop.dto.tm.EmployeeTM;
-import lk.ijse.computershop.model.EmployeeModel;
 import lk.ijse.computershop.util.Validation;
 
 import java.net.URL;
@@ -60,6 +61,8 @@ public class ManageemployeeFormController implements Initializable {
     private TextField txtSearch;
 
     private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
+    private EmployeeBO employeeBO= BoFactory.getBoFactory().getBO(BoFactory.BOTypes.EMPLOYEE);
+
     Pattern name = Pattern.compile("^([A-Z a-z]{4,40})$");
     Pattern contact = Pattern.compile("^(07(0|1|2|4|5|6|7|8)|091)[0-9]{7}$");
     Pattern jobRole = Pattern.compile("^(Cashier|cashier|Technician|technician)$");
@@ -137,7 +140,7 @@ public class ManageemployeeFormController implements Initializable {
 
     private void generateNextEmployeeId() {
         try {
-            String id = EmployeeModel.getNextEmployeeId();
+            String id = employeeBO.generateNextEmployeeId();
             txtId.setText(id);
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -147,7 +150,7 @@ public class ManageemployeeFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<EmployeeTM> observableList = FXCollections.observableArrayList();
-            List<EmployeeDTO> employeeDTOList = EmployeeModel.getAll();
+            List<EmployeeDTO> employeeDTOList = employeeBO.loadAllEmployees();
 
             for (EmployeeDTO employeeDTO : employeeDTOList) {
                 observableList.add(new EmployeeTM(
@@ -180,7 +183,7 @@ public class ManageemployeeFormController implements Initializable {
                 );
             }
 
-            if (EmployeeModel.save(employeeDTO) > 0) {
+            if (employeeBO.saveEmployee(employeeDTO) > 0) {
 
                 new Alert(Alert.AlertType.INFORMATION, "Saved Successfully...!").show();
                 getAll();
@@ -197,7 +200,7 @@ public class ManageemployeeFormController implements Initializable {
     @FXML
     private void searchOnAction(ActionEvent event) {
         try {
-            EmployeeDTO employeeDTO = EmployeeModel.search(txtSearch.getText());
+            EmployeeDTO employeeDTO = employeeBO.searchEmployee(txtSearch.getText());
             if (employeeDTO != null) {
                 txtId.setText(employeeDTO.getId());
                 txtName.setText(employeeDTO.getName());
@@ -233,7 +236,7 @@ public class ManageemployeeFormController implements Initializable {
                     txtPassword.getText()
             );
 
-            if (EmployeeModel.update(employeeDTO) > 0) {
+            if (employeeBO.updateEmployee(employeeDTO) > 0) {
                 new Alert(Alert.AlertType.INFORMATION, "Updated Successfully...!").show();
                 getAll();
                 clearAllTxt();
@@ -254,7 +257,7 @@ public class ManageemployeeFormController implements Initializable {
             Optional<ButtonType> buttonType = new Alert(Alert.AlertType.WARNING, "Are you sure...?", yes, no).showAndWait();
 
             if (buttonType.orElse(yes) == yes) {
-                if (EmployeeModel.delete(txtId.getText()) > 0) {
+                if (employeeBO.deletEmployeee(txtId.getText()) > 0) {
                     new Alert(Alert.AlertType.INFORMATION, "Deleted Successfully...!").show();
                     getAll();
                     clearAllTxt();

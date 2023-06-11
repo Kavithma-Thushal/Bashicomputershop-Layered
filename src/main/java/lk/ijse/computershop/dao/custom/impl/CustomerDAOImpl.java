@@ -23,8 +23,8 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public int save(Customer entity) throws SQLException {
-        return SQLUtil.execute("INSERT INTO customer VALUES (?,?,?,?,?,?)", entity.getId(), entity.getName(), entity.getNic(), entity.getEmail(), entity.getContact(), entity.getAddress());
+    public int save(Customer c) throws SQLException {
+        return SQLUtil.execute("INSERT INTO customer VALUES (?,?,?,?,?,?)", c.getId(), c.getName(), c.getNic(), c.getEmail(), c.getContact(), c.getAddress());
     }
 
     @Override
@@ -37,8 +37,8 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public int update(Customer entity) throws SQLException {
-        return SQLUtil.execute("UPDATE customer SET name=? , nic=? , email=? , contact=? , address=? WHERE id=?", entity.getName(), entity.getNic(), entity.getEmail(), entity.getContact(), entity.getAddress(), entity.getId());
+    public int update(Customer c) throws SQLException {
+        return SQLUtil.execute("UPDATE customer SET name=? , nic=? , email=? , contact=? , address=? WHERE id=?", c.getName(), c.getNic(), c.getEmail(), c.getContact(), c.getAddress(), c.getId());
     }
 
     @Override
@@ -67,11 +67,11 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public List<String> loadCustomerIds() throws SQLException {
-        List<String> customerId = new ArrayList<>();
+        List<String> arrayList = new ArrayList<>();
         ResultSet rst = SQLUtil.execute("SELECT id FROM customer ORDER BY id ASC");
         while (rst.next()) {
-            customerId.add(rst.getString(1));
+            arrayList.add(rst.getString(1));
         }
-        return customerId;
+        return arrayList;
     }
 }

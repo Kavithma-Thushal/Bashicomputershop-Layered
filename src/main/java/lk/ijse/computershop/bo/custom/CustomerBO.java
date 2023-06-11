@@ -19,6 +19,4 @@ public interface CustomerBO extends SuperBO {
     int deleteCustomer(String id) throws SQLException;
 
     String generateNextCustomerId() throws SQLException;
-
-    List<String> loadCustomerIds() throws SQLException;
 }

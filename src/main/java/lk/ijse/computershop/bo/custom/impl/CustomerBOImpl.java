@@ -49,9 +49,4 @@ public class CustomerBOImpl implements CustomerBO {
     public String generateNextCustomerId() throws SQLException {
         return customerDAO.generateNextId();
     }
-
-    @Override
-    public List<String> loadCustomerIds() throws SQLException {
-        return customerDAO.loadCustomerIds();
-    }
 }
