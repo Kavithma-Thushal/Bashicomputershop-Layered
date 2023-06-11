@@ -10,9 +10,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.computershop.bo.BoFactory;
+import lk.ijse.computershop.bo.custom.CustomerBO;
 import lk.ijse.computershop.dto.CustomerDTO;
 import lk.ijse.computershop.dto.tm.CustomerTM;
-import lk.ijse.computershop.model.CustomerModel;
 import lk.ijse.computershop.util.Validation;
 
 import java.net.URL;
@@ -58,8 +59,9 @@ public class ManagecustomerFormController implements Initializable {
     private Button btnDelete;
     @FXML
     private TextField txtSearch;
-
     private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
+    private CustomerBO customerBO = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.CUSTOMER);
+
     Pattern name = Pattern.compile("^([A-Z a-z]{4,40})$");
     Pattern nic = Pattern.compile("^([0-9]{12}|[0-9]{9}V)$");
     Pattern email = Pattern.compile("^[A-Z a-z 0-9 !#$%&'*+/=?^_`{|}~-]+@gmail\\.[A-Z a-z]+$");
@@ -137,7 +139,7 @@ public class ManagecustomerFormController implements Initializable {
 
     private void generateNextCustomerId() {
         try {
-            String id = CustomerModel.getNextCustomerId();
+            String id = customerBO.generateNextCustomerId();
             txtId.setText(id);
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -147,7 +149,7 @@ public class ManagecustomerFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<CustomerTM> observableList = FXCollections.observableArrayList();
-            List<CustomerDTO> customerDTOList = CustomerModel.getAll();
+            List<CustomerDTO> customerDTOList = customerBO.loadAllCustomers();
 
             for (CustomerDTO customerDTO : customerDTOList) {
                 CustomerTM customerTM = new CustomerTM(
@@ -182,7 +184,7 @@ public class ManagecustomerFormController implements Initializable {
                 );
             }
 
-            if (CustomerModel.save(customerDTO) > 0) {
+            if (customerBO.saveCustomer(customerDTO) > 0) {
                 new Alert(Alert.AlertType.INFORMATION, "Saved Successfully...!").show();
                 //tblCustomer.refresh();
                 getAll();
@@ -199,7 +201,7 @@ public class ManagecustomerFormController implements Initializable {
     @FXML
     private void searchOnAction(ActionEvent event) {
         try {
-            CustomerDTO customerDTO = CustomerModel.search(txtSearch.getText());
+            CustomerDTO customerDTO = customerBO.searchCustomer(txtSearch.getText());
             if (customerDTO != null) {
                 txtId.setText(customerDTO.getId());
                 txtName.setText(customerDTO.getName());
@@ -235,7 +237,7 @@ public class ManagecustomerFormController implements Initializable {
                     txtAddress.getText()
             );
 
-            if (CustomerModel.update(customerDTO) > 0) {
+            if (customerBO.updateCustomer(customerDTO) > 0) {
                 new Alert(Alert.AlertType.INFORMATION, "Updated Successfully...!").show();
                 getAll();
                 clearAllTxt();
@@ -256,7 +258,7 @@ public class ManagecustomerFormController implements Initializable {
             Optional<ButtonType> buttonType = new Alert(Alert.AlertType.WARNING, "Are you sure...?", yes, no).showAndWait();
 
             if (buttonType.orElse(yes) == yes) {
-                if (CustomerModel.delete(txtId.getText()) > 0) {
+                if (customerBO.deleteCustomer(txtId.getText()) > 0) {
                     new Alert(Alert.AlertType.INFORMATION, "Deleted Successfully...!").show();
                     getAll();
                     clearAllTxt();

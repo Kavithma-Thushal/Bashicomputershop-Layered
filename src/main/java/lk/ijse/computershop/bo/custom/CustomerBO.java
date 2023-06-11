@@ -21,6 +21,4 @@ public interface CustomerBO extends SuperBO {
     String generateNextCustomerId() throws SQLException;
 
     List<String> loadCustomerIds() throws SQLException;
-
-    CustomerDTO searchByCustomerId(String customerId) throws SQLException;
 }
