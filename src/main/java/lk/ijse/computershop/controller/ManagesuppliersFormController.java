@@ -10,7 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import lk.ijse.computershop.dto.ItemDTO;
-import lk.ijse.computershop.dto.SupplyDTO;
+import lk.ijse.computershop.dto.SupplierDTO;
 import lk.ijse.computershop.dto.tm.SupplyTM;
 import lk.ijse.computershop.model.AddSupplyModel;
 import lk.ijse.computershop.model.ItemModel;
@@ -83,14 +83,14 @@ public class ManagesuppliersFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<SupplyTM> observableList = FXCollections.observableArrayList();
-            List<SupplyDTO> supplyDTOList = SupplierModel.getAll();
+            List<SupplierDTO> supplierDTOList = SupplierModel.getAll();
 
-            for (SupplyDTO supplyDTO : supplyDTOList) {
+            for (SupplierDTO supplierDTO : supplierDTOList) {
                 SupplyTM supplyTM = new SupplyTM(
-                        supplyDTO.getId(),
-                        supplyDTO.getName(),
-                        supplyDTO.getContact(),
-                        supplyDTO.getAddress()
+                        supplierDTO.getId(),
+                        supplierDTO.getName(),
+                        supplierDTO.getContact(),
+                        supplierDTO.getAddress()
                 );
                 observableList.add(supplyTM);
             }

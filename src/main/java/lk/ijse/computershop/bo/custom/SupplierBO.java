@@ -1,0 +1,21 @@
+package lk.ijse.computershop.bo.custom;
+
+import lk.ijse.computershop.bo.SuperBO;
+import lk.ijse.computershop.dto.ItemDTO;
+import lk.ijse.computershop.dto.SupplierDTO;
+
+import java.sql.SQLException;
+import java.util.List;
+
+public interface SupplierBO extends SuperBO {
+
+    boolean addSupplier(String supplierId, String supplyDate, String name, String contact, String address, String itemCode, String supplyQty) throws SQLException;
+
+    List<SupplierDTO> getAll() throws SQLException;
+
+    String getNextId() throws SQLException;
+
+    List<String> loadItemCodes() throws SQLException;
+
+    ItemDTO searchByItemCode(String itemCode) throws SQLException;
+}
