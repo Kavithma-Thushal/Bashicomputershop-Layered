@@ -9,11 +9,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import lk.ijse.computershop.bo.BoFactory;
+import lk.ijse.computershop.bo.custom.SalaryBO;
 import lk.ijse.computershop.dto.EmployeeDTO;
 import lk.ijse.computershop.dto.SalaryDTO;
 import lk.ijse.computershop.dto.tm.SalaryTM;
 import lk.ijse.computershop.model.EmployeeModel;
-import lk.ijse.computershop.model.SalaryModel;
 import lk.ijse.computershop.util.CrudUtil;
 import lk.ijse.computershop.util.Validation;
 
@@ -48,6 +49,8 @@ public class ManagesalaryFormController implements Initializable {
     private TableColumn colDatetime;
     @FXML
     private Button btnPay;
+
+    private SalaryBO salaryBO= BoFactory.getBoFactory().getBO(BoFactory.BOTypes.SALARY);
 
     private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
     Pattern amount = Pattern.compile("^(?!00)[0-9]{4,8}(?:\\.[0-9]{2})?$");
@@ -106,7 +109,7 @@ public class ManagesalaryFormController implements Initializable {
 
     private void generateNextSalaryCode() {
         try {
-            String code = SalaryModel.getNextSalaryCode();
+            String code = salaryBO.generateNextSalaryCode();
             txtCode.setText(code);
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -116,14 +119,14 @@ public class ManagesalaryFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<SalaryTM> observableList = FXCollections.observableArrayList();
-            List<SalaryDTO> salaryDTOList = SalaryModel.getAll();
+            List<SalaryDTO> salaryDTOList = salaryBO.loadAllSalary();
 
             for (SalaryDTO salaryDTO : salaryDTOList) {
                 observableList.add(new SalaryTM(
                         salaryDTO.getCode(),
-                        salaryDTO.getEmployeeName(),
+                        salaryDTO.getEmployeeId(),
                         salaryDTO.getAmount(),
-                        salaryDTO.getDate()
+                        salaryDTO.getDate().toString()
                 ));
             }
             tblSalary.setItems(observableList);
@@ -135,7 +138,7 @@ public class ManagesalaryFormController implements Initializable {
     private void loadEmployeeIds() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            List<String> employeeId = EmployeeModel.loadEmployeeIds();
+            List<String> employeeId = salaryBO.loadEmployeeIds();
 
             for (String id : employeeId) {
                 observableList.add(id);
@@ -152,7 +155,7 @@ public class ManagesalaryFormController implements Initializable {
         cmbEmployeeId.setDisable(true);
 
         try {
-            EmployeeDTO employeeDTO = EmployeeModel.searchById(employeeId);
+            EmployeeDTO employeeDTO = salaryBO.searchByEmployeeId(employeeId);
             txtEmployeeName.setText(employeeDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();

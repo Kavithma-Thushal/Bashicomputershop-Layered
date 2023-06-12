@@ -1,3 +1,4 @@
+/*
 package lk.ijse.computershop.model;
 
 import lk.ijse.computershop.dto.SalaryDTO;
@@ -21,7 +22,7 @@ public class SalaryModel {
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getDouble(3),
-                    resultSet.getString(4)
+                    resultSet.getDate(4).toLocalDate()
             );
             salaryDTOList.add(salaryDTO);
         }
@@ -48,3 +49,4 @@ public class SalaryModel {
         return "S01";
     }
 }
+*/
