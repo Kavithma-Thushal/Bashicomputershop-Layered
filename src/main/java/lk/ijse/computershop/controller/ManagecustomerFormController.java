@@ -59,9 +59,10 @@ public class ManagecustomerFormController implements Initializable {
     private Button btnDelete;
     @FXML
     private TextField txtSearch;
-    private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
+
     private CustomerBO customerBO = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.CUSTOMER);
 
+    private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
     Pattern name = Pattern.compile("^([A-Z a-z]{4,40})$");
     Pattern nic = Pattern.compile("^([0-9]{12}|[0-9]{9}V)$");
     Pattern email = Pattern.compile("^[A-Z a-z 0-9 !#$%&'*+/=?^_`{|}~-]+@gmail\\.[A-Z a-z]+$");

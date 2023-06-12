@@ -21,6 +21,4 @@ public interface ItemBO extends SuperBO {
     String generateNextItemCode() throws SQLException;
 
     List<String> loadItemCodes() throws SQLException;
-
-    ItemDTO searchByItemCode(String itemCode) throws SQLException;
 }

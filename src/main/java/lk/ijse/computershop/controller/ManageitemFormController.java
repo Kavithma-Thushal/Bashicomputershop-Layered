@@ -10,9 +10,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.computershop.bo.BoFactory;
+import lk.ijse.computershop.bo.custom.ItemBO;
 import lk.ijse.computershop.dto.ItemDTO;
 import lk.ijse.computershop.dto.tm.ItemTM;
-import lk.ijse.computershop.model.ItemModel;
 import lk.ijse.computershop.util.Validation;
 
 import java.net.URL;
@@ -52,6 +53,8 @@ public class ManageitemFormController implements Initializable {
     private TextField txtSearch;
 
     private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
+    private ItemBO itemBO= BoFactory.getBoFactory().getBO(BoFactory.BOTypes.ITEM);
+
     Pattern description = Pattern.compile("^([A-Z a-z 0-9 \\W]{4,40})$");
     Pattern unitPrice = Pattern.compile("^(?!00)[0-9]{2,8}(?:\\.[0-9]{2})?$");
     Pattern qtyOnHand = Pattern.compile("^([0-9]{1,6})$");
@@ -121,7 +124,7 @@ public class ManageitemFormController implements Initializable {
 
     private void generateNextItemCode() {
         try {
-            String id = ItemModel.getNextItemCode();
+            String id = itemBO.generateNextItemCode();
             txtCode.setText(id);
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -131,7 +134,7 @@ public class ManageitemFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<ItemTM> observableList = FXCollections.observableArrayList();
-            List<ItemDTO> itemDTOList = ItemModel.getAll();
+            List<ItemDTO> itemDTOList = itemBO.loadAllItems();
 
             for (ItemDTO itemDTO : itemDTOList) {
                 observableList.add(new ItemTM(
@@ -160,7 +163,7 @@ public class ManageitemFormController implements Initializable {
                 );
             }
 
-            if (ItemModel.save(itemDTO) > 0) {
+            if (itemBO.saveItem(itemDTO) > 0) {
                 new Alert(Alert.AlertType.INFORMATION, "Saved Successfully...!").show();
                 getAll();
                 clearAllTxt();
@@ -175,7 +178,8 @@ public class ManageitemFormController implements Initializable {
     @FXML
     private void searchOnAction(ActionEvent event) {
         try {
-            ItemDTO itemDTO = ItemModel.search(txtSearch.getText());
+            ItemDTO itemDTO = itemBO.searchItem(txtSearch.getText());
+            System.out.println(itemDTO.toString());
             if (itemDTO != null) {
                 txtCode.setText(itemDTO.getCode());
                 txtDescription.setText(itemDTO.getDescription());
@@ -207,7 +211,7 @@ public class ManageitemFormController implements Initializable {
                     Integer.parseInt(txtQtyOnHand.getText())
             );
 
-            if (ItemModel.update(itemDTO) > 0) {
+            if (itemBO.updateItem(itemDTO) > 0) {
                 new Alert(Alert.AlertType.INFORMATION, "Updated Successfully...!").show();
                 getAll();
                 clearAllTxt();
@@ -228,7 +232,7 @@ public class ManageitemFormController implements Initializable {
             Optional<ButtonType> buttonType = new Alert(Alert.AlertType.WARNING, "Are you sure...?", yes, no).showAndWait();
 
             if (buttonType.orElse(yes) == yes) {
-                if (ItemModel.delete(txtCode.getText()) > 0) {
+                if (itemBO.deleteItem(txtCode.getText()) > 0) {
                     new Alert(Alert.AlertType.INFORMATION, "Deleted Successfully...!").show();
                     getAll();
                     clearAllTxt();

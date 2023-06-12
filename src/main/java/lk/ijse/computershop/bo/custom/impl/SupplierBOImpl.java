@@ -52,13 +52,18 @@ public class SupplierBOImpl implements SupplierBO {
         connection.setAutoCommit(false);
         Integer supplier_Save = supplierDAO.save(new Supplier(dto.getId(), dto.getName(), dto.getContact(), dto.getAddress()));
         if (supplier_Save > 0) {
+            boolean allSupplierDetailsSaved = true;
             for (Supplier_DetailsDTO s : dto.getSupplier_DetailsDTOList()) {
                 Integer supplierDetails_Save = supplierDetailDAO.save(new Supplier_Details(s.getSupplierId(), s.getItemCode(), s.getQty(), s.getDate()));
-                if (supplierDetails_Save > 0) {
-                    connection.commit();
-                    connection.setAutoCommit(true);
-                    return true;
+                if (supplierDetails_Save <= 0) {
+                    allSupplierDetailsSaved = false;
+                    break;
                 }
+            }
+            if (allSupplierDetailsSaved) {
+                connection.commit();
+                connection.setAutoCommit(true);
+                return true;
             }
         }
         connection.rollback();

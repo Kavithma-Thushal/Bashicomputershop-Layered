@@ -1,3 +1,4 @@
+/*
 package lk.ijse.computershop.model;
 
 import lk.ijse.computershop.db.DBConnection;
@@ -33,3 +34,4 @@ public class AddSupplyModel {
         }
     }
 }
+*/

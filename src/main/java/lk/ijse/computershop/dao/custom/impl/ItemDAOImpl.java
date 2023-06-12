@@ -1,53 +1,89 @@
 package lk.ijse.computershop.dao.custom.impl;
 
 import lk.ijse.computershop.dao.custom.ItemDAO;
+import lk.ijse.computershop.dao.custom.impl.util.SQLUtil;
 import lk.ijse.computershop.dto.CustombuildsDTO;
-import lk.ijse.computershop.dto.ItemDTO;
 import lk.ijse.computershop.dto.OrderDTO;
 import lk.ijse.computershop.entity.Item;
+import lk.ijse.computershop.entity.Supplier_Details;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public List<Item> loadAll() throws SQLException {
-        return null;
+        List<Item> itemList=new ArrayList<>();
+        ResultSet rst= SQLUtil.execute("SELECT * FROM item");
+        while (rst.next()){
+            Item item=new Item(rst.getString(1),rst.getString(2),rst.getDouble(3),rst.getInt(4));
+            itemList.add(item);
+        }
+        return itemList;
     }
 
     @Override
-    public int save(Item entity) throws SQLException {
-        return 0;
+    public int save(Item i) throws SQLException {
+        return SQLUtil.execute("INSERT INTO item VALUES (?,?,?,?)",i.getCode(),i.getDescription(),i.getUnitPrice(),i.getQtyOnHand());
     }
 
     @Override
     public Item search(String id) throws SQLException {
+        ResultSet rst=SQLUtil.execute("SELECT * FROM item WHERE code=?",id);
+        if (rst.next()){
+            return new Item(rst.getString(1),rst.getString(2),rst.getDouble(3),rst.getInt(4));
+        }
         return null;
     }
 
     @Override
-    public int update(Item entity) throws SQLException {
-        return 0;
+    public int update(Item i) throws SQLException {
+        return SQLUtil.execute("UPDATE item SET description=? , unitPrice=? , qtyOnHand=? WHERE code=?",i.getCode(),i.getDescription(),i.getUnitPrice(),i.getQtyOnHand());
     }
 
     @Override
     public int delete(String id) throws SQLException {
-        return 0;
+        return SQLUtil.execute("DELETE FROM item WHERE code=?",id);
     }
 
     @Override
     public String generateNextId() throws SQLException {
-        return null;
+        ResultSet rst=SQLUtil.execute("SELECT code FROM item ORDER BY code DESC LIMIT 1");
+        if (rst.next()) {
+            return splitItemCode(rst.getString(1));
+        }
+        return splitItemCode(null);
+    }
+
+    private String splitItemCode(String currentId) {
+        if (currentId != null) {
+            String[] strings = currentId.split("P");
+            int id = Integer.parseInt(strings[1]);
+            id++;
+            return "P" + String.format("%02d", id);
+        }
+        return "P01";
     }
 
     @Override
     public List<String> loadItemCodes() throws SQLException {
-        return null;
+        List<String> arrayList=new ArrayList<>();
+        ResultSet rst=SQLUtil.execute("SELECT code FROM item  ORDER BY code ASC");
+        while (rst.next()){
+            arrayList.add(rst.getString(1));
+        }
+        return arrayList;
     }
 
     @Override
-    public ItemDTO searchByItemCode(String itemCode) throws SQLException {
+    public Item searchByItemCode(String code) throws SQLException {
+        ResultSet rst=SQLUtil.execute("SELECT * FROM item WHERE code = ?",code);
+        if (rst.next()){
+            return new Item(rst.getString(1),rst.getString(2),rst.getDouble(3),rst.getInt(4));
+        }
         return null;
     }
 
@@ -62,7 +98,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public boolean updateSupplyQty(String itemCode, String supplyQty) throws SQLException {
-        return false;
+    public boolean updateSupplyQty(Supplier_Details s) throws SQLException {
+        return SQLUtil.execute("UPDATE item SET qtyOnHand = (qtyOnHand + ?) WHERE code = ?",s.getQty(),s.getItemCode());
     }
 }

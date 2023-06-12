@@ -13,14 +13,15 @@ import lk.ijse.computershop.bo.BoFactory;
 import lk.ijse.computershop.bo.custom.SupplierBO;
 import lk.ijse.computershop.dto.ItemDTO;
 import lk.ijse.computershop.dto.SupplierDTO;
+import lk.ijse.computershop.dto.Supplier_DetailsDTO;
 import lk.ijse.computershop.dto.tm.SupplyTM;
-import lk.ijse.computershop.model.AddSupplyModel;
 import lk.ijse.computershop.model.ItemModel;
 import lk.ijse.computershop.util.Validation;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -57,9 +58,9 @@ public class ManagesuppliersFormController implements Initializable {
     @FXML
     private Button btnAdd;
 
-    private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
-    private SupplierBO supplierBO= BoFactory.getBoFactory().getBO(BoFactory.BOTypes.SUPPLIER);
+    private SupplierBO supplierBO = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.SUPPLIER);
 
+    private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
     Pattern name = Pattern.compile("^([A-Z a-z]{4,40})$");
     Pattern address = Pattern.compile("^([A-Z a-z]{4,40})$");
     Pattern contact = Pattern.compile("^(07(0|1|2|4|5|6|7|8)|091)[0-9]{7}$");
@@ -185,16 +186,19 @@ public class ManagesuppliersFormController implements Initializable {
     @FXML
     private void supplierAddOnAction(ActionEvent event) {
         String supplierId = txtSupplyId.getText();
-        String supplyDate = txtSupplyDate.getText();
+        LocalDate supplyDate = LocalDate.parse(txtSupplyDate.getText());
         String name = txtSupplyName.getText();
         String contact = txtSupplyContact.getText();
         String address = txtSupplyAddress.getText();
         String itemCode = cmbItemCode.getValue();
-        String supplyQty = txtQty.getText();
+        Integer supplyQty = Integer.parseInt(txtQty.getText());
+
+        List<Supplier_DetailsDTO> detailsDTOList = new ArrayList<>();
+        detailsDTOList.add(new Supplier_DetailsDTO(supplierId, itemCode, supplyQty, supplyDate));
 
         boolean isPlaced = false;
         try {
-            isPlaced = AddSupplyModel.addSupplier(supplierId, supplyDate, name, contact, address, itemCode, supplyQty);
+            isPlaced = supplierBO.addSupplier(new SupplierDTO(supplierId, name, contact, address,detailsDTOList));
             if (isPlaced) {
                 new Alert(Alert.AlertType.INFORMATION, "Supplier added...!").show();
                 getAll();
@@ -202,7 +206,7 @@ public class ManagesuppliersFormController implements Initializable {
                 new Alert(Alert.AlertType.ERROR, "Supplier is not added...!").show();
             }
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "please try again...!r").show();
+            new Alert(Alert.AlertType.ERROR, "please try again...!").show();
         }
         clearAllTxt();
         generateNextSupplyId();
