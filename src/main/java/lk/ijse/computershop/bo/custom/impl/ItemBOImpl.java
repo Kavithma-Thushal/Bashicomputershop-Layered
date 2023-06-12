@@ -33,6 +33,9 @@ public class ItemBOImpl implements ItemBO {
     @Override
     public ItemDTO searchItem(String code) throws SQLException {
         Item i= itemDAO.search(code);
+        if (i == null) {
+            return null;
+        }
         return new ItemDTO(i.getCode(),i.getDescription(),i.getUnitPrice(),i.getQtyOnHand());
     }
 
@@ -49,10 +52,5 @@ public class ItemBOImpl implements ItemBO {
     @Override
     public String generateNextItemCode() throws SQLException {
         return itemDAO.generateNextId();
-    }
-
-    @Override
-    public List<String> loadItemCodes() throws SQLException {
-        return itemDAO.loadItemCodes();
     }
 }

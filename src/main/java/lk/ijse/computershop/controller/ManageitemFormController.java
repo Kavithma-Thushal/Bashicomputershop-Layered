@@ -52,11 +52,11 @@ public class ManageitemFormController implements Initializable {
     @FXML
     private TextField txtSearch;
 
-    private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
     private ItemBO itemBO= BoFactory.getBoFactory().getBO(BoFactory.BOTypes.ITEM);
 
+    private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
     Pattern description = Pattern.compile("^([A-Z a-z 0-9 \\W]{4,40})$");
-    Pattern unitPrice = Pattern.compile("^(?!00)[0-9]{2,8}(?:\\.[0-9]{2})?$");
+    Pattern unitPrice = Pattern.compile("^(?!00)[0-9]{2,8}(?:\\.[0-9]{1,2})?$");
     Pattern qtyOnHand = Pattern.compile("^([0-9]{1,6})$");
 
     @Override
@@ -179,7 +179,6 @@ public class ManageitemFormController implements Initializable {
     private void searchOnAction(ActionEvent event) {
         try {
             ItemDTO itemDTO = itemBO.searchItem(txtSearch.getText());
-            System.out.println(itemDTO.toString());
             if (itemDTO != null) {
                 txtCode.setText(itemDTO.getCode());
                 txtDescription.setText(itemDTO.getDescription());
