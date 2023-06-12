@@ -15,7 +15,6 @@ import lk.ijse.computershop.dto.ItemDTO;
 import lk.ijse.computershop.dto.SupplierDTO;
 import lk.ijse.computershop.dto.Supplier_DetailsDTO;
 import lk.ijse.computershop.dto.tm.SupplyTM;
-import lk.ijse.computershop.model.ItemModel;
 import lk.ijse.computershop.util.Validation;
 
 import java.net.URL;
@@ -158,7 +157,7 @@ public class ManagesuppliersFormController implements Initializable {
     private void loadItemCodes() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            List<String> itemCode = ItemModel.loadCodes();
+            List<String> itemCode = supplierBO.loadItemCodes();
 
             for (String code : itemCode) {
                 observableList.add(code);
@@ -175,7 +174,7 @@ public class ManagesuppliersFormController implements Initializable {
         String itemCode = cmbItemCode.getValue();
 
         try {
-            ItemDTO itemDTO = ItemModel.searchById(itemCode);
+            ItemDTO itemDTO = supplierBO.searchByItemCode(itemCode);
             txtItemDescription.setText(itemDTO.getDescription());
 
         } catch (Exception e) {

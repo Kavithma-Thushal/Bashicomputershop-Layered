@@ -12,13 +12,11 @@ import java.util.List;
 
 public interface ItemDAO extends CrudDAO<Item> {
 
-    /*List<String> loadItemCodes() throws SQLException;
+    List<String> loadItemCodes() throws SQLException;
 
-    Item searchByItemCode(String itemCode) throws SQLException;
+    /*boolean updateOrderQty(List<OrderDTO> orderDTOList) throws SQLException;
 
-    boolean updateOrderQty(List<OrderDTO> orderDTOList) throws SQLException;
+    boolean updateCustombuildQty(List<CustombuildsDTO> buildsList) throws SQLException;*/
 
-    boolean updateCustombuildQty(List<CustombuildsDTO> buildsList) throws SQLException;
-
-    boolean updateSupplyQty(Supplier_Details s) throws SQLException;*/
+    int updateSupplyQty(Supplier_Details s) throws SQLException;
 }

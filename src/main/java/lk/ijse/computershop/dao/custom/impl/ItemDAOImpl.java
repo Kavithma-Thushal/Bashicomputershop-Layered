@@ -68,26 +68,17 @@ public class ItemDAOImpl implements ItemDAO {
         return "P01";
     }
 
-    /*@Override
+    @Override
     public List<String> loadItemCodes() throws SQLException {
-        List<String> arrayList=new ArrayList<>();
-        ResultSet rst=SQLUtil.execute("SELECT code FROM item  ORDER BY code ASC");
-        while (rst.next()){
+        List<String> arrayList = new ArrayList<>();
+        ResultSet rst = SQLUtil.execute("SELECT code FROM item  ORDER BY code ASC");
+        while (rst.next()) {
             arrayList.add(rst.getString(1));
         }
         return arrayList;
     }
 
-    @Override
-    public Item searchByItemCode(String code) throws SQLException {
-        ResultSet rst=SQLUtil.execute("SELECT * FROM item WHERE code = ?",code);
-        if (rst.next()){
-            return new Item(rst.getString(1),rst.getString(2),rst.getDouble(3),rst.getInt(4));
-        }
-        return null;
-    }
-
-    @Override
+    /*@Override
     public boolean updateOrderQty(List<OrderDTO> orderDTOList) throws SQLException {
         return false;
     }
@@ -95,10 +86,10 @@ public class ItemDAOImpl implements ItemDAO {
     @Override
     public boolean updateCustombuildQty(List<CustombuildsDTO> buildsList) throws SQLException {
         return false;
-    }
+    }*/
 
     @Override
-    public boolean updateSupplyQty(Supplier_Details s) throws SQLException {
-        return SQLUtil.execute("UPDATE item SET qtyOnHand = (qtyOnHand + ?) WHERE code = ?",s.getQty(),s.getItemCode());
-    }*/
+    public int updateSupplyQty(Supplier_Details s) throws SQLException {
+        return SQLUtil.execute("UPDATE item SET qtyOnHand = (qtyOnHand + ?) WHERE code = ?", s.getQty(), s.getItemCode());
+    }
 }
