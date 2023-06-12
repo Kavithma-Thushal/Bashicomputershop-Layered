@@ -14,7 +14,6 @@ import lk.ijse.computershop.bo.custom.SalaryBO;
 import lk.ijse.computershop.dto.EmployeeDTO;
 import lk.ijse.computershop.dto.SalaryDTO;
 import lk.ijse.computershop.dto.tm.SalaryTM;
-import lk.ijse.computershop.model.EmployeeModel;
 import lk.ijse.computershop.util.CrudUtil;
 import lk.ijse.computershop.util.Validation;
 
@@ -166,12 +165,12 @@ public class ManagesalaryFormController implements Initializable {
     private void payOnAction(ActionEvent event) {
         String salaryCode = txtCode.getText();
         String employeeId = cmbEmployeeId.getValue();
-        String amount = txtAmount.getText();
+        Double amount = Double.parseDouble(txtAmount.getText());
+        LocalDate date= LocalDate.parse(txtDatetime.getText());
 
         try {
             if (!txtEmployeeName.getText().isEmpty() && !txtAmount.getText().isEmpty()) {
-                String sql = "INSERT INTO salary VALUES(?, ?, ?, ?)";
-                int affectedRows = CrudUtil.execute(sql, salaryCode, employeeId, amount, String.valueOf(LocalDate.now()));
+                int affectedRows = salaryBO.saveSalary(new SalaryDTO(salaryCode,employeeId,amount,date));
                 if (affectedRows > 0) {
                     new Alert(Alert.AlertType.INFORMATION, "Paid Successfully...!").show();
                     //EmailSend.mail("Your Salary is Deposited to the Bank...!");

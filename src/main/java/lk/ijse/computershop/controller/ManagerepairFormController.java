@@ -9,18 +9,23 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import lk.ijse.computershop.bo.BoFactory;
+import lk.ijse.computershop.bo.custom.RepairBO;
+import lk.ijse.computershop.dao.custom.RepairDAO;
+import lk.ijse.computershop.dao.custom.impl.util.SQLUtil;
 import lk.ijse.computershop.dto.CustomerDTO;
 import lk.ijse.computershop.dto.EmployeeDTO;
 import lk.ijse.computershop.dto.RepairDTO;
 import lk.ijse.computershop.dto.tm.RepairTM;
 import lk.ijse.computershop.model.CustomerModel;
 import lk.ijse.computershop.model.EmployeeModel;
-import lk.ijse.computershop.model.RepairModel;
 import lk.ijse.computershop.util.CrudUtil;
 import lk.ijse.computershop.util.Validation;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -63,6 +68,8 @@ public class ManagerepairFormController implements Initializable {
     @FXML
     private Button btnRepair;
 
+    private RepairBO repairBO = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.REPAIR);
+
     private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
     Pattern details = Pattern.compile("^([A-Z a-z]{4,40})$");
     Pattern acceptingDate = Pattern.compile("^\\d{4}[-./](0[1-9]|1[012])[-./](0[1-9]|[12][0-9]|3[01])$");
@@ -100,7 +107,7 @@ public class ManagerepairFormController implements Initializable {
         txtAcceptingDate.clear();
 
         btnRepair.setDisable(true);
-        setBorders(txtDetails,txtAcceptingDate);
+        setBorders(txtDetails, txtAcceptingDate);
     }
 
     public void setBorders(TextField... textFields) {
@@ -124,7 +131,7 @@ public class ManagerepairFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<RepairTM> observableList = FXCollections.observableArrayList();
-            List<RepairDTO> repairDTOList = RepairModel.getAll();
+            List<RepairDTO> repairDTOList = repairBO.loadAllRepairs();
 
             for (RepairDTO repairDTO : repairDTOList) {
                 RepairTM repairTM = new RepairTM(
@@ -132,8 +139,8 @@ public class ManagerepairFormController implements Initializable {
                         repairDTO.getCustomerId(),
                         repairDTO.getEmployeeId(),
                         repairDTO.getDetails(),
-                        repairDTO.getGettingDate(),
-                        repairDTO.getAcceptingDate()
+                        repairDTO.getGettingDate().toString(),
+                        repairDTO.getAcceptingDate().toString()
                 );
                 observableList.add(repairTM);
             }
@@ -150,7 +157,7 @@ public class ManagerepairFormController implements Initializable {
 
     private void generateNextRepairCode() {
         try {
-            String code = RepairModel.getNextDeliveryCode();
+            String code = repairBO.generateNextRepairCode();
             txtRepairCode.setText(code);
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -160,7 +167,7 @@ public class ManagerepairFormController implements Initializable {
     private void loadCustomerIds() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            List<String> customerId = CustomerModel.loadIds();
+            List<String> customerId = repairBO.loadCustomerIds();
 
             for (String id : customerId) {
                 observableList.add(id);
@@ -174,7 +181,7 @@ public class ManagerepairFormController implements Initializable {
     private void loadEmployeeIds() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            List<String> employeeId = EmployeeModel.loadIds();
+            List<String> employeeId = repairBO.loadEmployeeIds();
 
             for (String id : employeeId) {
                 observableList.add(id);
@@ -191,7 +198,7 @@ public class ManagerepairFormController implements Initializable {
         cmbCustomerId.setDisable(true);
 
         try {
-            CustomerDTO customerDTO = CustomerModel.searchById(customerId);
+            CustomerDTO customerDTO = repairBO.searchByCustomerId(customerId);
             txtCustomerName.setText(customerDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -204,7 +211,7 @@ public class ManagerepairFormController implements Initializable {
         cmbEmployeeId.setDisable(true);
 
         try {
-            EmployeeDTO employeeDTO = EmployeeModel.searchById(employeeId);
+            EmployeeDTO employeeDTO = repairBO.searchByEmployeeId(employeeId);
             txtEmployeeName.setText(employeeDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -214,14 +221,14 @@ public class ManagerepairFormController implements Initializable {
     @FXML
     private void searchOnAction(ActionEvent event) {
         try {
-            RepairDTO repairDTO = RepairModel.search(txtSearch.getText());
+            RepairDTO repairDTO = repairBO.searchRepair(txtSearch.getText());
             if (repairDTO != null) {
                 txtRepairCode.setText(repairDTO.getCode());
                 txtCustomerName.setText(repairDTO.getCustomerId());
                 txtEmployeeName.setText(repairDTO.getEmployeeId());
                 txtDetails.setText(repairDTO.getDetails());
-                txtRepairDate.setText(repairDTO.getGettingDate());
-                txtAcceptingDate.setText(repairDTO.getAcceptingDate());
+                txtRepairDate.setText(repairDTO.getGettingDate().toString());
+                txtAcceptingDate.setText(repairDTO.getAcceptingDate().toString());
             }
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "Please try again...!").show();
@@ -230,17 +237,20 @@ public class ManagerepairFormController implements Initializable {
     }
 
     @FXML
-    private void repairOnAction(ActionEvent event) {
+    private void repairOnAction(ActionEvent event){
         String repairCode = txtRepairCode.getText();
         String customerId = cmbCustomerId.getValue();
         String employeeId = cmbEmployeeId.getValue();
         String details = txtDetails.getText();
-        String acceptDate = txtAcceptingDate.getText();
+        //LocalDate acceptDate = LocalDate.parse(txtAcceptingDate.getText());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+        String dateString = txtAcceptingDate.getText();
+        LocalDate acceptDate = LocalDate.parse(dateString, formatter);
 
         try {
-            if(!txtCustomerName.getText().isEmpty() && !txtEmployeeName.getText().isEmpty() && !txtDetails.getText().isEmpty() && !txtAcceptingDate.getText().isEmpty()){
-                String sql = "INSERT INTO repairs VALUES(?, ?, ?, ?, ?, ?)";
-                int affectedRows = CrudUtil.execute(sql, repairCode, customerId, employeeId, details, String.valueOf(LocalDate.now()), acceptDate);
+            if (!txtCustomerName.getText().isEmpty() && !txtEmployeeName.getText().isEmpty() && !txtDetails.getText().isEmpty() && !txtAcceptingDate.getText().isEmpty()) {
+                int affectedRows = repairBO.saveRepairs(new RepairDTO(repairCode,customerId,employeeId,details,LocalDate.now(),acceptDate));
                 if (affectedRows > 0) {
                     new Alert(Alert.AlertType.INFORMATION, "Added Successfully...!").show();
                     //EmailSend.mail("New Repair Available...!");
@@ -249,7 +259,7 @@ public class ManagerepairFormController implements Initializable {
                     txtDetails.requestFocus();
                     generateNextRepairCode();
                 }
-            }else {
+            } else {
                 new Alert(Alert.AlertType.ERROR, "please try again...!").show();
             }
         } catch (Exception e) {

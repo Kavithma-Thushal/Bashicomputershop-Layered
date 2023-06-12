@@ -12,15 +12,17 @@ public interface RepairBO extends SuperBO {
 
     List<RepairDTO> loadAllRepairs() throws SQLException;
 
+    int saveRepairs(RepairDTO repairDTO) throws SQLException;
+
     RepairDTO searchRepair(String code) throws SQLException;
 
     String generateNextRepairCode() throws SQLException;
 
     List<String> loadCustomerIds() throws SQLException;
 
-    List<String> loadEmployeeIds() throws SQLException;
-
     CustomerDTO searchByCustomerId(String customerId) throws SQLException;
+
+    List<String> loadEmployeeIds() throws SQLException;
 
     EmployeeDTO searchByEmployeeId(String employeeId) throws SQLException;
 }

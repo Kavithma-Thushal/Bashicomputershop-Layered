@@ -75,7 +75,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return arrayList;
     }
 
-    /*@Override
+    @Override
     public List<String> loadEmployeeIdsToRepair() throws SQLException {
         List<String> arrayList = new ArrayList<>();
         ResultSet rst = SQLUtil.execute("SELECT id FROM employee WHERE   jobRole IN ('Technician','technician') ORDER BY id ASC");
@@ -83,5 +83,5 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             arrayList.add(rst.getString(1));
         }
         return arrayList;
-    }*/
+    }
 }

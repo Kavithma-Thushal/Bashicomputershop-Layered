@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-public class ManagecustomerFormController implements Initializable {
+public class    ManagecustomerFormController implements Initializable {
 
     @FXML
     private TextField txtId;

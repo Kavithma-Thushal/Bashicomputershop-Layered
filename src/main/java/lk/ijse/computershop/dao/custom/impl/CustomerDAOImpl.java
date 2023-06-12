@@ -65,7 +65,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         return "C01";
     }
 
-    /*@Override
+    @Override
     public List<String> loadCustomerIds() throws SQLException {
         List<String> arrayList = new ArrayList<>();
         ResultSet rst = SQLUtil.execute("SELECT id FROM customer ORDER BY id ASC");
@@ -73,5 +73,5 @@ public class CustomerDAOImpl implements CustomerDAO {
             arrayList.add(rst.getString(1));
         }
         return arrayList;
-    }*/
+    }
 }

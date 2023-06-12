@@ -1,3 +1,4 @@
+/*
 package lk.ijse.computershop.model;
 
 import lk.ijse.computershop.dto.RepairDTO;
@@ -22,8 +23,8 @@ public class RepairModel {
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getString(4),
-                    resultSet.getString(5),
-                    resultSet.getString(6)
+                    resultSet.getDate(5).toLocalDate(),
+                    resultSet.getDate(6).toLocalDate()
             );
             repairDTOList.add(repairDTO);
         }
@@ -42,8 +43,8 @@ public class RepairModel {
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getString(4),
-                    resultSet.getString(5),
-                    resultSet.getString(6)
+                    resultSet.getDate(5).toLocalDate(),
+                    resultSet.getDate(6).toLocalDate()
             );
         }
         return null;
@@ -69,3 +70,4 @@ public class RepairModel {
         return "R01";
     }
 }
+*/

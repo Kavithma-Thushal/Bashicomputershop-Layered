@@ -23,8 +23,8 @@ public class SalaryDAOImpl implements SalaryDAO {
     }
 
     @Override
-    public int save(Salary entity) throws SQLException {
-        return 0;
+    public int save(Salary s) throws SQLException {
+        return SQLUtil.execute("INSERT INTO salary VALUES(?, ?, ?, ?)",s.getCode(),s.getEmployeeId(),s.getAmount(),s.getDate());
     }
 
     @Override

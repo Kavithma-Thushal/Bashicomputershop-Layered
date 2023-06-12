@@ -3,6 +3,8 @@ package lk.ijse.computershop.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 public class Repairs {
@@ -10,6 +12,6 @@ public class Repairs {
     private String customerId;
     private String employeeId;
     private String details;
-    private String getDate;
-    private String acceptDate;
+    private LocalDate getDate;
+    private LocalDate acceptDate;
 }

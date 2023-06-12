@@ -3,6 +3,8 @@ package lk.ijse.computershop.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 public class RepairDTO {
@@ -10,6 +12,6 @@ public class RepairDTO {
     private String customerId;
     private String employeeId;
     private String details;
-    private String gettingDate;
-    private String acceptingDate;
+    private LocalDate gettingDate;
+    private LocalDate acceptingDate;
 }

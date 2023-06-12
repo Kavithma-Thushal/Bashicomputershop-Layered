@@ -19,6 +19,11 @@ public class SalaryBOImpl implements SalaryBO {
     private EmployeeDAO employeeDAO=DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
 
     @Override
+    public int saveSalary(SalaryDTO s) throws SQLException{
+        return salaryDAO.save(new Salary(s.getCode(),s.getEmployeeId(),s.getAmount(),s.getDate()));
+    }
+
+    @Override
     public List<SalaryDTO> loadAllSalary() throws SQLException {
         List<SalaryDTO> salaryDTOList = new ArrayList<>();
         List<Salary> salaryList = salaryDAO.loadAll();
