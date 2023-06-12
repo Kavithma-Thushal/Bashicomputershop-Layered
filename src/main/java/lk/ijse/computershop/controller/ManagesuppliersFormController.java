@@ -196,17 +196,12 @@ public class ManagesuppliersFormController implements Initializable {
         List<Supplier_DetailsDTO> detailsDTOList = new ArrayList<>();
         detailsDTOList.add(new Supplier_DetailsDTO(supplierId, itemCode, supplyQty, supplyDate));
 
-        boolean isPlaced = false;
-        try {
-            isPlaced = supplierBO.addSupplier(new SupplierDTO(supplierId, name, contact, address,detailsDTOList));
-            if (isPlaced) {
-                new Alert(Alert.AlertType.INFORMATION, "Supplier added...!").show();
-                getAll();
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Supplier is not added...!").show();
-            }
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "please try again...!").show();
+        Boolean isPlaced = supplierBO.addSupplier(new SupplierDTO(supplierId, name, contact, address, detailsDTOList));
+        if (isPlaced) {
+            new Alert(Alert.AlertType.INFORMATION, "Supplier added...!").show();
+            getAll();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Supplier is not added...!").show();
         }
         clearAllTxt();
         generateNextSupplyId();

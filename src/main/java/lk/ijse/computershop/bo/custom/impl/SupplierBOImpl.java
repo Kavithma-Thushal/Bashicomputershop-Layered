@@ -47,27 +47,31 @@ public class SupplierBOImpl implements SupplierBO {
     }
 
     @Override
-    public boolean addSupplier(SupplierDTO dto) throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        connection.setAutoCommit(false);
-        Integer supplier_Save = supplierDAO.save(new Supplier(dto.getId(), dto.getName(), dto.getContact(), dto.getAddress()));
-        if (supplier_Save > 0) {
-            boolean allSupplierDetailsSaved = true;
-            for (Supplier_DetailsDTO s : dto.getSupplier_DetailsDTOList()) {
-                Integer supplierDetails_Save = supplierDetailDAO.save(new Supplier_Details(s.getSupplierId(), s.getItemCode(), s.getQty(), s.getDate()));
-                if (supplierDetails_Save <= 0) {
-                    allSupplierDetailsSaved = false;
-                    break;
+    public boolean addSupplier(SupplierDTO dto) {
+        try (Connection connection = DBConnection.getInstance().getConnection()) {
+            connection.setAutoCommit(false);
+            Integer supplier_Save = supplierDAO.save(new Supplier(dto.getId(), dto.getName(), dto.getContact(), dto.getAddress()));
+            if (supplier_Save > 0) {
+                boolean allSupplierDetailsSaved = true;
+                for (Supplier_DetailsDTO s : dto.getSupplier_DetailsDTOList()) {
+                    Integer supplierDetails_Save = supplierDetailDAO.save(new Supplier_Details(s.getSupplierId(), s.getItemCode(), s.getQty(), s.getDate()));
+                    if (supplierDetails_Save <= 0) {
+                        allSupplierDetailsSaved = false;
+                        break;
+                    }
+                }
+                if (allSupplierDetailsSaved) {
+                    connection.commit();
+                    connection.setAutoCommit(true);
+                    return true;
                 }
             }
-            if (allSupplierDetailsSaved) {
-                connection.commit();
-                connection.setAutoCommit(true);
-                return true;
-            }
+            connection.rollback();
+            connection.setAutoCommit(true);
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-        connection.rollback();
-        connection.setAutoCommit(true);
-        return false;
     }
 }
