@@ -9,12 +9,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import lk.ijse.computershop.bo.BoFactory;
+import lk.ijse.computershop.bo.custom.DeliveryBO;
 import lk.ijse.computershop.dto.CustomerDTO;
 import lk.ijse.computershop.dto.DeliveryDTO;
 import lk.ijse.computershop.dto.EmployeeDTO;
 import lk.ijse.computershop.dto.tm.DeliveryTM;
 import lk.ijse.computershop.model.CustomerModel;
-import lk.ijse.computershop.model.DeliveryModel;
 import lk.ijse.computershop.model.EmployeeModel;
 import lk.ijse.computershop.model.OrderModel;
 import lk.ijse.computershop.util.CrudUtil;
@@ -63,8 +64,9 @@ public class ManagedeliveryFormController implements Initializable {
     @FXML
     private Button btnDeliver;
 
-    private ObservableList<DeliveryTM> observableList = FXCollections.observableArrayList();
+    private DeliveryBO deliveryBO = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.DELIVERY);
 
+    private ObservableList<DeliveryTM> observableList = FXCollections.observableArrayList();
     private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap();
     Pattern location = Pattern.compile("^([A-Z a-z]{4,40})$");
 
@@ -124,7 +126,7 @@ public class ManagedeliveryFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<DeliveryTM> observableList = FXCollections.observableArrayList();
-            List<DeliveryDTO> deliveryDTOList = DeliveryModel.getAll();
+            List<DeliveryDTO> deliveryDTOList = deliveryBO.loadAllDelivers();
 
             for (DeliveryDTO deliveryDTO : deliveryDTOList) {
                 DeliveryTM deliveryTM = new DeliveryTM(
@@ -133,7 +135,7 @@ public class ManagedeliveryFormController implements Initializable {
                         deliveryDTO.getEmployeeId(),
                         deliveryDTO.getOrderId(),
                         deliveryDTO.getLocation(),
-                        deliveryDTO.getDate()
+                        deliveryDTO.getDate().toString()
                 );
                 observableList.add(deliveryTM);
             }
@@ -150,7 +152,7 @@ public class ManagedeliveryFormController implements Initializable {
 
     private void generateNextDeliveryCode() {
         try {
-            String code = DeliveryModel.getNextDeliveryCode();
+            String code = deliveryBO.generateNextDeliverCode();
             txtDeliveryCode.setText(code);
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -240,8 +242,7 @@ public class ManagedeliveryFormController implements Initializable {
 
         try {
             if (!txtCustomerName.getText().isEmpty() && !txtEmployeeName.getText().isEmpty() && !txtLocation.getText().isEmpty()) {
-                String sql = "INSERT INTO delivery VALUES(?, ?, ?, ?, ?, ?)";
-                int affectedRows = CrudUtil.execute(sql, deliveryCode, customerId, employeeId, orderId, location, String.valueOf(LocalDate.now()));
+                int affectedRows = deliveryBO.saveDelivers(new DeliveryDTO(deliveryCode, customerId, employeeId, orderId, location, LocalDate.now()));
                 if (affectedRows > 0) {
                     new Alert(Alert.AlertType.INFORMATION, "Added Successfully...!").show();
                     getAll();

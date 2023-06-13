@@ -1,3 +1,4 @@
+/*
 package lk.ijse.computershop.model;
 
 import lk.ijse.computershop.dto.DeliveryDTO;
@@ -23,7 +24,7 @@ public class DeliveryModel {
                     resultSet.getString(3),
                     resultSet.getString(4),
                     resultSet.getString(5),
-                    resultSet.getString(6)
+                    resultSet.getDate(6).toLocalDate()
             );
             deliveryDTOList.add(deliveryDTO);
         }
@@ -50,3 +51,4 @@ public class DeliveryModel {
         return "D01";
     }
 }
+*/

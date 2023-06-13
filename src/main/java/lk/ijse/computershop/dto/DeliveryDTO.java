@@ -3,6 +3,8 @@ package lk.ijse.computershop.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 public class DeliveryDTO {
@@ -11,5 +13,5 @@ public class DeliveryDTO {
     private String employeeId;
     private String orderId;
     private String location;
-    private String date;
+    private LocalDate date;
 }

@@ -12,15 +12,17 @@ public interface DeliveryBO extends SuperBO {
 
     List<DeliveryDTO> loadAllDelivers() throws SQLException;
 
+    int saveDelivers(DeliveryDTO d) throws SQLException;
+
     String generateNextDeliverCode() throws SQLException;
 
     List<String> loadCustomerIds() throws SQLException;
 
-    List<String> loadEmployeeIds() throws SQLException;
-
-    List<String> loadOrderIds() throws SQLException;
-
     CustomerDTO searchByCustomerId(String customerId) throws SQLException;
 
+    List<String> loadEmployeeIds() throws SQLException;
+
     EmployeeDTO searchByEmployeeId(String employeeId) throws SQLException;
+
+    List<String> loadOrderIds() throws SQLException;
 }
