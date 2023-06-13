@@ -162,7 +162,7 @@ public class ManagedeliveryFormController implements Initializable {
     private void loadCustomerIds() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            List<String> customerId = CustomerModel.loadIds();
+            List<String> customerId = deliveryBO.loadCustomerIds();
 
             for (String id : customerId) {
                 observableList.add(id);
@@ -176,7 +176,7 @@ public class ManagedeliveryFormController implements Initializable {
     private void loadEmployeeIds() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            List<String> employeeId = EmployeeModel.loadEmployeeIds();
+            List<String> employeeId = deliveryBO.loadEmployeeIds();
 
             for (String id : employeeId) {
                 observableList.add(id);
@@ -190,7 +190,7 @@ public class ManagedeliveryFormController implements Initializable {
     private void loadOrderIds() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            List<String> orderId = OrderModel.loadIds();
+            List<String> orderId = deliveryBO.loadOrderIds();
 
             for (String id : orderId) {
                 observableList.add(id);
@@ -207,7 +207,7 @@ public class ManagedeliveryFormController implements Initializable {
         cmbCustomerId.setDisable(true);
 
         try {
-            CustomerDTO customerDTO = CustomerModel.searchById(customerId);
+            CustomerDTO customerDTO = deliveryBO.searchByCustomerId(customerId);
             txtCustomerName.setText(customerDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -220,7 +220,7 @@ public class ManagedeliveryFormController implements Initializable {
         cmbEmployeeId.setDisable(true);
 
         try {
-            EmployeeDTO employeeDTO = EmployeeModel.searchById(employeeId);
+            EmployeeDTO employeeDTO = deliveryBO.searchByEmployeeId(employeeId);
             txtEmployeeName.setText(employeeDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
