@@ -10,9 +10,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.computershop.bo.BoFactory;
+import lk.ijse.computershop.bo.custom.ItemBO;
 import lk.ijse.computershop.dto.ItemDTO;
 import lk.ijse.computershop.dto.tm.ItemTM;
-import lk.ijse.computershop.model.ItemModel;
 
 import java.net.URL;
 import java.util.List;
@@ -41,6 +42,8 @@ public class ViewitemFormController implements Initializable {
     @FXML
     private TextField txtSearch;
 
+    private ItemBO itemBO= BoFactory.getBoFactory().getBO(BoFactory.BOTypes.ITEM);
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getAll();
@@ -64,7 +67,7 @@ public class ViewitemFormController implements Initializable {
     private void getAll() {
         try {
             ObservableList<ItemTM> observableList = FXCollections.observableArrayList();
-            List<ItemDTO> itemDTOList = ItemModel.getAll();
+            List<ItemDTO> itemDTOList = itemBO.loadAllItems();
 
             for (ItemDTO itemDTO : itemDTOList) {
                 observableList.add(new ItemTM(
@@ -83,7 +86,7 @@ public class ViewitemFormController implements Initializable {
     @FXML
     private void searchOnAction(ActionEvent event) {
         try {
-            ItemDTO itemDTO = ItemModel.search(txtSearch.getText());
+            ItemDTO itemDTO = itemBO.searchItem(txtSearch.getText());
             if (itemDTO != null) {
                 txtCode.setText(itemDTO.getCode());
                 txtDescription.setText(itemDTO.getDescription());

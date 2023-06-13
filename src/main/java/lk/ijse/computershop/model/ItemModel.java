@@ -1,6 +1,7 @@
+/*
 package lk.ijse.computershop.model;
 
-import lk.ijse.computershop.dto.CustombuildsDTO;
+import lk.ijse.computershop.dto.BuildDTO;
 import lk.ijse.computershop.dto.ItemDTO;
 import lk.ijse.computershop.dto.OrderDTO;
 import lk.ijse.computershop.util.CrudUtil;
@@ -120,32 +121,34 @@ public class ItemModel {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////    Orders
-    /*public static boolean updateQty(List<OrderDTO> orderDTOList) throws SQLException {
+public static boolean updateQty(List<OrderDTO> orderDTOList) throws SQLException {
         for (OrderDTO orderDTODetails : orderDTOList) {
             if (!updateQty(orderDTODetails)) {
                 return false;
             }
         }
         return true;
-    }*/
+    }
 
-    /*private static boolean updateQty(OrderDTO orderDTODetails) throws SQLException {
+
+private static boolean updateQty(OrderDTO orderDTODetails) throws SQLException {
         String sql = "UPDATE item SET qtyOnHand = (qtyOnHand - ?) WHERE code = ?";
         Integer affectedRows = CrudUtil.execute(sql, orderDTODetails.getQty(), orderDTODetails.getCode());
         return affectedRows > 0;
-    }*/
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////    Custom Build
-    public static boolean updateBuildQty(List<CustombuildsDTO> buildsList) throws SQLException {
-        for (CustombuildsDTO custombuildsDTO : buildsList) {
-            if (!updateBuildQty(custombuildsDTO)) {
+    public static boolean updateBuildQty(List<BuildDTO> buildsList) throws SQLException {
+        for (BuildDTO buildDTO : buildsList) {
+            if (!updateBuildQty(buildDTO)) {
                 return false;
             }
         }
         return true;
     }
 
-    private static boolean updateBuildQty(CustombuildsDTO buildsList) throws SQLException {
+    private static boolean updateBuildQty(BuildDTO buildsList) throws SQLException {
         String sql = "UPDATE item SET qtyOnHand = (qtyOnHand - ?) WHERE code = ?";
         Integer affectedRows = CrudUtil.execute(sql, buildsList.getQty(), buildsList.getCode());
         return affectedRows > 0;
@@ -158,3 +161,4 @@ public class ItemModel {
         return affectedRows > 0;
     }
 }
+*/

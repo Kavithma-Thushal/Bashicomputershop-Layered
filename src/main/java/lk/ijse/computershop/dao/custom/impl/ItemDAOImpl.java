@@ -2,8 +2,8 @@ package lk.ijse.computershop.dao.custom.impl;
 
 import lk.ijse.computershop.dao.custom.ItemDAO;
 import lk.ijse.computershop.dao.custom.impl.util.SQLUtil;
-import lk.ijse.computershop.dto.CustombuildsDTO;
-import lk.ijse.computershop.dto.OrderDTO;
+import lk.ijse.computershop.dto.BuildDTO;
+import lk.ijse.computershop.entity.Build_Details;
 import lk.ijse.computershop.entity.Item;
 import lk.ijse.computershop.entity.Order_Details;
 import lk.ijse.computershop.entity.Supplier_Details;
@@ -85,8 +85,8 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public int updateCustombuildQty(List<CustombuildsDTO> buildsList) throws SQLException {
-        return 0;
+    public int updateCustombuildQty(Build_Details b) throws SQLException {
+        return SQLUtil.execute("UPDATE item SET qtyOnHand = (qtyOnHand - ?) WHERE code = ?",b.getQty(),b.getItemCode());
     }
 
     @Override

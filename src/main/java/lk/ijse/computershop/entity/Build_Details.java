@@ -3,6 +3,8 @@ package lk.ijse.computershop.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 public class Build_Details {
@@ -10,5 +12,5 @@ public class Build_Details {
     private String itemCode;
     private Integer qty;
     private Double total;
-    private String date;
+    private LocalDate date;
 }

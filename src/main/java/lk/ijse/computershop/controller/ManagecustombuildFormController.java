@@ -8,13 +8,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.computershop.bo.BoFactory;
+import lk.ijse.computershop.bo.custom.BuildBO;
 import lk.ijse.computershop.db.DBConnection;
-import lk.ijse.computershop.dto.CustombuildsDTO;
-import lk.ijse.computershop.dto.CustomerDTO;
-import lk.ijse.computershop.dto.EmployeeDTO;
-import lk.ijse.computershop.dto.ItemDTO;
+import lk.ijse.computershop.dto.*;
 import lk.ijse.computershop.dto.tm.CustombuildsTM;
-import lk.ijse.computershop.model.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -67,6 +65,8 @@ public class ManagecustombuildFormController implements Initializable {
     @FXML
     private TableColumn colRemove;
 
+    private BuildBO buildBO = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.BUILD);
+
     private ObservableList<CustombuildsTM> observableList = FXCollections.observableArrayList();
 
     @Override
@@ -95,7 +95,7 @@ public class ManagecustombuildFormController implements Initializable {
 
     private void generateNextBuildCode() {
         try {
-            String code = CustombuildsModel.getNextBuildCode();
+            String code = buildBO.generateNextBuildCode();
             txtBuildCode.setText(code);
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -105,7 +105,7 @@ public class ManagecustombuildFormController implements Initializable {
     private void loadCustomerIds() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            List<String> customerId = CustomerModel.loadIds();
+            List<String> customerId = buildBO.loadCustomerIds();
 
             for (String id : customerId) {
                 observableList.add(id);
@@ -119,7 +119,7 @@ public class ManagecustombuildFormController implements Initializable {
     private void loadEmployeeIds() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            List<String> employeeId = EmployeeModel.loadIds();
+            List<String> employeeId = buildBO.loadEmployeeIds();
 
             for (String id : employeeId) {
                 observableList.add(id);
@@ -133,7 +133,7 @@ public class ManagecustombuildFormController implements Initializable {
     private void loadItemCodes() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            List<String> itemCode = ItemModel.loadCodes();
+            List<String> itemCode = buildBO.loadItemCodes();
 
             for (String code : itemCode) {
                 observableList.add(code);
@@ -151,7 +151,7 @@ public class ManagecustombuildFormController implements Initializable {
         cmbCustomerId.setDisable(true);
 
         try {
-            CustomerDTO customerDTO = CustomerModel.searchById(customerId);
+            CustomerDTO customerDTO = buildBO.searchByCustomerId(customerId);
             txtCustomerName.setText(customerDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -164,7 +164,7 @@ public class ManagecustombuildFormController implements Initializable {
         cmbEmployeeId.setDisable(true);
 
         try {
-            EmployeeDTO employeeDTO = EmployeeModel.searchById(employeeId);
+            EmployeeDTO employeeDTO = buildBO.searchByEmployeeId(employeeId);
             txtEmployeeName.setText(employeeDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -176,7 +176,7 @@ public class ManagecustombuildFormController implements Initializable {
         String itemCode = cmbItemCode.getValue();
 
         try {
-            ItemDTO itemDTO = ItemModel.searchById(itemCode);
+            ItemDTO itemDTO = buildBO.searchByItemCodes(itemCode);
             fillItemFields(itemDTO);
 
         } catch (Exception e) {
@@ -229,7 +229,7 @@ public class ManagecustombuildFormController implements Initializable {
             tblCustomBuild.setItems(observableList);
             calculateNetTotal();
 
-            txtQty.clear();
+            //txtQty.clear();
             txtQty.requestFocus();
 
         } catch (Exception e) {
@@ -298,59 +298,44 @@ public class ManagecustombuildFormController implements Initializable {
         }
     }
 
-    private void makeBuildReset(){
+    private void makeBuildReset() {
         txtCustomerName.clear();
         txtEmployeeName.clear();
         txtDescription.clear();
         txtUnitPrice.clear();
-        txtQtyOnHand.clear();
+        txtQty.clear();
         txtNetTotal.clear();
         tblCustomBuild.getItems().clear();
-        //cmbCustomerId.setValue("");
-        //cmbEmployeeId.setValue("");
-        //cmbItemCode.setValue("");
     }
 
     @FXML
-    private void makeBuildOnAction(ActionEvent events) {
+    private void makeBuildOnAction(ActionEvent events) throws SQLException {
         String buildCode = txtBuildCode.getText();
         String customerId = cmbCustomerId.getValue();
         String employeeId = cmbEmployeeId.getValue();
+        String itemCode = cmbItemCode.getValue();
+        int qty = Integer.parseInt(txtQty.getText());
+        double total = Double.parseDouble(txtNetTotal.getText());
 
-        List<CustombuildsDTO> custombuildsDTOList = new ArrayList<>();
+        List<Build_DetailsDTO> buildDetailsDTOList = new ArrayList<>();
+        buildDetailsDTOList.add(new Build_DetailsDTO(buildCode,itemCode,qty,total,LocalDate.now()));
 
-        for (int i = 0; i < tblCustomBuild.getItems().size(); i++) {
-            CustombuildsTM custombuildsTM = observableList.get(i);
+        Boolean isPlaced = buildBO.makeBuild(new BuildDTO(buildCode, customerId, employeeId, buildDetailsDTOList));
+        if (isPlaced) {
+            Alert makeBuildAlert = new Alert(Alert.AlertType.INFORMATION, "your build is in progress...!");
+            makeBuildAlert.show();
+            //EmailSend.mail("Your Build is in Progress...!");
 
-            CustombuildsDTO custombuildsDTODetails = new CustombuildsDTO(
-                    custombuildsTM.getCode(),
-                    custombuildsTM.getQty(),
-                    custombuildsTM.getTotal()
-            );
-            custombuildsDTOList.add(custombuildsDTODetails);
-        }
+            makeBuildAlert.setOnHidden(event -> {
+                try {
+                    printBills();
+                } catch (Exception e) {
+                    new Alert(Alert.AlertType.ERROR, "please try again...!").show();
+                }
+            });
 
-        boolean isPlaced = false;
-        try {
-            isPlaced = MakeBuildModel.makeBuild(buildCode, customerId, employeeId, custombuildsDTOList);
-            if (isPlaced) {
-                Alert makeBuildAlert=new Alert(Alert.AlertType.INFORMATION, "your build is in progress...!");
-                makeBuildAlert.show();
-                //EmailSend.mail("Your Build is in Progress...!");
-
-                makeBuildAlert.setOnHidden(event -> {
-                    try {
-                        printBills();
-                    } catch (Exception e) {
-                        new Alert(Alert.AlertType.ERROR, "please try again...!").show();
-                    }
-                });
-
-            } else {
-                new Alert(Alert.AlertType.ERROR, "your build is not in progress...!").show();
-            }
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "please try again...!").show();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "your build is not in progress...!").show();
         }
         makeBuildReset();
         generateNextBuildCode();

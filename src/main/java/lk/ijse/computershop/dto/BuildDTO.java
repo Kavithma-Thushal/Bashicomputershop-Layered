@@ -7,8 +7,9 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class OrderDTO {
-    private String orderId;
+public class BuildDTO {
+    private String code;
     private String customerId;
-    private List<Order_DetailsDTO> order_detailsDTOList;
+    private String employeeId;
+    private List<Build_DetailsDTO> buildDetailsDTOList;
 }

@@ -1,3 +1,4 @@
+/*
 package lk.ijse.computershop.model;
 
 import lk.ijse.computershop.dto.CustombuildsDTO;
@@ -25,3 +26,4 @@ public class BuildDetailsModel {
         return affectedRows > 0;
     }
 }
+*/

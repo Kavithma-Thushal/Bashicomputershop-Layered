@@ -1,11 +1,10 @@
 package lk.ijse.computershop.dao.custom.impl;
 
 import lk.ijse.computershop.dao.custom.BuildDetailsDAO;
-import lk.ijse.computershop.dto.CustombuildsDTO;
+import lk.ijse.computershop.dao.custom.impl.util.SQLUtil;
 import lk.ijse.computershop.entity.Build_Details;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 
 public class BuildDetailsDAOImpl implements BuildDetailsDAO {
@@ -16,8 +15,8 @@ public class BuildDetailsDAOImpl implements BuildDetailsDAO {
     }
 
     @Override
-    public int save(Build_Details entity) throws SQLException {
-        return 0;
+    public int save(Build_Details b) throws SQLException {
+        return SQLUtil.execute("INSERT INTO build_details VALUES(?, ?, ?, ?,?)",b.getBuildCode(),b.getItemCode(),b.getQty(),b.getTotal(),b.getDate());
     }
 
     @Override
@@ -38,10 +37,5 @@ public class BuildDetailsDAOImpl implements BuildDetailsDAO {
     @Override
     public String generateNextId() throws SQLException {
         return null;
-    }
-
-    @Override
-    public boolean buildQuotation(String buildCode, List<CustombuildsDTO> buildsDTOList, LocalDate date) throws SQLException {
-        return false;
     }
 }
