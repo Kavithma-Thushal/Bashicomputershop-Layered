@@ -6,12 +6,11 @@ import lk.ijse.computershop.dao.custom.CustomerDAO;
 import lk.ijse.computershop.dao.custom.ItemDAO;
 import lk.ijse.computershop.dao.custom.OrderDetailsDAO;
 import lk.ijse.computershop.dao.custom.OrdersDAO;
-import lk.ijse.computershop.dto.CustomerDTO;
-import lk.ijse.computershop.dto.ItemDTO;
-import lk.ijse.computershop.dto.OrderDTO;
-import lk.ijse.computershop.entity.Customer;
-import lk.ijse.computershop.entity.Item;
+import lk.ijse.computershop.db.DBConnection;
+import lk.ijse.computershop.dto.*;
+import lk.ijse.computershop.entity.*;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -50,7 +49,43 @@ public class OrdersBOImpl implements OrdersBO {
     }
 
     @Override
-    public boolean placeOrder(OrderDTO orderDTO) throws SQLException {
-        return false;
+    public boolean placeOrder(OrderDTO dto) throws SQLException {
+        try (Connection connection = DBConnection.getInstance().getConnection()) {
+            connection.setAutoCommit(false);
+
+            int orders_Save = ordersDAO.save(new Orders(dto.getOrderId(), dto.getCustomerId()));
+            if (orders_Save > 0) {
+                boolean success = true;
+
+                for (Order_DetailsDTO detailsDTO : dto.getOrder_detailsDTOList()) {
+
+                    int placeOrderItem_Update = itemDAO.updateOrderQty(new Order_Details(detailsDTO.getOrderId(), detailsDTO.getItemCode(), detailsDTO.getQty(), detailsDTO.getTotal(), detailsDTO.getDate()));
+                    if (placeOrderItem_Update <= 0) {
+                        success = false;
+                        break;
+                    }
+
+                    int orderDetails_Save = orderDetailsDAO.save(new Order_Details(detailsDTO.getOrderId(), detailsDTO.getItemCode(), detailsDTO.getQty(), detailsDTO.getTotal(), detailsDTO.getDate()));
+                    if (orderDetails_Save <= 0) {
+                        success = false;
+                        break;
+                    }
+                }
+
+                if (success) {
+                    connection.commit();
+                    connection.setAutoCommit(true);
+                    return true;
+                }
+            }
+
+            connection.rollback();
+            connection.setAutoCommit(true);
+            return false;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

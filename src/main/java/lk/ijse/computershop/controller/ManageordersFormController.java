@@ -192,7 +192,7 @@ public class ManageordersFormController implements Initializable {
             observableList.add(tm);
             tblOrder.setItems(observableList);
             calculateNetTotal();
-            txtQty.clear();
+            //txtQty.clear();
 
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -247,38 +247,38 @@ public class ManageordersFormController implements Initializable {
         txtCustomerName.clear();
         txtDescription.clear();
         txtUnitPrice.clear();
-        txtQtyOnHand.clear();
+        txtQty.clear();
         txtNetTotal.clear();
         tblOrder.getItems().clear();
     }
 
     @FXML
-    private void placeOrderOnAction(ActionEvent events) {
+    private void placeOrderOnAction(ActionEvent events) throws SQLException {
         String orderId = txtOrderId.getText();
         String customerId = cmbCustomerId.getValue();
+        String itemCode = cmbItemCode.getValue();
+        int qty = Integer.parseInt(txtQty.getText());
+        double total = Double.parseDouble(txtNetTotal.getText());
+
         List<Order_DetailsDTO> order_detailsDTOList = new ArrayList<>();
+        order_detailsDTOList.add(new Order_DetailsDTO(orderId, itemCode, qty, total, LocalDate.now()));
 
-        boolean isPlaced = false;
-        try {
-            isPlaced = ordersBO.placeOrder(new OrderDTO(orderId, customerId, order_detailsDTOList));
-            if (isPlaced) {
-                Alert orderPlacedAlert = new Alert(Alert.AlertType.INFORMATION, "Order Placed...!");
-                orderPlacedAlert.show();
-                //EmailSend.mail("Order has been placed...!");
+        Boolean isPlaced = ordersBO.placeOrder(new OrderDTO(orderId, customerId, order_detailsDTOList));
+        if (isPlaced) {
+            Alert orderPlacedAlert = new Alert(Alert.AlertType.INFORMATION, "Order Placed...!");
+            orderPlacedAlert.show();
+            //EmailSend.mail("Order has been placed...!");
 
-                orderPlacedAlert.setOnHidden(event -> {
-                    try {
-                        printBills();
-                    } catch (Exception e) {
-                        new Alert(Alert.AlertType.ERROR, "please try again...!").show();
-                    }
-                });
+            orderPlacedAlert.setOnHidden(event -> {
+                try {
+                    printBills();
+                } catch (Exception e) {
+                    new Alert(Alert.AlertType.ERROR, "please try again...!").show();
+                }
+            });
 
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Order is Not Placed...!").show();
-            }
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "please try again...!").show();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Order is Not Placed...!").show();
         }
         placeOrderReset();
         generateNextOrderId();

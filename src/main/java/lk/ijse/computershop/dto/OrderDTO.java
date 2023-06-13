@@ -11,4 +11,9 @@ public class OrderDTO {
     private String orderId;
     private String customerId;
     private List<Order_DetailsDTO> order_detailsDTOList;
+
+    public OrderDTO(String orderId, String customerId) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+    }
 }
