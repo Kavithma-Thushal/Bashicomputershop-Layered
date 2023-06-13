@@ -1,9 +1,12 @@
 package lk.ijse.computershop.dao.custom.impl;
 
 import lk.ijse.computershop.dao.custom.OrdersDAO;
+import lk.ijse.computershop.dao.custom.impl.util.SQLUtil;
 import lk.ijse.computershop.entity.Orders;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrdersDAOImpl implements OrdersDAO {
@@ -15,7 +18,7 @@ public class OrdersDAOImpl implements OrdersDAO {
 
     @Override
     public int save(Orders entity) throws SQLException {
-        return 0;
+        return SQLUtil.execute("INSERT INTO Orders(orderId, customerId) VALUES(?, ?)", entity.getOrderId(), entity.getCustomerId());
     }
 
     @Override
@@ -35,11 +38,30 @@ public class OrdersDAOImpl implements OrdersDAO {
 
     @Override
     public String generateNextId() throws SQLException {
-        return null;
+        ResultSet rst = SQLUtil.execute("SELECT orderId FROM Orders ORDER BY orderId DESC LIMIT 1");
+        if (rst.next()) {
+            return splitOrderId(rst.getString(1));
+        }
+        return splitOrderId(null);
+    }
+
+    private String splitOrderId(String currentId) {
+        if (currentId != null) {
+            String[] strings = currentId.split("O");
+            int id = Integer.parseInt(strings[1]);
+            id++;
+            return "O" + String.format("%02d", id);
+        }
+        return "O01";
     }
 
     @Override
     public List<String> loadOrderIds() throws SQLException {
-        return null;
+        List<String> arrayList = new ArrayList<>();
+        ResultSet rst = SQLUtil.execute("SELECT orderId FROM orders ORDER BY orderId ASC");
+        while (rst.next()) {
+            arrayList.add(rst.getString(1));
+        }
+        return arrayList;
     }
 }

@@ -1,4 +1,3 @@
-/*
 package lk.ijse.computershop.model;
 
 import lk.ijse.computershop.dto.DeliveryDTO;
@@ -51,4 +50,3 @@ public class DeliveryModel {
         return "D01";
     }
 }
-*/

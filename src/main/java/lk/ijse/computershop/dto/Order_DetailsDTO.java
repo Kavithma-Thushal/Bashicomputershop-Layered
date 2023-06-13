@@ -3,6 +3,8 @@ package lk.ijse.computershop.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 public class Order_DetailsDTO {
@@ -10,5 +12,5 @@ public class Order_DetailsDTO {
     private String itemCode;
     private Integer qty;
     private Double total;
-    private String date;
+    private LocalDate date;
 }

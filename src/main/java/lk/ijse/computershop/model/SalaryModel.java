@@ -1,4 +1,3 @@
-/*
 package lk.ijse.computershop.model;
 
 import lk.ijse.computershop.dto.SalaryDTO;
@@ -49,4 +48,3 @@ public class SalaryModel {
         return "S01";
     }
 }
-*/

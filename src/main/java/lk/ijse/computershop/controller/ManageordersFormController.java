@@ -8,15 +8,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.computershop.bo.BoFactory;
+import lk.ijse.computershop.bo.custom.OrdersBO;
 import lk.ijse.computershop.db.DBConnection;
 import lk.ijse.computershop.dto.CustomerDTO;
 import lk.ijse.computershop.dto.ItemDTO;
 import lk.ijse.computershop.dto.OrderDTO;
+import lk.ijse.computershop.dto.Order_DetailsDTO;
 import lk.ijse.computershop.dto.tm.OrderTM;
-import lk.ijse.computershop.model.CustomerModel;
-import lk.ijse.computershop.model.ItemModel;
-import lk.ijse.computershop.model.OrderModel;
-import lk.ijse.computershop.model.PlaceOrderModel;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -63,6 +62,8 @@ public class ManageordersFormController implements Initializable {
     @FXML
     private TableColumn colRemove;
 
+    private OrdersBO ordersBO = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.ORDERS);
+
     private ObservableList<OrderTM> observableList = FXCollections.observableArrayList();
 
     @Override
@@ -89,7 +90,7 @@ public class ManageordersFormController implements Initializable {
 
     private void generateNextOrderId() {
         try {
-            String id = OrderModel.getNextOrderId();
+            String id = ordersBO.generateNextOrderId();
             txtOrderId.setText(id);
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -99,7 +100,7 @@ public class ManageordersFormController implements Initializable {
     private void loadCustomerIds() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            List<String> customerId = CustomerModel.loadIds();
+            List<String> customerId = ordersBO.loadCustomerIds();
 
             for (String id : customerId) {
                 observableList.add(id);
@@ -113,7 +114,7 @@ public class ManageordersFormController implements Initializable {
     private void loadItemCodes() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            List<String> itemCode = ItemModel.loadCodes();
+            List<String> itemCode = ordersBO.loadItemCodes();
 
             for (String code : itemCode) {
                 observableList.add(code);
@@ -131,7 +132,7 @@ public class ManageordersFormController implements Initializable {
         cmbCustomerId.setDisable(true);
 
         try {
-            CustomerDTO customerDTO = CustomerModel.searchById(customerId);
+            CustomerDTO customerDTO = ordersBO.searchByCustomerId(customerId);
             txtCustomerName.setText(customerDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -143,7 +144,7 @@ public class ManageordersFormController implements Initializable {
         String itemCode = cmbItemCode.getValue();
 
         try {
-            ItemDTO itemDTO = ItemModel.searchById(itemCode);
+            ItemDTO itemDTO = ordersBO.searchByItemCode(itemCode);
             fillItemFields(itemDTO);
 
         } catch (Exception e) {
@@ -242,38 +243,24 @@ public class ManageordersFormController implements Initializable {
         }
     }
 
-    private void placeOrderReset(){
+    private void placeOrderReset() {
         txtCustomerName.clear();
         txtDescription.clear();
         txtUnitPrice.clear();
         txtQtyOnHand.clear();
         txtNetTotal.clear();
         tblOrder.getItems().clear();
-        //cmbCustomerId.setValue("");
-        //cmbItemCode.setValue("");
     }
 
     @FXML
     private void placeOrderOnAction(ActionEvent events) {
         String orderId = txtOrderId.getText();
         String customerId = cmbCustomerId.getValue();
-
-        List<OrderDTO> orderDTOList = new ArrayList<>();
-
-        for (int i = 0; i < tblOrder.getItems().size(); i++) {
-            OrderTM orderTM = observableList.get(i);
-
-            OrderDTO orderDTODetails = new OrderDTO(
-                    orderTM.getCode(),
-                    orderTM.getQty(),
-                    orderTM.getTotal()
-            );
-            orderDTOList.add(orderDTODetails);
-        }
+        List<Order_DetailsDTO> order_detailsDTOList = new ArrayList<>();
 
         boolean isPlaced = false;
         try {
-            isPlaced = PlaceOrderModel.placeOrder(orderId, customerId, orderDTOList);
+            isPlaced = ordersBO.placeOrder(new OrderDTO(orderId, customerId, order_detailsDTOList));
             if (isPlaced) {
                 Alert orderPlacedAlert = new Alert(Alert.AlertType.INFORMATION, "Order Placed...!");
                 orderPlacedAlert.show();

@@ -1,4 +1,3 @@
-/*
 package lk.ijse.computershop.model;
 
 import lk.ijse.computershop.dto.RepairDTO;
@@ -70,4 +69,3 @@ public class RepairModel {
         return "R01";
     }
 }
-*/

@@ -14,9 +14,9 @@ public interface ItemDAO extends CrudDAO<Item> {
 
     List<String> loadItemCodes() throws SQLException;
 
-    /*boolean updateOrderQty(List<OrderDTO> orderDTOList) throws SQLException;
+    boolean updateOrderQty(List<OrderDTO> orderDTOList) throws SQLException;
 
-    boolean updateCustombuildQty(List<CustombuildsDTO> buildsList) throws SQLException;*/
+    boolean updateCustombuildQty(List<CustombuildsDTO> buildsList) throws SQLException;
 
     int updateSupplyQty(Supplier_Details s) throws SQLException;
 }

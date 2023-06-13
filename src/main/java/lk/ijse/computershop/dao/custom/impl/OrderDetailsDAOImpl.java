@@ -1,11 +1,10 @@
 package lk.ijse.computershop.dao.custom.impl;
 
 import lk.ijse.computershop.dao.custom.OrderDetailsDAO;
-import lk.ijse.computershop.dto.OrderDTO;
+import lk.ijse.computershop.dao.custom.impl.util.SQLUtil;
 import lk.ijse.computershop.entity.Order_Details;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 
 public class OrderDetailsDAOImpl implements OrderDetailsDAO {
@@ -17,7 +16,7 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
 
     @Override
     public int save(Order_Details entity) throws SQLException {
-        return 0;
+        return SQLUtil.execute("INSERT INTO order_details VALUES(?, ?, ?, ?,?)", entity.getOrderId(), entity.getItemCode(), entity.getQty(), entity.getTotal(), entity.getDate());
     }
 
     @Override
@@ -38,10 +37,5 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
     @Override
     public String generateNextId() throws SQLException {
         return null;
-    }
-
-    @Override
-    public boolean placeOrder(String orderId, List<OrderDTO> orderDTOList, LocalDate date) throws SQLException {
-        return false;
     }
 }

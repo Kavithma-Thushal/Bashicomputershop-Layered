@@ -120,20 +120,20 @@ public class ItemModel {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////    Orders
-    public static boolean updateQty(List<OrderDTO> orderDTOList) throws SQLException {
+    /*public static boolean updateQty(List<OrderDTO> orderDTOList) throws SQLException {
         for (OrderDTO orderDTODetails : orderDTOList) {
             if (!updateQty(orderDTODetails)) {
                 return false;
             }
         }
         return true;
-    }
+    }*/
 
-    private static boolean updateQty(OrderDTO orderDTODetails) throws SQLException {
+    /*private static boolean updateQty(OrderDTO orderDTODetails) throws SQLException {
         String sql = "UPDATE item SET qtyOnHand = (qtyOnHand - ?) WHERE code = ?";
         Integer affectedRows = CrudUtil.execute(sql, orderDTODetails.getQty(), orderDTODetails.getCode());
         return affectedRows > 0;
-    }
+    }*/
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////    Custom Build
     public static boolean updateBuildQty(List<CustombuildsDTO> buildsList) throws SQLException {

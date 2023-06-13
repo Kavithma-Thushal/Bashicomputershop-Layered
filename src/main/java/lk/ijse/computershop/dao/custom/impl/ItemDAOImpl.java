@@ -78,7 +78,7 @@ public class ItemDAOImpl implements ItemDAO {
         return arrayList;
     }
 
-    /*@Override
+    @Override
     public boolean updateOrderQty(List<OrderDTO> orderDTOList) throws SQLException {
         return false;
     }
@@ -86,7 +86,7 @@ public class ItemDAOImpl implements ItemDAO {
     @Override
     public boolean updateCustombuildQty(List<CustombuildsDTO> buildsList) throws SQLException {
         return false;
-    }*/
+    }
 
     @Override
     public int updateSupplyQty(Supplier_Details s) throws SQLException {
