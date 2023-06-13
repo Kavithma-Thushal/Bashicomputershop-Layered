@@ -15,10 +15,6 @@ import lk.ijse.computershop.dto.CustomerDTO;
 import lk.ijse.computershop.dto.DeliveryDTO;
 import lk.ijse.computershop.dto.EmployeeDTO;
 import lk.ijse.computershop.dto.tm.DeliveryTM;
-import lk.ijse.computershop.model.CustomerModel;
-import lk.ijse.computershop.model.EmployeeModel;
-import lk.ijse.computershop.model.OrderModel;
-import lk.ijse.computershop.util.CrudUtil;
 import lk.ijse.computershop.util.Validation;
 
 import java.net.URL;
