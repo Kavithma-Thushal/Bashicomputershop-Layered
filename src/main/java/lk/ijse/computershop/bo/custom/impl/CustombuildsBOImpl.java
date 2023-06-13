@@ -1,6 +1,6 @@
 package lk.ijse.computershop.bo.custom.impl;
 
-import lk.ijse.computershop.bo.custom.BuildBO;
+import lk.ijse.computershop.bo.custom.CustombuildsBO;
 import lk.ijse.computershop.dao.DAOFactory;
 import lk.ijse.computershop.dao.custom.*;
 import lk.ijse.computershop.db.DBConnection;
@@ -11,9 +11,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class BuildBOImpl implements BuildBO {
+public class CustombuildsBOImpl implements CustombuildsBO {
 
-    private BuildDAO buildDAO = DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.BUILD);
+    private CustombuildsDAO custombuildsDAO = DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.BUILD);
     private BuildDetailsDAO buildDetailsDAO = DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.BUILDDETAILS);
     private CustomerDAO customerDAO = DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
     private EmployeeDAO employeeDAO = DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
@@ -21,7 +21,7 @@ public class BuildBOImpl implements BuildBO {
 
     @Override
     public String generateNextBuildCode() throws SQLException {
-        return buildDAO.generateNextId();
+        return custombuildsDAO.generateNextId();
     }
 
     @Override
@@ -58,11 +58,11 @@ public class BuildBOImpl implements BuildBO {
     }
 
     @Override
-    public boolean makeBuild(BuildDTO dto) throws SQLException {
+    public boolean makeBuild(custombuildsDTO dto) throws SQLException {
         try (Connection connection = DBConnection.getInstance().getConnection()) {
             connection.setAutoCommit(false);
 
-            int build_Save = buildDAO.save(new Custombuilds(dto.getCode(), dto.getCustomerId(), dto.getEmployeeId()));
+            int build_Save = custombuildsDAO.save(new Custombuilds(dto.getCode(), dto.getCustomerId(), dto.getEmployeeId()));
             if (build_Save > 0) {
                 boolean success = true;
 

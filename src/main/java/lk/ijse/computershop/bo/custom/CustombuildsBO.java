@@ -1,7 +1,7 @@
 package lk.ijse.computershop.bo.custom;
 
 import lk.ijse.computershop.bo.SuperBO;
-import lk.ijse.computershop.dto.BuildDTO;
+import lk.ijse.computershop.dto.custombuildsDTO;
 import lk.ijse.computershop.dto.CustomerDTO;
 import lk.ijse.computershop.dto.EmployeeDTO;
 import lk.ijse.computershop.dto.ItemDTO;
@@ -9,7 +9,7 @@ import lk.ijse.computershop.dto.ItemDTO;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface BuildBO extends SuperBO {
+public interface CustombuildsBO extends SuperBO {
 
     String generateNextBuildCode() throws SQLException;
 
@@ -25,5 +25,5 @@ public interface BuildBO extends SuperBO {
 
     ItemDTO searchByItemCodes(String itemCode) throws SQLException;
 
-    boolean makeBuild(BuildDTO buildDTO) throws  SQLException;
+    boolean makeBuild(custombuildsDTO custombuildsDTO) throws  SQLException;
 }

@@ -35,7 +35,7 @@ public class BoFactory {
             case ORDERS:
                 return (T) new OrdersBOImpl();
             case BUILD:
-                return (T) new BuildBOImpl();
+                return (T) new CustombuildsBOImpl();
             case SUPPLIER:
                 return (T) new SupplierBOImpl();
             default:

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class BuildDTO {
+public class custombuildsDTO {
     private String code;
     private String customerId;
     private String employeeId;

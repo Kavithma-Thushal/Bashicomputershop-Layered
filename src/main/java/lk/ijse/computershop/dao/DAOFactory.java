@@ -37,7 +37,7 @@ public class DAOFactory {
             case ORDERDETAILS:
                 return (T) new OrderDetailsDAOImpl();
             case BUILD:
-                return (T) new BuildDAOImpl();
+                return (T) new CustombuildsDAOImpl();
             case BUILDDETAILS:
                 return (T) new BuildDetailsDAOImpl();
             case SUPPLIER:

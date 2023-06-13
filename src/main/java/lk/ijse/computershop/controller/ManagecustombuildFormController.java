@@ -9,7 +9,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.computershop.bo.BoFactory;
-import lk.ijse.computershop.bo.custom.BuildBO;
+import lk.ijse.computershop.bo.custom.CustombuildsBO;
 import lk.ijse.computershop.db.DBConnection;
 import lk.ijse.computershop.dto.*;
 import lk.ijse.computershop.dto.tm.CustombuildsTM;
@@ -65,7 +65,7 @@ public class ManagecustombuildFormController implements Initializable {
     @FXML
     private TableColumn colRemove;
 
-    private BuildBO buildBO = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.BUILD);
+    private CustombuildsBO custombuildsBO = BoFactory.getBoFactory().getBO(BoFactory.BOTypes.BUILD);
 
     private ObservableList<CustombuildsTM> observableList = FXCollections.observableArrayList();
 
@@ -95,7 +95,7 @@ public class ManagecustombuildFormController implements Initializable {
 
     private void generateNextBuildCode() {
         try {
-            String code = buildBO.generateNextBuildCode();
+            String code = custombuildsBO.generateNextBuildCode();
             txtBuildCode.setText(code);
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -105,7 +105,7 @@ public class ManagecustombuildFormController implements Initializable {
     private void loadCustomerIds() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            List<String> customerId = buildBO.loadCustomerIds();
+            List<String> customerId = custombuildsBO.loadCustomerIds();
 
             for (String id : customerId) {
                 observableList.add(id);
@@ -119,7 +119,7 @@ public class ManagecustombuildFormController implements Initializable {
     private void loadEmployeeIds() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            List<String> employeeId = buildBO.loadEmployeeIds();
+            List<String> employeeId = custombuildsBO.loadEmployeeIds();
 
             for (String id : employeeId) {
                 observableList.add(id);
@@ -133,7 +133,7 @@ public class ManagecustombuildFormController implements Initializable {
     private void loadItemCodes() {
         try {
             ObservableList<String> observableList = FXCollections.observableArrayList();
-            List<String> itemCode = buildBO.loadItemCodes();
+            List<String> itemCode = custombuildsBO.loadItemCodes();
 
             for (String code : itemCode) {
                 observableList.add(code);
@@ -151,7 +151,7 @@ public class ManagecustombuildFormController implements Initializable {
         cmbCustomerId.setDisable(true);
 
         try {
-            CustomerDTO customerDTO = buildBO.searchByCustomerId(customerId);
+            CustomerDTO customerDTO = custombuildsBO.searchByCustomerId(customerId);
             txtCustomerName.setText(customerDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -164,7 +164,7 @@ public class ManagecustombuildFormController implements Initializable {
         cmbEmployeeId.setDisable(true);
 
         try {
-            EmployeeDTO employeeDTO = buildBO.searchByEmployeeId(employeeId);
+            EmployeeDTO employeeDTO = custombuildsBO.searchByEmployeeId(employeeId);
             txtEmployeeName.setText(employeeDTO.getName());
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "please try again...!").show();
@@ -176,7 +176,7 @@ public class ManagecustombuildFormController implements Initializable {
         String itemCode = cmbItemCode.getValue();
 
         try {
-            ItemDTO itemDTO = buildBO.searchByItemCodes(itemCode);
+            ItemDTO itemDTO = custombuildsBO.searchByItemCodes(itemCode);
             fillItemFields(itemDTO);
 
         } catch (Exception e) {
@@ -320,7 +320,7 @@ public class ManagecustombuildFormController implements Initializable {
         List<Build_DetailsDTO> buildDetailsDTOList = new ArrayList<>();
         buildDetailsDTOList.add(new Build_DetailsDTO(buildCode,itemCode,qty,total,LocalDate.now()));
 
-        Boolean isPlaced = buildBO.makeBuild(new BuildDTO(buildCode, customerId, employeeId, buildDetailsDTOList));
+        Boolean isPlaced = custombuildsBO.makeBuild(new custombuildsDTO(buildCode, customerId, employeeId, buildDetailsDTOList));
         if (isPlaced) {
             Alert makeBuildAlert = new Alert(Alert.AlertType.INFORMATION, "your build is in progress...!");
             makeBuildAlert.show();

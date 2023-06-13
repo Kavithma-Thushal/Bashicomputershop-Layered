@@ -1,6 +1,6 @@
 package lk.ijse.computershop.dao.custom.impl;
 
-import lk.ijse.computershop.dao.custom.BuildDAO;
+import lk.ijse.computershop.dao.custom.CustombuildsDAO;
 import lk.ijse.computershop.dao.custom.impl.util.SQLUtil;
 import lk.ijse.computershop.entity.Custombuilds;
 
@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class BuildDAOImpl implements BuildDAO {
+public class CustombuildsDAOImpl implements CustombuildsDAO {
 
     @Override
     public List<Custombuilds> loadAll() throws SQLException {
