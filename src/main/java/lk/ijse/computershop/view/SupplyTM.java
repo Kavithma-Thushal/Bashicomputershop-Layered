@@ -1,16 +1,13 @@
-package lk.ijse.computershop.dto.tm;
+package lk.ijse.computershop.view;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-
-public class EmployeeTM {
+public class SupplyTM {
     private String id;
     private String name;
     private String contact;
-    private String jobRole;
-    private String username;
-    private String password;
+    private String address;
 }

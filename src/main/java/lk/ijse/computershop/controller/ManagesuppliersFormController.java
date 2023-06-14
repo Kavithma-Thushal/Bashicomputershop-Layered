@@ -14,7 +14,7 @@ import lk.ijse.computershop.bo.custom.SupplierBO;
 import lk.ijse.computershop.dto.ItemDTO;
 import lk.ijse.computershop.dto.SupplierDTO;
 import lk.ijse.computershop.dto.Supplier_DetailsDTO;
-import lk.ijse.computershop.dto.tm.SupplyTM;
+import lk.ijse.computershop.view.SupplyTM;
 import lk.ijse.computershop.util.Validation;
 
 import java.net.URL;

@@ -13,8 +13,7 @@ import lk.ijse.computershop.bo.BoFactory;
 import lk.ijse.computershop.bo.custom.SalaryBO;
 import lk.ijse.computershop.dto.EmployeeDTO;
 import lk.ijse.computershop.dto.SalaryDTO;
-import lk.ijse.computershop.dto.tm.SalaryTM;
-import lk.ijse.computershop.util.CrudUtil;
+import lk.ijse.computershop.view.SalaryTM;
 import lk.ijse.computershop.util.EmailSend;
 import lk.ijse.computershop.util.Validation;
 

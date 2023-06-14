@@ -13,7 +13,7 @@ import lk.ijse.computershop.bo.BoFactory;
 import lk.ijse.computershop.bo.custom.CustombuildsBO;
 import lk.ijse.computershop.db.DBConnection;
 import lk.ijse.computershop.dto.*;
-import lk.ijse.computershop.dto.tm.CustombuildsTM;
+import lk.ijse.computershop.view.CustombuildsTM;
 import lk.ijse.computershop.util.EmailSend;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;

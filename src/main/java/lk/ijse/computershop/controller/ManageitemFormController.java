@@ -13,7 +13,7 @@ import javafx.scene.input.MouseEvent;
 import lk.ijse.computershop.bo.BoFactory;
 import lk.ijse.computershop.bo.custom.ItemBO;
 import lk.ijse.computershop.dto.ItemDTO;
-import lk.ijse.computershop.dto.tm.ItemTM;
+import lk.ijse.computershop.view.ItemTM;
 import lk.ijse.computershop.util.Validation;
 
 import java.net.URL;

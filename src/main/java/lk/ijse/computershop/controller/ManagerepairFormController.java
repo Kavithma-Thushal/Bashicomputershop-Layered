@@ -14,7 +14,7 @@ import lk.ijse.computershop.bo.custom.RepairBO;
 import lk.ijse.computershop.dto.CustomerDTO;
 import lk.ijse.computershop.dto.EmployeeDTO;
 import lk.ijse.computershop.dto.RepairDTO;
-import lk.ijse.computershop.dto.tm.RepairTM;
+import lk.ijse.computershop.view.RepairTM;
 import lk.ijse.computershop.util.EmailSend;
 import lk.ijse.computershop.util.Validation;
 

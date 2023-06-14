@@ -1,4 +1,4 @@
-package lk.ijse.computershop.dto.tm;
+package lk.ijse.computershop.view;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

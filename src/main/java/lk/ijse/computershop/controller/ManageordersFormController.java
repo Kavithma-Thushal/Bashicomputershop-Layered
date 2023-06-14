@@ -16,7 +16,7 @@ import lk.ijse.computershop.dto.CustomerDTO;
 import lk.ijse.computershop.dto.ItemDTO;
 import lk.ijse.computershop.dto.OrderDTO;
 import lk.ijse.computershop.dto.Order_DetailsDTO;
-import lk.ijse.computershop.dto.tm.OrderTM;
+import lk.ijse.computershop.view.OrderTM;
 import lk.ijse.computershop.util.EmailSend;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
