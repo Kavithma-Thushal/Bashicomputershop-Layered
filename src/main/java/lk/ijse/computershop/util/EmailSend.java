@@ -1,14 +1,15 @@
 package lk.ijse.computershop.util;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+
 import java.util.Properties;
 
 public class EmailSend {
-    public static void mail(String msg) throws MessagingException{
+    public static void mail(String msg) throws MessagingException {
         String senderEmail = "kaviyabro9007@gmail.com";
         String senderPassword = "qrmfubkjysinztwc";
         String recipientEmail = "kavithmathushal451@gmail.com";

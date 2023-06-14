@@ -15,6 +15,7 @@ import lk.ijse.computershop.dto.CustomerDTO;
 import lk.ijse.computershop.dto.EmployeeDTO;
 import lk.ijse.computershop.dto.RepairDTO;
 import lk.ijse.computershop.dto.tm.RepairTM;
+import lk.ijse.computershop.util.EmailSend;
 import lk.ijse.computershop.util.Validation;
 
 import java.net.URL;
@@ -247,7 +248,7 @@ public class ManagerepairFormController implements Initializable {
                 int affectedRows = repairBO.saveRepairs(new RepairDTO(repairCode,customerId,employeeId,details,LocalDate.now(),acceptDate));
                 if (affectedRows > 0) {
                     new Alert(Alert.AlertType.INFORMATION, "Added Successfully...!").show();
-                    //EmailSend.mail("New Repair Available...!");
+                    EmailSend.mail("New Repair Available...!");
                     getAll();
                     clearAllTxt();
                     txtDetails.requestFocus();

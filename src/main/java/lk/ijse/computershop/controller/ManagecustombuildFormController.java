@@ -1,5 +1,6 @@
 package lk.ijse.computershop.controller;
 
+import jakarta.mail.MessagingException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import lk.ijse.computershop.bo.custom.CustombuildsBO;
 import lk.ijse.computershop.db.DBConnection;
 import lk.ijse.computershop.dto.*;
 import lk.ijse.computershop.dto.tm.CustombuildsTM;
+import lk.ijse.computershop.util.EmailSend;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -309,7 +311,7 @@ public class ManagecustombuildFormController implements Initializable {
     }
 
     @FXML
-    private void makeBuildOnAction(ActionEvent events) throws SQLException {
+    private void makeBuildOnAction(ActionEvent events) throws SQLException, MessagingException {
         String buildCode = txtBuildCode.getText();
         String customerId = cmbCustomerId.getValue();
         String employeeId = cmbEmployeeId.getValue();
@@ -324,7 +326,7 @@ public class ManagecustombuildFormController implements Initializable {
         if (isPlaced) {
             Alert makeBuildAlert = new Alert(Alert.AlertType.INFORMATION, "your build is in progress...!");
             makeBuildAlert.show();
-            //EmailSend.mail("Your Build is in Progress...!");
+            EmailSend.mail("Your Build is in Progress...!");
 
             makeBuildAlert.setOnHidden(event -> {
                 try {

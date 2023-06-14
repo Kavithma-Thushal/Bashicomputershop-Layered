@@ -1,5 +1,6 @@
 package lk.ijse.computershop.controller;
 
+import jakarta.mail.MessagingException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +17,7 @@ import lk.ijse.computershop.dto.ItemDTO;
 import lk.ijse.computershop.dto.OrderDTO;
 import lk.ijse.computershop.dto.Order_DetailsDTO;
 import lk.ijse.computershop.dto.tm.OrderTM;
+import lk.ijse.computershop.util.EmailSend;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -253,7 +255,7 @@ public class ManageordersFormController implements Initializable {
     }
 
     @FXML
-    private void placeOrderOnAction(ActionEvent events) throws SQLException {
+    private void placeOrderOnAction(ActionEvent events) throws SQLException, MessagingException {
         String orderId = txtOrderId.getText();
         String customerId = cmbCustomerId.getValue();
         String itemCode = cmbItemCode.getValue();
@@ -267,7 +269,7 @@ public class ManageordersFormController implements Initializable {
         if (isPlaced) {
             Alert orderPlacedAlert = new Alert(Alert.AlertType.INFORMATION, "Order Placed...!");
             orderPlacedAlert.show();
-            //EmailSend.mail("Order has been placed...!");
+            EmailSend.mail("Order has been placed...!");
 
             orderPlacedAlert.setOnHidden(event -> {
                 try {
