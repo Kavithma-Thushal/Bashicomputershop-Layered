@@ -1,12 +1,12 @@
 # Bashicomputershop_Layered
-Computershop using java 11 ,javafx &amp; maven in Layered-Architecture
+Computershop using java 11, javafx &amp; maven in Layered-Architecture
 
 Technology :-<br/>
 ✅Java 11, JavaFx, MYSQL, CSS<br/>
 ✅OOP Concepts<br/>
 ✅Layered Architecture<br/>
 ✅Singleton Design Pattern<br/>
-✅Jasper , Regex<br/>
+✅Jasper, Regex<br/>
 ✅Maven<br/>
 
 Functions :-<br/>
@@ -16,7 +16,7 @@ Functions :-<br/>
 
 ### How to use
 * Clone this repo https://github.com/Thushal2001/Bashicomputershop_Layered.git
-* Add project database https://github.com/Thushal2001/Bashicomputershop_Layered/blob/master/Project%20Database
+* Add project database [Project Database](https://github.com/Thushal2001/Bashicomputershop_Layered/blob/master/Project%20Database)
 * Reload the `pom.xml`
 * Run the Application
 
@@ -28,7 +28,7 @@ Functions :-<br/>
 This project is licensed under the [MIT](LICENSE) license.
 
 If you hava any bugs or issues ,If you want to explain code pleace contact me on :<br/> 
-kavithmathushal9007@gmail.com
+[kavithmathushal9007@gmail.com](https://www.kavithmathushal9007@gmail.com)
 
 ![Screenshot 2023-07-02 215542](https://github.com/Thushal2001/Bashicomputershop-1st_Sem_Final/assets/125787087/9ee161a9-95ea-4375-a851-f6fbd8e30e55)
 ![Screenshot 2023-06-26 025427](https://github.com/Thushal2001/Bashicomputershop-1st_Sem_Final/assets/125787087/aa22a662-548b-4306-811e-91abd27e8b9a)
