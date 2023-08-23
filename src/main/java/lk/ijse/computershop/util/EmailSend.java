@@ -11,7 +11,7 @@ import java.util.Properties;
 public class EmailSend {
     public static void mail(String msg) throws MessagingException {
         String senderEmail = "kaviyabro9007@gmail.com";
-        String senderPassword = "qrmfubkjysinztwc";
+        String senderPassword = "isqeowyjympncoym";
         String recipientEmail = "kavithmathushal451@gmail.com";
         String subject = "Bashi Computer Shop";
         String body = msg;

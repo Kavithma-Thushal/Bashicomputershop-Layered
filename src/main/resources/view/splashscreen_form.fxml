@@ -23,7 +23,7 @@
         </Label>
         <ProgressBar fx:id="progressBar" layoutX="167.0" layoutY="406.0" prefHeight="23.0" prefWidth="666.0" progress="0.0" />
         <ProgressIndicator fx:id="progressIndicator" layoutX="846.0" layoutY="408.0" prefHeight="20.0" prefWidth="37.0" progress="0.0" styleClass="progressIndicator" />
-        <Label layoutX="7.0" layoutY="567.0" styleClass="version" text="Version 2023.0.0.2" />
+        <Label layoutX="7.0" layoutY="567.0" styleClass="version" text="Version 1.0.0" />
         <Label layoutX="537.0" layoutY="567.0" styleClass="copyRight" text="© 2023  All Right Reserved Designed By Kavithma Thushal" />
     </children>
 </AnchorPane>

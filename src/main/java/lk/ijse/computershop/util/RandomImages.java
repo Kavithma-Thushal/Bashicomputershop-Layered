@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class RandomImages {
 
-    private static final String IMAGE_DIR_PATH = "/D:\\IJSE\\Workspace\\2nd Sem Repo\\Bashicomputershop_Layered\\src\\main\\resources\\assets\\randomImages";
+    private static final String IMAGE_DIR_PATH = "/D:\\IJSE\\Workspace\\2nd Sem Repo\\Bashicomputershop-Layered\\src\\main\\resources\\assets\\randomImages";
     private static final Duration IMAGE_CHANGE_INTERVAL = Duration.seconds(2);
 
     private final Random random = new Random();
